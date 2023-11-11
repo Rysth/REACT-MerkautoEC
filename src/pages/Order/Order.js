@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
-// import AutoImage from '../../assets/images/auto/auto.png';
+import Checkbox from '../../components/Forms/Checkbox/Checkbox';
+import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
   const [actualDate, setActualDate] = useState();
   const { register, handleSubmit } = useForm();
 
-  const { customerFields } = useSelector((store) => store.customer);
+  const { equipmentFields } = useSelector((store) => store.equipment);
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -22,7 +23,7 @@ function Order() {
 
   const getFieldsData = (data, prefix) => {
     const fieldsData = Object.keys(data).reduce((acc, key) => {
-      if (key.startsWith(prefix)) {
+      if (key.startsWith(prefix) && data[key]) {
         acc[key] = data[key];
       }
       return acc;
@@ -35,16 +36,21 @@ function Order() {
     const vehicleData = getFieldsData(data, 'v_');
     const workData = getFieldsData(data, 't_');
 
+    const selectedEquipment = equipmentFields
+      .filter((equipment) => data[`e_${equipment.name}`]) // Check if the checkbox is checked
+      .map((equipment) => equipment);
+
     console.log({
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
+      equipamento: selectedEquipment,
     });
   };
 
   useEffect(() => {
     setActualDate(getCurrentDate);
-  }, [customerFields]);
+  }, [equipmentFields]);
 
   return (
     <>
@@ -227,8 +233,6 @@ function Order() {
               label="Trabajos de Pintura"
               method={register}
             />
-
-            {/* 
             <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
               <div>
                 <header className="mb-3 text-center">
@@ -236,11 +240,15 @@ function Order() {
                     Equipamento del Auto
                   </h2>
                 </header>
-                <div
-                  className="grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3"
-                  id="equipamento"
-                >
-                  Hello
+                <div className="grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3">
+                  {equipmentFields.map((equipment, index) => (
+                    <Checkbox
+                      key={equipment.id}
+                      id={equipment.id}
+                      name={equipment.name}
+                      method={register}
+                    />
+                  ))}
                 </div>
               </div>
               <div className="ml-auto">
@@ -314,6 +322,8 @@ function Order() {
                 </div>
               </div>
             </fieldset>
+
+            {/* 
             <fieldset className="w-full mt-5 text-center">
               <header className="text-center">
                 <h2 className="text-sm font-bold">
