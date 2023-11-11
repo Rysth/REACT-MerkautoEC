@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 /* eslint-disable */
-function Input({ label, name, id, type = 'text', complement = '' }) {
+function Input({ label, name, id, type = 'text', complement = '', method }) {
   return (
     <li>
       <label
@@ -11,9 +11,8 @@ function Input({ label, name, id, type = 'text', complement = '' }) {
         <span className="font-semibold">{label}:</span>
         <input
           type={type}
-          name={name}
-          id={id}
-          className="w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white"
+          {...method(name)}
+          className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white`}
           required
         />
       </label>
@@ -26,6 +25,7 @@ Input.propTypes = {
   name: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   type: PropTypes.string,
+  method: PropTypes.func.isRequired,
 };
 
 export default Input;

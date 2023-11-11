@@ -1,9 +1,24 @@
 import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import Input from '../../components/Input/Input';
 // import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
   const [actualDate, setActualDate] = useState();
+
+  const { register, handleSubmit } = useForm();
+  const onSubmit = (data) => {
+    const clientData = Object.keys(data).reduce((acc, key) => {
+      if (key.startsWith('cl_')) {
+        acc[key] = data[key];
+      }
+      return acc;
+    }, {});
+
+    console.log({
+      cliente: clientData,
+    });
+  };
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -36,7 +51,7 @@ function Order() {
       <div>
         {/* eslint-disable */}
         <section className="container max-w-screen-lg p-4 mx-auto border">
-          <form action="#" id="form">
+          <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="grid gap-10 outline-none md:gap-16 sm:grid-cols-2">
               <ul className="grid gap-2 p-0 list-none">
                 <li className="flex flex-col items-center justify-between mb-2 sm:flex-row">
@@ -44,25 +59,43 @@ function Order() {
                     Datos del Cliente
                   </h2>
                 </li>
-                <Input label="Cédula" name="cl_cedula" id="cl_cedula" />
-                <Input label="Nombre" name="cl_nombre" id="cl_nombre" />
+                <Input
+                  label="Cédula"
+                  name="cl_cedula"
+                  id="cl_cedula"
+                  method={register}
+                />
+                <Input
+                  label="Nombre"
+                  name="cl_nombre"
+                  id="cl_nombre"
+                  method={register}
+                />
                 <Input
                   label="Responsable/Propietario"
                   name="cl_propietario"
                   id="cl_propietario"
+                  method={register}
                 />
                 <Input
                   label="Dirección"
                   name="cl_direccion"
                   id="cl_direccion"
+                  method={register}
                 />
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <Input label="Celular" name="cl_celular" id="cl_celular" />
+                  <Input
+                    label="Celular"
+                    name="cl_celular"
+                    id="cl_celular"
+                    method={register}
+                  />
                   <Input
                     label="Teléfono"
                     name="cl_telefono"
                     id="cl_telefono"
                     type="tel"
+                    method={register}
                   />
                 </div>
                 <Input
@@ -70,15 +103,19 @@ function Order() {
                   name="cl_recepcion"
                   id="cl_recepcion"
                   complement="grid grid-cols-[5.3rem_1fr]"
+                  method={register}
                 />
                 <Input
                   label="Técnico Responsable"
                   name="cl_tecnico"
                   id="cl_tecnico"
                   complement="grid grid-cols-[9rem_1fr]"
+                  method={register}
                 />
               </ul>
-
+              <fieldset>
+                <button type="submit">Submit</button>
+              </fieldset>
               {/* <ul className="grid gap-2 p-0 list-none">
                 <li className="flex flex-col items-center justify-between mb-2 sm:flex-row">
                   <h2 className="text-base font-bold md:text-lg">
