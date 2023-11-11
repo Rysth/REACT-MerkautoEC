@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import Input from '../../components/Input/Input';
 // import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
   const [actualDate, setActualDate] = useState();
-
   const { register, handleSubmit } = useForm();
+
+  const { customerFields } = useSelector((store) => store.customer);
+
   const onSubmit = (data) => {
     const clientData = Object.keys(data).reduce((acc, key) => {
       if (key.startsWith('cl_')) {
@@ -38,8 +41,9 @@ function Order() {
   };
 
   useEffect(() => {
+    console.log(customerFields);
     setActualDate(getCurrentDate);
-  }, []);
+  }, [customerFields]);
 
   return (
     <>
