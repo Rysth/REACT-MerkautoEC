@@ -10,7 +10,7 @@ function Header() {
 
   return (
     <header id="header" className="bg-white">
-      <div className="container flex flex-wrap items-center justify-between max-w-screen-lg gap-3 px-4 py-4 mx-auto lg:px-0 ">
+      <div className="container flex flex-wrap items-center justify-between max-w-screen-lg gap-3 px-4 py-4 mx-auto lg:px-0 lg:py-6">
         <a
           href="https://maps.app.goo.gl/LRxm7ESpvsyR2iwq9"
           target="_blank"
@@ -33,7 +33,7 @@ function Header() {
           <i className="fa-solid fa-bars" />
         </button>
         <div className="w-full sm:hidden">
-          {!isOpen && (
+          {isOpen && (
             <NavBar
               variant="items-center p-0 text-sm list-none sm:hidden md:text-sm grid bg-gray-200 px-3 py-2 rounded-md"
               linksVariant="inline-block md:hover:-translate-y-0.5 md:transition p-2 md:hover:bg-black print:hidden w-full flex items-center gap-1.5 rounded-md"

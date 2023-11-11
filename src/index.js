@@ -10,7 +10,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Header />
-      <main className="mt-5">
+      <main className="sm:mt-5">
         <Routes>
           <Route path="/" element={<Order />} />
         </Routes>
