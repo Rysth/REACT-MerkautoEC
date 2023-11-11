@@ -15,8 +15,16 @@ function Order() {
       return acc;
     }, {});
 
+    const vehicleData = Object.keys(data).reduce((acc, key) => {
+      if (key.startsWith('v_')) {
+        acc[key] = data[key];
+      }
+      return acc;
+    }, {});
+
     console.log({
       cliente: clientData,
+      vehiculo: vehicleData,
     });
   };
 
@@ -52,9 +60,9 @@ function Order() {
         {/* eslint-disable */}
         <section className="container max-w-screen-lg p-4 mx-auto border">
           <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
-            <fieldset className="grid gap-10 outline-none md:gap-16 sm:grid-cols-2">
+            <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               <ul className="grid gap-2 p-0 list-none">
-                <li className="flex flex-col items-center justify-between mb-2 sm:flex-row">
+                <li className="h-10 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Cliente
                   </h2>
@@ -113,192 +121,94 @@ function Order() {
                   method={register}
                 />
               </ul>
-              <fieldset>
-                <button type="submit">Submit</button>
-              </fieldset>
-              {/* <ul className="grid gap-2 p-0 list-none">
-                <li className="flex flex-col items-center justify-between mb-2 sm:flex-row">
+              <ul className="grid gap-2 p-0 list-none">
+                <li className="h-10 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Vehículo
                   </h2>
                 </li>
-                <li className="flex items-center gap-4">
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_placa"
-                  >
-                    Placa:
-                    <input
-                      type="text"
-                      name="v_placa"
-                      id="v_placa"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 uppercase rounded-md outline-none bg-indigo-200 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_clave"
-                  >
-                    Clave:
-                    <input
-                      type="text"
-                      name="v_clave"
-                      id="v_clave"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li className="flex items-center gap-4">
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_marca"
-                  >
-                    Marca:
-                    <input
-                      type="text"
-                      name="v_marca"
-                      id="v_marca"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_color"
-                  >
-                    Color:
-                    <input
-                      type="color"
-                      name="v_color"
-                      id="v_color"
-                      className="block w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li className="flex items-center gap-4">
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_modelo"
-                  >
-                    Modelo:
-                    <input
-                      type="text"
-                      name="v_modelo"
-                      id="v_modelo"
-                      className="block w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-
-                  <label
-                    className="flex items-center w-full gap-4 text-sm"
-                    htmlFor="v_anio"
-                  >
-                    Año:
-                    <input
-                      type="number"
-                      name="v_anio"
-                      id="v_anio"
-                      min="1900"
-                      max="2030"
-                      className="block w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li className="flex items-center gap-5">
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_chasis"
-                  >
-                    Chasis:
-                    <input
-                      type="text"
-                      name="v_chasis"
-                      id="v_chasis"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_motor"
-                  >
-                    Motor:
-                    <input
-                      type="text"
-                      name="v_motor"
-                      id="v_motor"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_oc"
-                  >
-                    O/C:
-                    <input
-                      type="text"
-                      name="v_oc"
-                      id="v_oc"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li>
-                  <label className="text-sm md:w-40" htmlFor="v_fecha_entrega">
-                    Fecha Entrega:
-                    <input
-                      type="datetime-local"
-                      name="v_fecha_entrega"
-                      id="v_fecha_entrega"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_kilometraje"
-                  >
-                    Kilometraje:
-                    <input
-                      type="number"
-                      name="v_kilometraje"
-                      id="v_kilometraje"
-                      min="0"
-                      value="0"
-                      max="100000"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      required
-                    />
-                  </label>
-                </li>
-                <li>
-                  <label
-                    className="flex items-center gap-4 text-sm"
-                    htmlFor="v_detalle"
-                  >
-                    Detalles:
-                    <input
-                      type="text"
-                      name="v_detalle"
-                      id="v_detalle"
-                      className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                    />
-                  </label>
-                </li>
-              </ul> */}
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    label="Placa"
+                    name="v_placa"
+                    id="v_placa"
+                    complement="uppercase"
+                    method={register}
+                  />
+                  <Input
+                    label="Clave"
+                    name="v_clave"
+                    id="v_clave"
+                    method={register}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    label="Marca"
+                    name="v_marca"
+                    id="v_marca"
+                    method={register}
+                  />
+                  <Input
+                    label="Color"
+                    name="v_color"
+                    id="v_color"
+                    type="color"
+                    method={register}
+                  />
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <Input
+                    label="Modelo"
+                    name="v_modelo"
+                    id="v_modelo"
+                    method={register}
+                  />
+                  <Input
+                    label="Año"
+                    name="v_anio"
+                    id="v_anio"
+                    type="number"
+                    method={register}
+                  />
+                  <Input
+                    label="Chasis"
+                    name="v_chasis"
+                    id="v_chasis"
+                    method={register}
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <Input
+                    label="Motor"
+                    name="v_motor"
+                    id="v_motor"
+                    method={register}
+                  />
+                  <Input label="O/C" name="v_oc" id="v_oc" method={register} />
+                </div>
+                <Input
+                  label="Fecha Entrega"
+                  name="v_fecha_entrega"
+                  id="v_fecha_entrega"
+                  type="datetime-local"
+                  method={register}
+                  complement="grid grid-cols-[6rem_1fr]"
+                />
+                <Input
+                  label="Kilometraje"
+                  name="v_kilometraje"
+                  id="v_kilometraje"
+                  type="number"
+                  method={register}
+                />
+                <Input
+                  label="Detalles"
+                  name="v_detalle"
+                  id="v_detalle"
+                  method={register}
+                />
+              </ul>
             </fieldset>
             {/* <fieldset className="w-full mt-5 text-center">
               <header className="mb-3 text-center">
@@ -427,6 +337,7 @@ function Order() {
                 </div>
               </div>
             </fieldset>
+             */}
             <fieldset className="flex justify-center print:hidden">
               <button
                 type="submit"
@@ -444,7 +355,7 @@ function Order() {
                 <i className="fas fa-print" />
                 Imprimir
               </button>
-            </fieldset> */}
+            </fieldset>
           </form>
         </section>
       </div>
