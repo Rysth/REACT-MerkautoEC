@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import Input from '../../components/Input/Input';
+import TextArea from '../../components/Forms/TextArea/TextArea';
+import Input from '../../components/Forms/Input/Input';
 // import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
@@ -9,27 +10,6 @@ function Order() {
   const { register, handleSubmit } = useForm();
 
   const { customerFields } = useSelector((store) => store.customer);
-
-  const onSubmit = (data) => {
-    const clientData = Object.keys(data).reduce((acc, key) => {
-      if (key.startsWith('cl_')) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {});
-
-    const vehicleData = Object.keys(data).reduce((acc, key) => {
-      if (key.startsWith('v_')) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {});
-
-    console.log({
-      cliente: clientData,
-      vehiculo: vehicleData,
-    });
-  };
 
   const getCurrentDate = () => {
     const date = new Date();
@@ -40,8 +20,29 @@ function Order() {
     return `${day}/${month}/${year}`;
   };
 
+  const getFieldsData = (data, prefix) => {
+    const fieldsData = Object.keys(data).reduce((acc, key) => {
+      if (key.startsWith(prefix)) {
+        acc[key] = data[key];
+      }
+      return acc;
+    }, {});
+    return fieldsData;
+  };
+
+  const onSubmit = (data) => {
+    const clientData = getFieldsData(data, 'cl_');
+    const vehicleData = getFieldsData(data, 'v_');
+    const workData = getFieldsData(data, 't_');
+
+    console.log({
+      cliente: clientData,
+      vehiculo: vehicleData,
+      trabajos: workData,
+    });
+  };
+
   useEffect(() => {
-    console.log(customerFields);
     setActualDate(getCurrentDate);
   }, [customerFields]);
 
@@ -65,6 +66,7 @@ function Order() {
         <section className="container max-w-screen-lg p-4 mx-auto border">
           <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
+              {/* Datos del Cliente */}
               <ul className="grid gap-2 p-0 list-none">
                 <li className="h-10 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
@@ -125,6 +127,7 @@ function Order() {
                   method={register}
                 />
               </ul>
+              {/* Datos del Vehículo */}
               <ul className="grid gap-2 p-0 list-none">
                 <li className="h-10 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
@@ -214,30 +217,18 @@ function Order() {
                 />
               </ul>
             </fieldset>
-            {/* <fieldset className="w-full mt-5 text-center">
-              <header className="mb-3 text-center">
-                <h2 className="text-base font-bold md:text-lg">
-                  Trabajos de Mecánica / Electricidad / Aire Acondicionado
-                </h2>
-              </header>
-              <textarea
-                name="t_mecanica"
-                id="t_mecanica"
-                className="w-full h-20 p-2 bg-gray-100 border rounded-md outline-none resize-none md:p-4 focus:border-gray-500 focus:bg-white"
-              />
-            </fieldset>
-            <fieldset className="w-full mt-5 text-center">
-              <header className="mb-3 text-center">
-                <h2 className="text-base font-bold md:text-lg">
-                  Trabajos Pintura
-                </h2>
-              </header>
-              <textarea
-                name="t_pintura"
-                id="t_pintura"
-                className="w-full h-20 p-2 bg-gray-100 border rounded-md outline-none resize-none md:p-4 focus:border-gray-500 focus:bg-white"
-              />
-            </fieldset>
+            <TextArea
+              name="t_mecanica"
+              label="Trabajos de Mecánica / Electricidad / Aire Acondicionado"
+              method={register}
+            />
+            <TextArea
+              name="t_pintura"
+              label="Trabajos de Pintura"
+              method={register}
+            />
+
+            {/* 
             <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
               <div>
                 <header className="mb-3 text-center">
