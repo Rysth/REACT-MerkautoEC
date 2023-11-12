@@ -232,6 +232,7 @@ function Auto({ register }) {
     }
   };
 
+  /* eslint-disable */
   useEffect(() => {
     // Add event listeners to make the circles draggable on both desktop and mobile
     document
@@ -246,7 +247,8 @@ function Auto({ register }) {
           circle.addEventListener('click', createNewCircleInside);
         }
       });
-  }, [createdCircles]);
+  }, [createdCircles, isMobileDevice, startDrag, startDragTouch]);
+  /* eslint-enable */
 
   return (
     <div className="ml-auto">
@@ -298,7 +300,7 @@ function Auto({ register }) {
         </ul>
         <button
           type="button"
-          className="float-right px-3 py-2 mt-3 text-xs font-bold text-white transition bg-blue-700 rounded-md md:hover:scale-105 print:hidden"
+          className="flex items-center float-right gap-1 px-3 py-2 mt-3 text-sm font-bold text-white transition bg-blue-700 rounded-md md:hover:scale-105 print:hidden"
           id="undoButton"
           onClick={undoLastCircle}
         >
