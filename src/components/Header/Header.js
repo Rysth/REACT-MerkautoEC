@@ -9,7 +9,7 @@ function Header() {
   const closeNavigationBar = () => setIsOpen(false);
 
   return (
-    <header id="header" className="bg-white">
+    <header id="header" className="sticky top-0 w-full bg-white z-[1001]">
       <div className="container flex flex-wrap items-center justify-between max-w-screen-lg gap-3 px-4 py-4 mx-auto lg:px-0 lg:py-6">
         <a
           href="https://maps.app.goo.gl/LRxm7ESpvsyR2iwq9"

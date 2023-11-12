@@ -259,7 +259,7 @@ function Order() {
                 </div>
               </div>
             </fieldset>
-            <fieldset className="flex justify-center print:hidden">
+            <fieldset className="flex justify-center gap-2 print:hidden">
               <button
                 type="submit"
                 className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
