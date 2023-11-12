@@ -7,6 +7,7 @@ import store from './redux/Store';
 import './index.css';
 import Header from './components/Header/Header';
 import Order from './pages/Order/Order';
+import Vehicle from './pages/Vehicle/Vehicle';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,6 +17,7 @@ root.render(
       <main className="sm:mt-5">
         <Routes>
           <Route path="/" element={<Order />} />
+          <Route path="/consultar" element={<Vehicle />} />
         </Routes>
       </main>
     </BrowserRouter>

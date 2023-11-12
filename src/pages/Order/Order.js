@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import {
@@ -9,22 +8,12 @@ import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
-// import AutoImage from '../../assets/images/auto/auto.png';
+import Heading from '../../components/Heading/Heading';
 
 function Order() {
-  const [actualDate, setActualDate] = useState();
   const { register, handleSubmit, reset } = useForm();
 
   const { equipmentFields } = useSelector((store) => store.equipment);
-
-  const getCurrentDate = () => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
 
   const getFieldsData = (data, prefix) => {
     const fieldsData = Object.keys(data).reduce((acc, key) => {
@@ -60,24 +49,10 @@ function Order() {
     window.print();
   };
 
-  useEffect(() => {
-    setActualDate(getCurrentDate);
-  }, [equipmentFields]);
-
   return (
     <>
       <div>
-        <section className="container max-w-screen-lg p-4 mx-auto border">
-          <header className="flex flex-col items-center justify-between sm:flex-row">
-            <h1 className="text-2xl font-bold sm:text-3xl">
-              Orden de Recepción
-            </h1>
-            <p className="flex items-center gap-1 text-sm font-bold">
-              Fecha:
-              <span>{actualDate}</span>
-            </p>
-          </header>
-        </section>
+        <Heading text="Orden de Recepción" />
       </div>
       <div>
         {/* eslint-disable */}
