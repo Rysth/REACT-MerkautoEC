@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
+import {
+  NotificationManager,
+  NotificationContainer,
+} from 'react-notifications';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
-import AutoImage from '../../assets/images/auto/auto.png';
+// import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
   const [actualDate, setActualDate] = useState();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const { equipmentFields } = useSelector((store) => store.equipment);
 
@@ -40,12 +44,19 @@ function Order() {
       .filter((equipment) => data[`e_${equipment.name}`]) // Check if the checkbox is checked
       .map((equipment) => equipment);
 
+    NotificationManager.success('La orden se generó correctamente.', 'Exito');
+
     console.log({
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
       equipamento: selectedEquipment,
     });
+    reset();
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   useEffect(() => {
@@ -70,6 +81,7 @@ function Order() {
       <div>
         {/* eslint-disable */}
         <section className="container max-w-screen-lg p-4 mx-auto border">
+          <NotificationContainer />
           <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
@@ -233,7 +245,7 @@ function Order() {
               label="Trabajos de Pintura"
               method={register}
             />
-            <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
+            <fieldset className="grid gap-10 mt-5 outline-none ">
               <div>
                 <header className="mb-3 text-center">
                   <h2 className="text-base font-bold md:text-lg">
@@ -251,7 +263,7 @@ function Order() {
                   ))}
                 </div>
               </div>
-              <div className="ml-auto">
+              {/* <div className="ml-auto">
                 <header className="mb-3 text-center">
                   <h2 className="text-base font-bold md:text-lg">
                     Estado del Vehículo
@@ -320,11 +332,9 @@ function Order() {
                     Descargar
                   </button>
                 </div>
-              </div>
+              </div> */}
             </fieldset>
-
-            {/* 
-            <fieldset className="w-full mt-5 text-center">
+            <fieldset className="w-full mt-10 text-center">
               <header className="text-center">
                 <h2 className="text-sm font-bold">
                   Autorizo a la empresa MerkautoEC a realizar pruebas de mi
@@ -333,20 +343,19 @@ function Order() {
               </header>
               <div className="grid gap-10 pt-20 pb-12 sm:grid-cols-2">
                 <div className="grid justify-center gap-2">
-                  <hr className="border border-gray-300 w-50 sm:w-80" />
+                  <hr className="inline-block border border-gray-300 min-w-[13rem] sm:w-80" />
                   <p className="text-sm">Firma del Cliente</p>
                 </div>
                 <div className="grid justify-center gap-2">
-                  <hr className="border border-gray-300 w-50 sm:w-80" />
+                  <hr className="inline-block border border-gray-300 min-w-[13rem] sm:w-80" />
                   <p className="text-sm">Firma del Responsable</p>
                 </div>
               </div>
             </fieldset>
-             */}
             <fieldset className="flex justify-center print:hidden">
               <button
                 type="submit"
-                className="p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="submit"
               >
                 <i className="fas fa-save" />
@@ -354,8 +363,9 @@ function Order() {
               </button>
               <button
                 type="button"
-                className="p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="printButton"
+                onClick={handlePrint}
               >
                 <i className="fas fa-print" />
                 Imprimir
