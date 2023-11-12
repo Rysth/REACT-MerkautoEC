@@ -8,6 +8,7 @@ import {
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
+import Auto from '../../components/Auto/Auto';
 // import AutoImage from '../../assets/images/auto/auto.png';
 
 function Order() {
@@ -245,7 +246,7 @@ function Order() {
               label="Trabajos de Pintura"
               method={register}
             />
-            <fieldset className="grid gap-10 mt-5 outline-none ">
+            <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
               <div>
                 <header className="mb-3 text-center">
                   <h2 className="text-base font-bold md:text-lg">
@@ -263,76 +264,7 @@ function Order() {
                   ))}
                 </div>
               </div>
-              {/* <div className="ml-auto">
-                <header className="mb-3 text-center">
-                  <h2 className="text-base font-bold md:text-lg">
-                    Estado del Vehículo
-                  </h2>
-                </header>
-                <div className="flex mt-5 md:justify-end">
-                  <div
-                    className="inline-block w-6 h-6 mr-2 transition bg-red-600 border border-gray-700 rounded-full cursor-move sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125 status-circle"
-                    draggable="true"
-                    data-status="Red"
-                  />
-                  <div
-                    className="inline-block w-6 h-6 mr-2 transition bg-orange-500 border border-gray-700 rounded-full cursor-move status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125"
-                    draggable="true"
-                    data-status="Orange"
-                  />
-                  <div
-                    className="inline-block w-6 h-6 mr-2 transition bg-green-600 border border-gray-700 rounded-full cursor-move status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125"
-                    draggable="true"
-                    data-status="Green"
-                  />
-                </div>
-                <div
-                  className="relative mt-2 overflow-hidden border auto"
-                  id="auto-picture"
-                >
-                  <img
-                    className="p-5 auto-image lg:max-h-[270px] mx-auto"
-                    src={AutoImage}
-                    alt="Automovil functionality"
-                    id="auto-image"
-                  />
-                </div>
-                <div className="items-center justify-end gap-2 mt-3 content-actions">
-                  <li className="flex items-center justify-between gap-4">
-                    <label
-                      className="flex items-center gap-4 text-sm"
-                      htmlFor="v_combustible"
-                    >
-                      Combustible:
-                      <input
-                        type="range"
-                        min="0"
-                        max="100"
-                        name="v_combustible"
-                        id="v_combustible"
-                        className="w-full p-0.5 px-2 border focus:border-gray-500 rounded-md outline-none bg-gray-100 focus:bg-white text-sm"
-                      />
-                    </label>
-                  </li>
-                  <button
-                    type="button"
-                    className="float-right px-3 py-2 mt-3 text-xs font-bold text-white transition bg-blue-700 rounded-md md:hover:scale-105 print:hidden"
-                    id="undoButton"
-                  >
-                    <i className="fas fa-undo" />
-                    Deshacer
-                  </button>
-
-                  <button
-                    type="button"
-                    className="hidden px-3 py-2 text-sm font-bold text-white transition bg-green-700 rounded-md md:hover:scale-105"
-                    id="downloadButton"
-                  >
-                    <i className="fas fa-download" />
-                    Descargar
-                  </button>
-                </div>
-              </div> */}
+              <Auto register={register} />
             </fieldset>
             <fieldset className="w-full mt-10 text-center">
               <header className="text-center">

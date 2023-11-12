@@ -5,3 +5,12 @@
 .active {
   @apply text-white bg-black;
 }
+
+.status-circle.placed {
+  position: absolute;
+  z-index: 1000;
+}
+
+.prevent-scroll {
+  touch-action: none;
+}
