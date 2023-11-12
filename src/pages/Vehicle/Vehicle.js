@@ -3,13 +3,17 @@ import Heading from '../../components/Heading/Heading';
 import Input from '../../components/Forms/Input/Input';
 
 function Vehicle() {
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data.f_placa);
+  };
 
   return (
     <div>
       <Heading text="Historial Vehícular" />
       <section className="container max-w-screen-lg p-4 mx-auto border">
-        <form action="">
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
           <ul className="grid gap-2 p-0 list-none">
             <li className="h-10 text-center sm:text-left">
               <h2 className="text-base font-bold md:text-lg">Formulario</h2>
@@ -37,6 +41,39 @@ function Vehicle() {
             </li>
           </ul>
         </form>
+        <div className="grid gap-5 mt-8">
+          <header className="text-center sm:text-left">
+            <h3 className="text-3xl font-bold md:text-4xl lg:text-5xl">
+              Vehículo
+            </h3>
+          </header>
+          <div className="grid grid-cols-2 gap-5 mt-2 sm:grid-cols-4">
+            <div className="p-2 text-center border rounded-md sm:text-left">
+              <h4 className="text-lg font-semibold">Placa:</h4>
+              <p className="text-2xl font-bold text-blue-600 uppercase rounded-md md:text-3xl">
+                GJS-2050
+              </p>
+            </div>
+            <div className="p-2 text-center border rounded-md sm:text-left">
+              <h4 className="text-lg font-semibold">Marca:</h4>
+              <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
+                Toyota
+              </p>
+            </div>
+            <div className="p-2 text-center border rounded-md sm:text-left">
+              <h4 className="text-lg font-semibold">Modelo:</h4>
+              <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
+                Rush
+              </p>
+            </div>
+            <div className="p-2 text-center border rounded-md sm:text-left">
+              <h4 className="text-lg font-semibold">Año:</h4>
+              <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
+                2009
+              </p>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
