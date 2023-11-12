@@ -16,7 +16,7 @@
 
 ## About the Project
 
-- **REACT PROJECT NAME:** ...
+- **MerkautoEC S.A ** Experience efficiency and sleek design in MerkautoEC's React project, powered by Create React App and styled with Tailwind CSS. Open-source and community-driven, it's reshaping the future of automotive services.
 
 ## Built With
 
@@ -33,7 +33,7 @@
 
 ### Live Demo
 
-[Live Demo](https://react-bookstore-2060.onrender.com/)
+[Live Demo](https://react-merkautoec.onrender.com/)
 
 ## Getting Started
 
@@ -58,13 +58,13 @@
 - CSS Checker:
 
   ```bash
-  npx stylelint "**/*.{css,scss}"
+  npx stylelint "**/*.{css,scss}" --fix
   ```
 
 - ESLint Checker:
 
   ```bash
-  npx eslint "**/*.{js,jsx}"
+  npx eslint "**/*.{js,jsx}" --fix
   ```
 
 ### Authors
