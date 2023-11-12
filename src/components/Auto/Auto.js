@@ -228,7 +228,7 @@ function Auto({ register }) {
       auto.appendChild(newCircle);
 
       // Add the newly created circle to the array
-      createdCircles.push(newCircle);
+      setCreatedCircles((createdCircles) => [...createdCircles, newCircle]);
     }
   };
 
@@ -247,7 +247,7 @@ function Auto({ register }) {
           circle.addEventListener('click', createNewCircleInside);
         }
       });
-  }, [createdCircles, isMobileDevice, startDrag, startDragTouch]);
+  }, []);
   /* eslint-enable */
 
   return (
