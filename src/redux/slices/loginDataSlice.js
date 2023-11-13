@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
+const activeStatusFromSession = sessionStorage.getItem('active');
+
 const credentials = {
   email: 'admin@merkautoec.com',
   password: '@MerkautoEC',
-  active: false,
+  active: activeStatusFromSession === 'true',
 };
 
 export const changeActiveStatus = createAsyncThunk(
@@ -20,6 +22,7 @@ export const changeActiveStatus = createAsyncThunk(
     }
 
     NotificationManager.success('¡Ingreso Exítoso!', 'Exíto');
+    sessionStorage.setItem('active', true);
     return { ...credentials, active: true };
   },
 );
