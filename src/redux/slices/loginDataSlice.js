@@ -35,7 +35,13 @@ const initialState = {
 export const loginDataSlice = createSlice({
   name: 'credentials',
   initialState,
-  reducers: {},
+  reducers: {
+    logoutFromApp: (state) => {
+      state.userCredentials.active = false;
+      sessionStorage.setItem('active', state.userCredentials.active);
+      NotificationManager.info('¡Muchas Gracias!', 'Información');
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(changeActiveStatus.pending, (state) => {
