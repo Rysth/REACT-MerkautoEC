@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import NavBar from '../NavBar/NavBar';
-import BrandImage from '../../assets/images/brand/brand.png';
+import BrandImage from '../../assets/images/brand/logo_cofic.png';
 
 function Header() {
   const [isOpen, setIsOpen] = useState();
@@ -18,7 +18,7 @@ function Header() {
           className="grid text-center"
         >
           <img
-            className="w-44 sm:w-48 md:w-60 print:w-72"
+            className="w-44 print:w-72"
             src={BrandImage}
             alt="Merkauto brand logo"
             id="brandImage"

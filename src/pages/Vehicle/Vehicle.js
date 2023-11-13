@@ -27,11 +27,11 @@ function Vehicle() {
 
   return (
     <div>
-      <Heading text="Historial Vehícular" />
+      <Heading text="Control de Taller" />
       <NotificationContainer />
       <section
         className={`container max-w-screen-lg p-4 mx-auto border  ${
-          loading ? 'bg-gray-300 grayscale' : ''
+          loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
         }`}
       >
         <form action="" onSubmit={handleSubmit(onSubmit)}>
@@ -72,25 +72,25 @@ function Vehicle() {
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Placa:</h4>
               <p className="text-2xl font-bold text-blue-600 uppercase rounded-md md:text-3xl">
-                GJS-2050
+                ----
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Marca:</h4>
               <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
-                Toyota
+                ----
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Modelo:</h4>
               <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
-                Rush
+                ----
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Año:</h4>
               <p className="text-2xl font-bold text-blue-600 capitalize rounded-md md:text-3xl">
-                2009
+                ----
               </p>
             </div>
           </div>
