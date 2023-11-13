@@ -20,9 +20,8 @@ function Vehicle() {
     setLoading(false);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = () => {
     fetchData();
-    console.log(data.f_placa);
   };
 
   return (

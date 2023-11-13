@@ -1,9 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import {
-  NotificationManager,
-  NotificationContainer,
-} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
@@ -57,7 +54,6 @@ function Order() {
       <div>
         {/* eslint-disable */}
         <section className="container max-w-screen-lg p-4 mx-auto border">
-          <NotificationContainer />
           <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}

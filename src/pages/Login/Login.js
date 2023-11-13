@@ -1,9 +1,22 @@
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Forms/Input/Input';
 import LoginPicture from '../../assets/images/auto/login.jpg';
+import { changeActiveStatus } from '../../redux/slices/loginDataSlice';
 
 function Login() {
-  const { register } = useForm();
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+
+  const onSubmit = (data) => {
+    dispatch(changeActiveStatus(data)).then((response) => {
+      if (response.payload.active) {
+        navigator('/orden');
+      }
+    });
+  };
 
   return (
     <section className="container max-w-screen-lg mx-auto border">
@@ -19,6 +32,7 @@ function Login() {
           <form
             action="#"
             className="flex flex-col justify-center gap-10 p-4 md:p-8"
+            onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset className="text-center">
               <h2 className="text-4xl font-bold lg:text-5xl">Iniciar Sesión</h2>
@@ -26,16 +40,16 @@ function Login() {
             <ul className="grid gap-5 p-0 list-none">
               <Input
                 label="Correo Electrónico"
-                name="f_email"
-                id="f_email"
+                name="email"
+                id="email"
                 type="email"
                 complement="grid w-full"
                 method={register}
               />
               <Input
                 label="Contraseña"
-                name="f_password"
-                id="f_password"
+                name="password"
+                id="password"
                 type="password"
                 complement="grid w-full"
                 method={register}
