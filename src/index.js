@@ -6,7 +6,8 @@ import { Provider } from 'react-redux';
 import store from './redux/Store';
 import './index.css';
 import Header from './components/Header/Header';
-import Order from './pages/Order/Order';
+import Login from './pages/Login/Login';
+// import Order from './pages/Order/Order';
 import Vehicle from './pages/Vehicle/Vehicle';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,9 +15,9 @@ root.render(
   <Provider store={store}>
     <BrowserRouter>
       <Header />
-      <main className="sm:mt-5">
+      <main>
         <Routes>
-          <Route path="/" element={<Order />} />
+          <Route path="/" element={<Login />} />
           <Route path="/consultar" element={<Vehicle />} />
         </Routes>
       </main>
