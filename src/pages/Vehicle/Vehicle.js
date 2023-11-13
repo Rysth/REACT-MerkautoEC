@@ -1,18 +1,39 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import {
+  NotificationManager,
+  NotificationContainer,
+} from 'react-notifications';
 import Heading from '../../components/Heading/Heading';
 import Input from '../../components/Forms/Input/Input';
 
 function Vehicle() {
   const { register, handleSubmit } = useForm();
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    NotificationManager.info('Consultando..', 'Información');
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    NotificationManager.success('¡Vehículo Encontrado!', 'Exíto');
+    NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo');
+    setLoading(false);
+  };
 
   const onSubmit = (data) => {
+    fetchData();
     console.log(data.f_placa);
   };
 
   return (
     <div>
       <Heading text="Historial Vehícular" />
-      <section className="container max-w-screen-lg p-4 mx-auto border">
+      <NotificationContainer />
+      <section
+        className={`container max-w-screen-lg p-4 mx-auto border  ${
+          loading ? 'bg-gray-300 grayscale' : ''
+        }`}
+      >
         <form action="" onSubmit={handleSubmit(onSubmit)}>
           <ul className="grid gap-2 p-0 list-none">
             <li className="h-10 text-center sm:text-left">
