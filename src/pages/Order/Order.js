@@ -9,7 +9,6 @@ import Heading from '../../components/Heading/Heading';
 
 function Order() {
   const { register, handleSubmit, reset } = useForm();
-
   const { equipmentFields } = useSelector((store) => store.equipment);
 
   const getFieldsData = (data, prefix) => {
