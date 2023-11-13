@@ -1,30 +1,15 @@
-import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
-import {
-  NotificationManager,
-  NotificationContainer,
-} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
-// import AutoImage from '../../assets/images/auto/auto.png';
+import Heading from '../../components/Heading/Heading';
 
 function Order() {
-  const [actualDate, setActualDate] = useState();
   const { register, handleSubmit, reset } = useForm();
-
   const { equipmentFields } = useSelector((store) => store.equipment);
-
-  const getCurrentDate = () => {
-    const date = new Date();
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const year = date.getFullYear();
-
-    return `${day}/${month}/${year}`;
-  };
 
   const getFieldsData = (data, prefix) => {
     const fieldsData = Object.keys(data).reduce((acc, key) => {
@@ -60,29 +45,14 @@ function Order() {
     window.print();
   };
 
-  useEffect(() => {
-    setActualDate(getCurrentDate);
-  }, [equipmentFields]);
-
   return (
     <>
       <div>
-        <section className="container max-w-screen-lg p-4 mx-auto border">
-          <header className="flex flex-col items-center justify-between sm:flex-row">
-            <h1 className="text-2xl font-bold sm:text-3xl">
-              Orden de Recepción
-            </h1>
-            <p className="flex items-center gap-1 text-sm font-bold">
-              Fecha:
-              <span>{actualDate}</span>
-            </p>
-          </header>
-        </section>
+        <Heading text="Orden de Recepción" />
       </div>
       <div>
         {/* eslint-disable */}
         <section className="container max-w-screen-lg p-4 mx-auto border">
-          <NotificationContainer />
           <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
@@ -284,7 +254,7 @@ function Order() {
                 </div>
               </div>
             </fieldset>
-            <fieldset className="flex justify-center print:hidden">
+            <fieldset className="flex justify-center gap-2 print:hidden">
               <button
                 type="submit"
                 className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"

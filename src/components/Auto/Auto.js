@@ -252,10 +252,10 @@ function Auto({ register }) {
 
   return (
     <div className="ml-auto">
-      <header className="mb-3 text-center">
+      <header className="text-center ">
         <h2 className="text-base font-bold md:text-lg">Estado del Vehículo</h2>
       </header>
-      <div className="flex mt-5 md:justify-end">
+      <div className="flex mt-2 md:justify-end">
         <div
           className="inline-block w-6 h-6 mr-2 transition bg-red-600 border border-gray-700 rounded-full cursor-move sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125 status-circle"
           draggable="true"

@@ -20,7 +20,7 @@ function Input({
           type={type}
           {...method(name)}
           className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white ${
-            label == 'Placa' ? 'uppercase bg-indigo-300' : ''
+            label == 'Placa' ? 'uppercase bg-gray-300' : ''
           }`}
           required
         />
