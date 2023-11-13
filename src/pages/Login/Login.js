@@ -28,7 +28,7 @@ function Login() {
             className="absolute top-0 left-0 object-cover w-full h-full pointer-events-none grayscale"
           />
         </picture>
-        <div className="flex flex-col justify-center p-8 bg-white sm:p-4">
+        <div className="flex flex-col justify-center p-6 bg-white sm:p-4">
           <form
             action="#"
             className="flex flex-col justify-center gap-10 p-4 md:p-8"
