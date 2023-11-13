@@ -22,11 +22,18 @@ function App() {
       <main>
         <NotificationContainer />
         <Routes>
-          <Route index path="/" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute isAllowed={!active} redirectTo="/orden">
+                <Login />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/orden"
             element={
-              <ProtectedRoute isAllowed={active}>
+              <ProtectedRoute isAllowed={active} redirectTo="/">
                 <Order />
               </ProtectedRoute>
             }
@@ -34,7 +41,7 @@ function App() {
           <Route
             path="/consultar"
             element={
-              <ProtectedRoute isAllowed={active}>
+              <ProtectedRoute isAllowed={active} redirectTo="/">
                 <Vehicle />
               </ProtectedRoute>
             }

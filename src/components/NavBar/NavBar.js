@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function NavBar({ variant, linksVariant, method }) {
   return (
     <nav className={variant}>
-      <NavLink to="/" className={linksVariant} onClick={method}>
+      <NavLink to="/orden" className={linksVariant} onClick={method}>
         <i className="w-4 text-center fa-solid fa-clipboard" />
         Generar Orden
       </NavLink>

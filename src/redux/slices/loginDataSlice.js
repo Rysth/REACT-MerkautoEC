@@ -1,17 +1,19 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
+const activeStatusFromSession = sessionStorage.getItem('active');
+
 const credentials = {
   email: 'admin@merkautoec.com',
   password: '@MerkautoEC',
-  active: false,
+  active: activeStatusFromSession === 'true',
 };
 
 export const changeActiveStatus = createAsyncThunk(
   'credentials/changeActiveStatus',
   async (payload) => {
     NotificationManager.info('Autentificando..', 'Información');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const { email, password } = payload;
     if (email !== credentials.email || password !== credentials.password) {
@@ -20,6 +22,7 @@ export const changeActiveStatus = createAsyncThunk(
     }
 
     NotificationManager.success('¡Ingreso Exítoso!', 'Exíto');
+    sessionStorage.setItem('active', true);
     return { ...credentials, active: true };
   },
 );
