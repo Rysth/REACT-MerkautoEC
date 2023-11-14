@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
-import { NotificationManager } from 'react-notifications';
+import { useDispatch, useSelector } from 'react-redux';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
 import Heading from '../../components/Heading/Heading';
+import { orderDataActions } from '../../redux/slices/orderDataSlice';
 
 function Order() {
   const { register, handleSubmit, reset } = useForm();
@@ -21,6 +21,8 @@ function Order() {
     return fieldsData;
   };
 
+  const dispatch = useDispatch();
+
   const onSubmit = (data) => {
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
@@ -30,14 +32,15 @@ function Order() {
       .filter((equipment) => data[`e_${equipment.name}`]) // Check if the checkbox is checked
       .map((equipment) => equipment);
 
-    NotificationManager.success('La orden se generó correctamente.', 'Exito');
-
-    console.log({
+    const JSONDATA = {
+      fecha: document.querySelector('#actualDate').innerText,
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
       equipamento: selectedEquipment,
-    });
+    };
+
+    dispatch(orderDataActions.addNewOrder(JSONDATA));
     reset();
   };
 

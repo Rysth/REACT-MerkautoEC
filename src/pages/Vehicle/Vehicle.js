@@ -100,20 +100,20 @@ function Vehicle() {
             </div>
           </div>
         </div>
-        <div>
+        <div className="grid mt-8">
           <Accordion
             index={0}
             expandedIndex={expandedIndex}
             toggle={changeAccordionVision}
-            title="Hello World!"
-            text="Lorem"
+            date="10/12/2023"
+            text="Welcome World!"
           />
           <Accordion
             index={1}
             expandedIndex={expandedIndex}
             toggle={changeAccordionVision}
-            title="Hello World!"
-            text="Lorem"
+            date="10/12/2023"
+            text="Contenido Inicial"
           />
         </div>
       </section>
