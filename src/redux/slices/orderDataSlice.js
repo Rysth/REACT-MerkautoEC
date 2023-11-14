@@ -7,6 +7,7 @@ const getOrderArrayFromLocalStorage = JSON.parse(
 
 const initialState = {
   orderArray: getOrderArrayFromLocalStorage || [],
+  selectedOrder: {},
 };
 
 export const orderDataSlice = createSlice({
@@ -15,9 +16,21 @@ export const orderDataSlice = createSlice({
   reducers: {
     addNewOrder: (state, action) => {
       state.orderArray = [...state.orderArray, action.payload];
-      console.log('called');
       localStorage.setItem('ordenes', JSON.stringify(state.orderArray));
       NotificationManager.success('¡Orden Guardada!', 'Exíto');
+    },
+    getOrderByID: (state, action) => {
+      const orderID = action.payload;
+      const orderArray = [...state.orderArray];
+      const orderSelected = orderArray.find((order) => order.id === orderID);
+
+      if (orderSelected) {
+        NotificationManager.success('¡Orden Encontrada!', 'Exíto');
+      } else {
+        NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo');
+      }
+
+      state.selectedOrder = orderSelected;
     },
   },
 });

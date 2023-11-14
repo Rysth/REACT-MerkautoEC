@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { NotificationManager } from 'react-notifications';
 import { useDispatch, useSelector } from 'react-redux';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
@@ -8,8 +10,10 @@ import Heading from '../../components/Heading/Heading';
 import { orderDataActions } from '../../redux/slices/orderDataSlice';
 
 function Order() {
+  const [loading, setLoading] = useState(false);
   const { register, handleSubmit, reset } = useForm();
   const { equipmentFields } = useSelector((store) => store.equipment);
+  const { selectedOrder } = useSelector((store) => store.orders);
 
   const getFieldsData = (data, prefix) => {
     const fieldsData = Object.keys(data).reduce((acc, key) => {
@@ -44,9 +48,20 @@ function Order() {
     reset();
   };
 
+  const checkOrderSubmit = async (data) => {
+    const orderData = getFieldsData(data, 'f_');
+    NotificationManager.info('Consultando..', 'Información');
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    dispatch(orderDataActions.getOrderByID(orderData.f_orden));
+    setLoading(false);
+  };
+
   const handlePrint = () => {
     window.print();
   };
+
+  useEffect(() => {}, [selectedOrder]);
 
   return (
     <>
@@ -55,8 +70,45 @@ function Order() {
       </div>
       <div>
         {/* eslint-disable */}
-        <section className="container max-w-screen-lg p-4 mx-auto border">
-          <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
+        <section
+          className={`container max-w-screen-lg p-4 mx-auto border  ${
+            loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
+          }`}
+        >
+          <form action="" onSubmit={handleSubmit(checkOrderSubmit)}>
+            <ul className="grid gap-2 p-0 list-none">
+              <li className="h-10 text-center sm:text-left">
+                <h2 className="text-base font-bold md:text-lg">Formulario</h2>
+              </li>
+              <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
+                <fieldset className="grow">
+                  <Input
+                    label="Orden"
+                    name="f_orden"
+                    id="f_orden"
+                    complement="w-full"
+                    method={register}
+                  />
+                </fieldset>
+                <fieldset className="flex justify-end sm:justify-center print:hidden">
+                  <button
+                    type="submit"
+                    className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                    id="submit"
+                  >
+                    <i className="fas fa-search" />
+                    Consultar
+                  </button>
+                </fieldset>
+              </li>
+            </ul>
+          </form>
+          <form
+            action="#"
+            id="form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 "
+          >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
               <ul className="grid gap-2 p-0 list-none">
