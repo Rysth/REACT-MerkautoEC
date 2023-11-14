@@ -26,11 +26,11 @@ export const orderDataSlice = createSlice({
 
       if (orderSelected) {
         NotificationManager.success('¡Orden Encontrada!', 'Exíto');
+        state.selectedOrder = orderSelected;
       } else {
-        NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo');
+        NotificationManager.warning('¡Orden no Encontrada!', 'Fallo');
+        state.selectedOrder = null;
       }
-
-      state.selectedOrder = orderSelected;
     },
   },
 });

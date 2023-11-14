@@ -13,7 +13,7 @@ function Checkbox({ id, name, method }) {
       </label>
       <input
         type="checkbox"
-        {...method(`e_${name.trim()}`)}
+        {...method(`e_${id}`)}
         id={`e_${id}`}
         className="w-5 h-5 bg-black"
       />

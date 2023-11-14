@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NotificationManager } from 'react-notifications';
 import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
@@ -11,33 +12,39 @@ import { orderDataActions } from '../../redux/slices/orderDataSlice';
 
 function Order() {
   const [loading, setLoading] = useState(false);
-  const { register, handleSubmit, reset } = useForm();
+  /* eslint-disable */
+  const { register, handleSubmit, reset, setValue } = useForm();
+  /* eslint-enable */
   const { equipmentFields } = useSelector((store) => store.equipment);
   const { selectedOrder } = useSelector((store) => store.orders);
 
-  const getFieldsData = (data, prefix) => {
-    const fieldsData = Object.keys(data).reduce((acc, key) => {
-      if (key.startsWith(prefix) && data[key]) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {});
-    return fieldsData;
-  };
-
+  /* eslint-disable */
+  const getFieldsData = (data, prefix) =>
+    Object.keys(data)
+      .filter((key) => key.startsWith(prefix) && data[key])
+      .reduce((acc, key) => {
+        const fieldName = key.replace(`${prefix}`, '');
+        acc[fieldName] = data[key];
+        return acc;
+      }, {});
+  /* eslint-enable */
   const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    const { actualDate } = document.querySelector('#actualDate');
+    const id = uuidv4().slice(0, 8);
+
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
     const workData = getFieldsData(data, 't_');
 
     const selectedEquipment = equipmentFields
-      .filter((equipment) => data[`e_${equipment.name}`]) // Check if the checkbox is checked
-      .map((equipment) => equipment);
+      .filter((equipment) => data[`e_${equipment.name}`])
+      .map((equipment) => equipment.id);
 
     const JSONDATA = {
-      fecha: document.querySelector('#actualDate').innerText,
+      id,
+      fecha: actualDate,
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
@@ -49,19 +56,48 @@ function Order() {
   };
 
   const checkOrderSubmit = async (data) => {
-    const orderData = getFieldsData(data, 'f_');
+    const orderData = data.f_orden;
+
     NotificationManager.info('Consultando..', 'Información');
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    dispatch(orderDataActions.getOrderByID(orderData.f_orden));
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    dispatch(orderDataActions.getOrderByID(orderData));
     setLoading(false);
+    reset();
   };
 
   const handlePrint = () => {
     window.print();
   };
 
-  useEffect(() => {}, [selectedOrder]);
+  useEffect(() => {
+    if (selectedOrder) {
+      const fieldPrefixes = {
+        cliente: 'cl_',
+        vehiculo: 'v_',
+        trabajos: 't_',
+        equipamento: 'e_',
+      };
+      Object.entries(selectedOrder).forEach(([key, value]) => {
+        if (key in fieldPrefixes) {
+          const prefix = fieldPrefixes[key];
+          if (typeof value === 'object') {
+            Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+              if (prefix === fieldPrefixes.equipamento) {
+                setValue(`${prefix}${nestedValue}`, true);
+                return;
+              }
+              setValue(`${prefix}${nestedKey}`, nestedValue);
+            });
+          } else {
+            setValue(prefix, value);
+          }
+        }
+      });
+    }
+  }, [selectedOrder, setValue]);
 
   return (
     <>
@@ -75,7 +111,11 @@ function Order() {
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
-          <form action="" onSubmit={handleSubmit(checkOrderSubmit)}>
+          <form
+            action=""
+            onSubmit={handleSubmit(checkOrderSubmit)}
+            className="print:hidden"
+          >
             <ul className="grid gap-2 p-0 list-none">
               <li className="h-10 text-center sm:text-left">
                 <h2 className="text-base font-bold md:text-lg">Formulario</h2>
@@ -107,7 +147,7 @@ function Order() {
             action="#"
             id="form"
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-8 "
+            className="mt-8 print:mt-5 "
           >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
