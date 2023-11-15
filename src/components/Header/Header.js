@@ -23,7 +23,7 @@ function Header() {
           className="grid text-center"
         >
           <img
-            className="object-cover w-44"
+            className="object-cover w-36 sm:w-40"
             src={BrandImage}
             alt="Merkauto brand logo"
             id="brandImage"
@@ -39,15 +39,15 @@ function Header() {
               <span className="hidden">Toggle</span>
               <i className="fa-solid fa-bars" />
             </button>
-            <div className="w-full sm:hidden">
-              {isOpen && (
+            {isOpen && (
+              <div className="w-full sm:hidden">
                 <NavBar
                   variant="items-center p-0 text-sm list-none sm:hidden md:text-sm grid bg-gray-200 px-3 py-2 rounded-md"
                   linksVariant="md:hover:-translate-y-0.5 md:transition p-2 md:hover:bg-gray-500 md:hover:text-white print:hidden w-full flex items-center gap-1.5 rounded-md"
                   method={closeNavigationBar}
                 />
-              )}
-            </div>
+              </div>
+            )}
             <NavBar
               variant="items-center hidden gap-3 p-0 text-xs list-none sm:flex md:text-sm"
               linksVariant="md:hover:-translate-y-0.5 md:transition bg-gray-200 p-2  md:hover:bg-gray-500 md:hover:text-white rounded-md print:hidden flex items-center gap-1.5 font-semibold "

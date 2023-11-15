@@ -6,10 +6,12 @@ import {
 } from 'react-notifications';
 import Heading from '../../components/Heading/Heading';
 import Input from '../../components/Forms/Input/Input';
+import Accordion from '../../components/Accordion/Accordion';
 
 function Vehicle() {
   const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   const fetchData = async () => {
     NotificationManager.info('Consultando..', 'Información');
@@ -22,6 +24,10 @@ function Vehicle() {
 
   const onSubmit = () => {
     fetchData();
+  };
+
+  const changeAccordionVision = (index) => {
+    setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   return (
@@ -93,6 +99,22 @@ function Vehicle() {
               </p>
             </div>
           </div>
+        </div>
+        <div className="grid mt-8">
+          <Accordion
+            index={0}
+            expandedIndex={expandedIndex}
+            toggle={changeAccordionVision}
+            date="10/12/2023"
+            text="Welcome World!"
+          />
+          <Accordion
+            index={1}
+            expandedIndex={expandedIndex}
+            toggle={changeAccordionVision}
+            date="10/12/2023"
+            text="Contenido Inicial"
+          />
         </div>
       </section>
     </div>
