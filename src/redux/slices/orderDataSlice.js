@@ -28,8 +28,8 @@ export const orderDataSlice = createSlice({
         NotificationManager.success('¡Orden Encontrada!', 'Exíto');
         state.selectedOrder = orderSelected;
       } else {
-        NotificationManager.warning('¡Orden no Encontrada!', 'Fallo');
-        state.selectedOrder = null;
+        NotificationManager.error('¡Orden no Encontrada!', 'Fallo');
+        state.selectedOrder = {};
       }
     },
   },

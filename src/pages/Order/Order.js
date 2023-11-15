@@ -19,14 +19,13 @@ function Order() {
   const { selectedOrder } = useSelector((store) => store.orders);
 
   /* eslint-disable */
-  const getFieldsData = (data, prefix) =>
-    Object.keys(data)
-      .filter((key) => key.startsWith(prefix) && data[key])
-      .reduce((acc, key) => {
-        const fieldName = key.replace(`${prefix}`, '');
-        acc[fieldName] = data[key];
-        return acc;
-      }, {});
+  const getFieldsData = (data, prefix) => {
+    return Object.fromEntries(
+      Object.entries(data)
+        .filter(([key, value]) => key.startsWith(prefix) && value)
+        .map(([key, value]) => [key.replace(`${prefix}`, ''), value]),
+    );
+  };
   /* eslint-enable */
   const dispatch = useDispatch();
 
@@ -39,7 +38,7 @@ function Order() {
     const workData = getFieldsData(data, 't_');
 
     const selectedEquipment = equipmentFields
-      .filter((equipment) => data[`e_${equipment.name}`])
+      .filter((equipment) => data[`e_${equipment.id}`])
       .map((equipment) => equipment.id);
 
     const JSONDATA = {
@@ -55,18 +54,16 @@ function Order() {
     reset();
   };
 
-  const checkOrderSubmit = async (data) => {
-    const orderData = data.f_orden;
-
+  const checkOrderSubmit = async () => {
+    const orderData = document.querySelector('#f_orden').value;
     NotificationManager.info('Consultando..', 'Información');
     setLoading(true);
-
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
     dispatch(orderDataActions.getOrderByID(orderData));
     setLoading(false);
-    reset();
   };
+
+  const clearForm = () => reset();
 
   const handlePrint = () => {
     window.print();
@@ -74,6 +71,11 @@ function Order() {
 
   useEffect(() => {
     if (selectedOrder) {
+      if (!selectedOrder.id) {
+        reset();
+        return;
+      }
+
       const fieldPrefixes = {
         cliente: 'cl_',
         vehiculo: 'v_',
@@ -97,7 +99,7 @@ function Order() {
         }
       });
     }
-  }, [selectedOrder, setValue]);
+  }, [selectedOrder, setValue, reset]);
 
   return (
     <>
@@ -111,38 +113,42 @@ function Order() {
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
-          <form
-            action=""
-            onSubmit={handleSubmit(checkOrderSubmit)}
-            className="print:hidden"
-          >
-            <ul className="grid gap-2 p-0 list-none">
-              <li className="h-10 text-center sm:text-left">
-                <h2 className="text-base font-bold md:text-lg">Formulario</h2>
-              </li>
-              <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
-                <fieldset className="grow">
-                  <Input
-                    label="Orden"
-                    name="f_orden"
-                    id="f_orden"
-                    complement="w-full"
-                    method={register}
-                  />
-                </fieldset>
-                <fieldset className="flex justify-end sm:justify-center print:hidden">
-                  <button
-                    type="submit"
-                    className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
-                    id="submit"
-                  >
-                    <i className="fas fa-search" />
-                    Consultar
-                  </button>
-                </fieldset>
-              </li>
-            </ul>
-          </form>
+          <ul className="grid gap-2 p-0 list-none">
+            <li className="h-10 text-center sm:text-left">
+              <h2 className="text-base font-bold md:text-lg">Formulario</h2>
+            </li>
+            <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
+              <fieldset className="grow">
+                <Input
+                  label="Orden"
+                  name="f_orden"
+                  id="f_orden"
+                  complement="w-full"
+                  method={register}
+                />
+              </fieldset>
+              <fieldset className="grid grid-cols-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={checkOrderSubmit}
+                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  id="submit"
+                >
+                  <i className="fas fa-search" />
+                  Consultar
+                </button>
+                <button
+                  type="button"
+                  onClick={clearForm}
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  id="submit"
+                >
+                  <i className="fas fa-trash" />
+                  Limpiar
+                </button>
+              </fieldset>
+            </li>
+          </ul>
           <form
             action="#"
             id="form"
