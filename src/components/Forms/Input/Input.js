@@ -19,9 +19,8 @@ function Input({
         <input
           type={type}
           {...method(name)}
-          className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white ${
-            label == 'Placa' ? 'uppercase bg-gray-300' : ''
-          }`}
+          id={id}
+          className="w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white"
           required
         />
       </label>

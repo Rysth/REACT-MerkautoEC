@@ -23,7 +23,7 @@ function Heading({ text }) {
         <h1 className="text-2xl font-bold sm:text-3xl">{text}</h1>
         <p className="flex items-center gap-1 text-sm font-bold">
           Fecha:
-          <span>{actualDate}</span>
+          <span id="actualDate">{actualDate}</span>
         </p>
       </header>
     </section>

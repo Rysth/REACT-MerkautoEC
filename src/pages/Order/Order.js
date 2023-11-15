@@ -1,49 +1,105 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import { NotificationManager } from 'react-notifications';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
 import Heading from '../../components/Heading/Heading';
+import { orderDataActions } from '../../redux/slices/orderDataSlice';
 
 function Order() {
-  const { register, handleSubmit, reset } = useForm();
+  const [loading, setLoading] = useState(false);
+  /* eslint-disable */
+  const { register, handleSubmit, reset, setValue } = useForm();
+  /* eslint-enable */
   const { equipmentFields } = useSelector((store) => store.equipment);
+  const { selectedOrder } = useSelector((store) => store.orders);
 
+  /* eslint-disable */
   const getFieldsData = (data, prefix) => {
-    const fieldsData = Object.keys(data).reduce((acc, key) => {
-      if (key.startsWith(prefix) && data[key]) {
-        acc[key] = data[key];
-      }
-      return acc;
-    }, {});
-    return fieldsData;
+    return Object.fromEntries(
+      Object.entries(data)
+        .filter(([key, value]) => key.startsWith(prefix) && value)
+        .map(([key, value]) => [key.replace(`${prefix}`, ''), value]),
+    );
   };
+  /* eslint-enable */
+  const dispatch = useDispatch();
 
   const onSubmit = (data) => {
+    const { actualDate } = document.querySelector('#actualDate');
+    const id = uuidv4().slice(0, 8);
+
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
     const workData = getFieldsData(data, 't_');
 
     const selectedEquipment = equipmentFields
-      .filter((equipment) => data[`e_${equipment.name}`]) // Check if the checkbox is checked
-      .map((equipment) => equipment);
+      .filter((equipment) => data[`e_${equipment.id}`])
+      .map((equipment) => equipment.id);
 
-    NotificationManager.success('La orden se generó correctamente.', 'Exito');
-
-    console.log({
+    const JSONDATA = {
+      id,
+      fecha: actualDate,
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
       equipamento: selectedEquipment,
-    });
+    };
+
+    dispatch(orderDataActions.addNewOrder(JSONDATA));
     reset();
   };
+
+  const checkOrderSubmit = async () => {
+    const orderData = document.querySelector('#f_orden').value;
+    NotificationManager.info('Consultando..', 'Información');
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    dispatch(orderDataActions.getOrderByID(orderData));
+    setLoading(false);
+  };
+
+  const clearForm = () => reset();
 
   const handlePrint = () => {
     window.print();
   };
+
+  useEffect(() => {
+    if (selectedOrder) {
+      if (!selectedOrder.id) {
+        reset();
+        return;
+      }
+
+      const fieldPrefixes = {
+        cliente: 'cl_',
+        vehiculo: 'v_',
+        trabajos: 't_',
+        equipamento: 'e_',
+      };
+      Object.entries(selectedOrder).forEach(([key, value]) => {
+        if (key in fieldPrefixes) {
+          const prefix = fieldPrefixes[key];
+          if (typeof value === 'object') {
+            Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+              if (prefix === fieldPrefixes.equipamento) {
+                setValue(`${prefix}${nestedValue}`, true);
+                return;
+              }
+              setValue(`${prefix}${nestedKey}`, nestedValue);
+            });
+          } else {
+            setValue(prefix, value);
+          }
+        }
+      });
+    }
+  }, [selectedOrder, setValue, reset]);
 
   return (
     <>
@@ -52,8 +108,53 @@ function Order() {
       </div>
       <div>
         {/* eslint-disable */}
-        <section className="container max-w-screen-lg p-4 mx-auto border">
-          <form action="#" id="form" onSubmit={handleSubmit(onSubmit)}>
+        <section
+          className={`container max-w-screen-lg p-4 mx-auto border  ${
+            loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
+          }`}
+        >
+          <ul className="grid gap-2 p-0 list-none">
+            <li className="h-10 text-center sm:text-left">
+              <h2 className="text-base font-bold md:text-lg">Formulario</h2>
+            </li>
+            <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
+              <fieldset className="grow">
+                <Input
+                  label="Orden"
+                  name="f_orden"
+                  id="f_orden"
+                  complement="w-full"
+                  method={register}
+                />
+              </fieldset>
+              <fieldset className="grid grid-cols-2 print:hidden">
+                <button
+                  type="button"
+                  onClick={checkOrderSubmit}
+                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  id="submit"
+                >
+                  <i className="fas fa-search" />
+                  Consultar
+                </button>
+                <button
+                  type="button"
+                  onClick={clearForm}
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  id="submit"
+                >
+                  <i className="fas fa-trash" />
+                  Limpiar
+                </button>
+              </fieldset>
+            </li>
+          </ul>
+          <form
+            action="#"
+            id="form"
+            onSubmit={handleSubmit(onSubmit)}
+            className="mt-8 print:mt-5 "
+          >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
               <ul className="grid gap-2 p-0 list-none">
