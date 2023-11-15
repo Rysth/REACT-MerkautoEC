@@ -46,7 +46,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route path="*" element={<p>Theres nothing here: 404!</p>} />
+          <Route
+            path="*"
+            element={
+              <ProtectedRoute isAllowed={active} redirectTo="/">
+                <Order />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
     </BrowserRouter>
