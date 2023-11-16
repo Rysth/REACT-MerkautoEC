@@ -9,6 +9,7 @@ import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
 import Heading from '../../components/Heading/Heading';
 import { orderDataActions } from '../../redux/slices/orderDataSlice';
+import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
   const [loading, setLoading] = useState(false);
@@ -29,7 +30,7 @@ function Order() {
   /* eslint-enable */
   const dispatch = useDispatch();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const { actualDate } = document.querySelector('#actualDate');
     const id = uuidv4().slice(0, 8);
 
@@ -49,8 +50,13 @@ function Order() {
       trabajos: workData,
       equipamento: selectedEquipment,
     };
-
+    NotificationManager.info('Envíando..', 'Información');
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    dispatch(vehicleDataActions.addNewVehicle({ vehiculo: vehicleData }));
+    setLoading(false);
     reset();
   };
 
