@@ -42,8 +42,15 @@ function Vehicle() {
             selectedVehicle.placa.toUpperCase(),
         ),
       );
+    } else {
+      setVehicleOrders([]);
     }
-  }, [selectedVehicle]);
+  }, [selectedVehicle, orderArray]);
+
+  useEffect(() => {
+    setVehicleOrders([]);
+    dispatch(vehicleDataActions.setDefaultValue());
+  }, []);
 
   return (
     <div>
@@ -55,7 +62,7 @@ function Vehicle() {
           loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
         }`}
       >
-        <ul className="grid gap-2 p-0 list-none">
+        <ul className="grid gap-2 p-0 list-none print:hidden">
           <li className="h-10 text-center sm:text-left">
             <h2 className="text-base font-bold md:text-lg">Formulario</h2>
           </li>
@@ -73,7 +80,7 @@ function Vehicle() {
               <button
                 type="button"
                 onClick={checkVehicleSubmit}
-                className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="submit"
               >
                 <i className="fas fa-search" />
@@ -84,46 +91,49 @@ function Vehicle() {
         </ul>
         <div className="grid gap-5 mt-8">
           <header className="text-center sm:text-left">
-            <h3 className="text-3xl font-bold md:text-4xl lg:text-5xl">
-              Vehículo
-            </h3>
+            <h3 className="text-3xl font-bold md:text-4xl">Vehículo</h3>
           </header>
           <div className="grid grid-cols-2 gap-5 mt-2 sm:grid-cols-4">
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Placa:</h4>
-              <p className="text-2xl font-bold text-blue-600 uppercase truncate rounded-md text-ellipsis">
+              <p className="text-2xl font-bold text-blue-700 uppercase truncate text-ellipsis">
                 {selectedVehicle.placa ? selectedVehicle.placa : '----'}
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Marca:</h4>
-              <p className="text-2xl font-bold text-blue-600 capitalize truncate rounded-md text-ellipsis">
+              <p className="text-2xl font-bold text-blue-700 capitalize truncate text-ellipsis">
                 {selectedVehicle.marca ? selectedVehicle.marca : '----'}
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Modelo:</h4>
-              <p className="text-2xl font-bold text-blue-600 capitalize truncate rounded-md text-ellipsis">
+              <p className="text-2xl font-bold text-blue-700 capitalize truncate text-ellipsis">
                 {selectedVehicle.modelo ? selectedVehicle.modelo : '----'}
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Año:</h4>
-              <p className="text-2xl font-bold text-blue-600 capitalize truncate rounded-md text-ellipsis">
+              <p className="text-2xl font-bold text-blue-700 capitalize truncate text-ellipsis">
                 {selectedVehicle.anio ? selectedVehicle.anio : '----'}
               </p>
             </div>
           </div>
         </div>
         <div className="grid mt-8">
-          {vehicleOrders.map((order) => (
+          <header className="mb-3 text-center sm:text-left">
+            <h3 className="text-2xl font-bold ">Historial de Ordenes</h3>
+          </header>
+          {vehicleOrders.map((order, index) => (
             <Accordion
               key={order.id}
-              index={0}
+              codigo={order.id}
+              index={index}
               expandedIndex={expandedIndex}
               toggle={changeAccordionVision}
-              date="10/12/2023"
+              date={order.fecha}
               text="Welcome World!"
+              order={order}
             />
           ))}
         </div>

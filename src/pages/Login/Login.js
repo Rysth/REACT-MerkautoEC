@@ -57,7 +57,7 @@ function Login() {
               <li className="flex justify-center gap-2 print:hidden">
                 <button
                   type="submit"
-                  className="flex items-center gap-1.5 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center gap-1.5 p-2 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   Ingresar

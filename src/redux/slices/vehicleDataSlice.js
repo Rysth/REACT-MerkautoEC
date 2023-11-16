@@ -15,9 +15,17 @@ export const vehicleDataSlice = createSlice({
   initialState,
   reducers: {
     addNewVehicle: (state, action) => {
-      state.vehicleArray = [...state.vehicleArray, action.payload];
-      localStorage.setItem('vehiculos', JSON.stringify(state.vehicleArray));
-      NotificationManager.success('¡Vehículo Registrado!', 'Exíto');
+      const vehicleID = action.payload.placa;
+      const vehicleArray = [...state.vehicleArray];
+      const vehicleSelected = vehicleArray.find(
+        (vehicle) => vehicle.placa.toUpperCase() === vehicleID.toUpperCase(),
+      );
+
+      if (!vehicleSelected) {
+        state.vehicleArray = [...state.vehicleArray, action.payload];
+        localStorage.setItem('vehiculos', JSON.stringify(state.vehicleArray));
+        NotificationManager.success('¡Vehículo Registrado!', 'Exíto');
+      }
     },
     getVehicleByID: (state, action) => {
       const vehicleID = action.payload;
@@ -33,6 +41,9 @@ export const vehicleDataSlice = createSlice({
         NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo');
         state.selectedVehicle = {};
       }
+    },
+    setDefaultValue: (state) => {
+      state.selectedVehicle = {};
     },
   },
 });

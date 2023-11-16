@@ -22,7 +22,9 @@ export const orderDataSlice = createSlice({
     getOrderByID: (state, action) => {
       const orderID = action.payload;
       const orderArray = [...state.orderArray];
-      const orderSelected = orderArray.find((order) => order.id === orderID);
+      const orderSelected = orderArray.find(
+        (order) => order.id.toUpperCase() === orderID.toUpperCase(),
+      );
 
       if (orderSelected) {
         NotificationManager.success('¡Orden Encontrada!', 'Exíto');
