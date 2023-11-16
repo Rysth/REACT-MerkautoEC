@@ -25,7 +25,8 @@ function Accordion({ index, expandedIndex, toggle, date, text }) {
 }
 
 Accordion.propTypes = {
-  isExpanded: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
+  expandedIndex: PropTypes.number,
   toggle: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,

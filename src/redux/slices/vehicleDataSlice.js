@@ -19,12 +19,16 @@ export const vehicleDataSlice = createSlice({
       localStorage.setItem('vehiculos', JSON.stringify(state.vehicleArray));
       NotificationManager.success('¡Vehículo Registrado!', 'Exíto');
     },
-    getOrderByID: (state, action) => {
+    getVehicleByID: (state, action) => {
       const vehicleID = action.payload;
       const vehicleArray = [...state.vehicleArray];
-      const vehicleSelected = vehicleArray.find(
-        (vehicle) => vehicle.id === vehicleID,
-      );
+      const vehicleSelected = vehicleArray.find((vehicle) => {
+        console.log(vehicle);
+        if (vehicle.placa.toUpperCase() === vehicleID.toUpperCase()) {
+          return vehicle;
+        }
+        return null;
+      });
 
       if (vehicleSelected) {
         NotificationManager.success('Vehículo Encontrado!', 'Exíto');

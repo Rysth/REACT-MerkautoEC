@@ -55,7 +55,7 @@ function Order() {
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
     await new Promise((resolve) => setTimeout(resolve, 500));
-    dispatch(vehicleDataActions.addNewVehicle({ vehiculo: vehicleData }));
+    dispatch(vehicleDataActions.addNewVehicle(vehicleData));
     setLoading(false);
     reset();
   };
