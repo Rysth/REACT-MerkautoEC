@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   NotificationManager,
@@ -15,6 +15,8 @@ function Vehicle() {
   const [loading, setLoading] = useState(false);
   const [expandedIndex, setExpandedIndex] = useState(null);
   const { selectedVehicle } = useSelector((store) => store.vehicles);
+  const { orderArray } = useSelector((store) => store.orders);
+  const [vehicleOrders, setVehicleOrders] = useState([]);
   const dispatch = useDispatch();
 
   const checkVehicleSubmit = async () => {
@@ -29,6 +31,19 @@ function Vehicle() {
   const changeAccordionVision = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+
+  useEffect(() => {
+    if (selectedVehicle.placa) {
+      setVehicleOrders(
+        orderArray.filter(
+          (order) =>
+            // eslint-disable-next-line
+            order.vehiculo.placa.toUpperCase() ===
+            selectedVehicle.placa.toUpperCase(),
+        ),
+      );
+    }
+  }, [selectedVehicle]);
 
   return (
     <div>
@@ -101,13 +116,16 @@ function Vehicle() {
           </div>
         </div>
         <div className="grid mt-8">
-          <Accordion
-            index={0}
-            expandedIndex={expandedIndex}
-            toggle={changeAccordionVision}
-            date="10/12/2023"
-            text="Welcome World!"
-          />
+          {vehicleOrders.map((order) => (
+            <Accordion
+              key={order.id}
+              index={0}
+              expandedIndex={expandedIndex}
+              toggle={changeAccordionVision}
+              date="10/12/2023"
+              text="Welcome World!"
+            />
+          ))}
         </div>
       </section>
     </div>

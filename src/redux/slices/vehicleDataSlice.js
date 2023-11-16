@@ -22,13 +22,9 @@ export const vehicleDataSlice = createSlice({
     getVehicleByID: (state, action) => {
       const vehicleID = action.payload;
       const vehicleArray = [...state.vehicleArray];
-      const vehicleSelected = vehicleArray.find((vehicle) => {
-        console.log(vehicle);
-        if (vehicle.placa.toUpperCase() === vehicleID.toUpperCase()) {
-          return vehicle;
-        }
-        return null;
-      });
+      const vehicleSelected = vehicleArray.find(
+        (vehicle) => vehicle.placa.toUpperCase() === vehicleID.toUpperCase(),
+      );
 
       if (vehicleSelected) {
         NotificationManager.success('Vehículo Encontrado!', 'Exíto');
