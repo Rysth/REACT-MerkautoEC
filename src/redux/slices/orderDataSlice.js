@@ -11,18 +11,20 @@ const initialState = {
 };
 
 export const orderDataSlice = createSlice({
-  name: 'customerData',
+  name: 'orderData',
   initialState,
   reducers: {
     addNewOrder: (state, action) => {
       state.orderArray = [...state.orderArray, action.payload];
       localStorage.setItem('ordenes', JSON.stringify(state.orderArray));
-      NotificationManager.success('¡Orden Guardada!', 'Exíto');
+      NotificationManager.success('¡Orden Registrada!', 'Exíto');
     },
     getOrderByID: (state, action) => {
       const orderID = action.payload;
       const orderArray = [...state.orderArray];
-      const orderSelected = orderArray.find((order) => order.id === orderID);
+      const orderSelected = orderArray.find(
+        (order) => order.id.toUpperCase() === orderID.toUpperCase(),
+      );
 
       if (orderSelected) {
         NotificationManager.success('¡Orden Encontrada!', 'Exíto');

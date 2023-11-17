@@ -9,6 +9,7 @@ import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
 import Heading from '../../components/Heading/Heading';
 import { orderDataActions } from '../../redux/slices/orderDataSlice';
+import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
   const [loading, setLoading] = useState(false);
@@ -29,9 +30,9 @@ function Order() {
   /* eslint-enable */
   const dispatch = useDispatch();
 
-  const onSubmit = (data) => {
-    const { actualDate } = document.querySelector('#actualDate');
-    const id = uuidv4().slice(0, 8);
+  const onSubmit = async (data) => {
+    const actualDate = document.querySelector('#actualDate').innerText;
+    const id = uuidv4().slice(0, 8).toUpperCase();
 
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
@@ -49,8 +50,13 @@ function Order() {
       trabajos: workData,
       equipamento: selectedEquipment,
     };
-
+    NotificationManager.info('Envíando..', 'Información');
+    setLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    dispatch(vehicleDataActions.addNewVehicle(vehicleData));
+    setLoading(false);
     reset();
   };
 
@@ -103,9 +109,7 @@ function Order() {
 
   return (
     <>
-      <div>
-        <Heading text="Orden de Recepción" />
-      </div>
+      <Heading text="Orden de Recepción" />
       <div>
         {/* eslint-disable */}
         <section
@@ -113,7 +117,7 @@ function Order() {
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
-          <ul className="grid gap-2 p-0 list-none">
+          <ul className="grid gap-2 p-0 list-none print:hidden">
             <li className="h-10 text-center sm:text-left">
               <h2 className="text-base font-bold md:text-lg">Formulario</h2>
             </li>
@@ -131,7 +135,7 @@ function Order() {
                 <button
                   type="button"
                   onClick={checkOrderSubmit}
-                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-search" />
@@ -140,7 +144,7 @@ function Order() {
                 <button
                   type="button"
                   onClick={clearForm}
-                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-trash" />
