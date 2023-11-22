@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
-const activeStatusFromSession = sessionStorage.getItem('active');
+const activeStatusFromSession = localStorage.getItem('active');
+console.log(activeStatusFromSession);
 
 const credentials = {
   email: 'admin@merkautoec.com',
@@ -26,7 +27,7 @@ export const changeActiveStatus = createAsyncThunk(
     }
 
     NotificationManager.success('¡Ingreso Exítoso!', 'Exíto', 1500);
-    sessionStorage.setItem('active', true);
+    localStorage.setItem('active', true);
     return { ...credentials, active: true };
   },
 );
@@ -42,7 +43,7 @@ export const loginDataSlice = createSlice({
   reducers: {
     logoutFromApp: (state) => {
       state.userCredentials.active = false;
-      sessionStorage.setItem('active', state.userCredentials.active);
+      localStorage.setItem('active', state.userCredentials.active);
       NotificationManager.info('¡Muchas Gracias!', 'Información', 1500);
     },
   },

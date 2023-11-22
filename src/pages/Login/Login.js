@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Forms/Input/Input';
 import LoginPicture from '../../assets/images/auto/login.jpg';
 import { changeActiveStatus } from '../../redux/slices/loginDataSlice';
-import BrandImage from '../../assets/images/brand/logo_cofic.png';
+import CoficImage from '../../assets/images/brand/logo_cofic.png';
+import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
 
 function Login() {
   const { register, handleSubmit } = useForm();
@@ -24,7 +25,7 @@ function Login() {
 
   return (
     <section className="fixed inset-0">
-      <div className="grid sm:grid-cols-[1fr_1fr] md:grid-cols-[60%_1fr] lg:grid-cols-[65%_1fr] p-4 sm:p-0 h-full sm:relative">
+      <div className="grid sm:grid-cols-[1fr_1fr] lg:grid-cols-[65%_1fr] p-4 sm:p-0 h-full sm:relative sm:bg-white">
         <picture className="absolute inset-0 bg-black sm:relative -z-10 sm:z-0">
           <img
             src={LoginPicture}
@@ -39,7 +40,7 @@ function Login() {
             onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset className="mb-3 text-center">
-              <h2 className="text-4xl font-bold lg:text-6xl">Iniciar Sesión</h2>
+              <h2 className="text-4xl font-bold lg:text-5xl">Iniciar Sesión</h2>
             </fieldset>
             <ul className="grid gap-5 p-0 list-none">
               <Input
@@ -71,7 +72,7 @@ function Login() {
             </ul>
           </form>
           <footer className="absolute bottom-0 right-0 flex justify-between w-full p-5 mt-auto">
-            <div className="flex items-center justify-end w-full">
+            <div className="flex items-center justify-center w-full sm:justify-end">
               <h3 className="text-xs font-semibold pointer-events-none">
                 Powered by
               </h3>
@@ -79,9 +80,21 @@ function Login() {
                 href="https://www.asvesot.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Asvesot website"
+                aria-label="Asvesot Website"
               >
-                <img src={BrandImage} alt="" className="w-28" />
+                <img src={CoficImage} alt="Cofic logo" className="w-24" />
+              </a>
+              <a
+                href="https://react-rysthcraft.onrender.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="ysthcraft Portfolio Website"
+              >
+                <img
+                  src={RysthImage}
+                  alt="Rysthcraft logo"
+                  className="w-[4rem]"
+                />
               </a>
             </div>
           </footer>
