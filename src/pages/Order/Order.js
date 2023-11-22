@@ -82,11 +82,14 @@ function Order() {
     setLoading(false);
   };
 
-  const clearForm = () => reset();
+  const clearForm = () => {
+    setActualID(uuidv4().slice(0, 8).toUpperCase());
+    dispatch(orderDataActions.setDefaultOrderSelected());
+    reset();
+  };
 
   useEffect(() => {
     if (selectedOrder) {
-      setActualID(uuidv4().slice(0, 8).toUpperCase());
       if (!selectedOrder.id) {
         reset();
         return;
