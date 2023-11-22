@@ -16,7 +16,7 @@
 
 ## About the Project
 
-- **MerkautoEC S.A ** Experience efficiency and sleek design in MerkautoEC's React project, powered by Create React App and styled with Tailwind CSS. Open-source and community-driven, it's reshaping the future of automotive services.
+- **MerkautoEC S.A** Experience efficiency and sleek design in MerkautoEC's React project, powered by Create React App and styled with Tailwind CSS. Open-source and community-driven, it's reshaping the future of automotive services.
 
 ## Built With
 
