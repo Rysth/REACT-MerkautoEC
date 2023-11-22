@@ -111,16 +111,12 @@ function Order() {
     <>
       <Heading text="Orden de Recepción" />
       <div>
-        {/* eslint-disable */}
         <section
-          className={`container max-w-screen-lg p-4 mx-auto border  ${
+          className={`container max-w-screen-lg p-4 mx-auto border rounded-b-lg  ${
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
           <ul className="grid gap-2 p-0 list-none print:hidden">
-            <li className="h-10 text-center sm:text-left">
-              <h2 className="text-base font-bold md:text-lg">Formulario</h2>
-            </li>
             <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
               <fieldset className="grow">
                 <Input
@@ -131,11 +127,11 @@ function Order() {
                   method={register}
                 />
               </fieldset>
-              <fieldset className="grid grid-cols-2 print:hidden">
+              <fieldset className="grid grid-cols-2 gap-1 print:hidden">
                 <button
                   type="button"
                   onClick={checkOrderSubmit}
-                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-search" />
@@ -144,7 +140,7 @@ function Order() {
                 <button
                   type="button"
                   onClick={clearForm}
-                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-trash" />
@@ -157,12 +153,12 @@ function Order() {
             action="#"
             id="form"
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-8 print:mt-5 "
+            className="mt-5 print:mt-1"
           >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
               <ul className="grid gap-2 p-0 list-none">
-                <li className="h-10 text-center sm:text-left">
+                <li className="h-8 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Cliente
                   </h2>
@@ -184,6 +180,7 @@ function Order() {
                   name="cl_propietario"
                   id="cl_propietario"
                   method={register}
+                  isRequired={false}
                 />
                 <Input
                   label="Dirección"
@@ -204,6 +201,7 @@ function Order() {
                     id="cl_telefono"
                     type="tel"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <Input
@@ -223,7 +221,7 @@ function Order() {
               </ul>
               {/* Datos del Vehículo */}
               <ul className="grid gap-2 p-0 list-none">
-                <li className="h-10 text-center sm:text-left">
+                <li className="h-8 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Vehículo
                   </h2>
@@ -241,6 +239,7 @@ function Order() {
                     name="v_clave"
                     id="v_clave"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -256,6 +255,7 @@ function Order() {
                     id="v_color"
                     type="color"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <div className="grid gap-3 sm:grid-cols-3">
@@ -308,17 +308,13 @@ function Order() {
                   name="v_detalle"
                   id="v_detalle"
                   method={register}
+                  isRequired={false}
                 />
               </ul>
             </fieldset>
             <TextArea
               name="t_mecanica"
-              label="Trabajos de Mecánica / Electricidad / Aire Acondicionado"
-              method={register}
-            />
-            <TextArea
-              name="t_pintura"
-              label="Trabajos de Pintura"
+              label="Trabajos de Mecánica / Electricidad / Aire Acondicionado / Pintura"
               method={register}
             />
             <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
@@ -329,7 +325,7 @@ function Order() {
                   </h2>
                 </header>
                 <div className="grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3">
-                  {equipmentFields.map((equipment, index) => (
+                  {equipmentFields.map((equipment) => (
                     <Checkbox
                       key={equipment.id}
                       id={equipment.id}

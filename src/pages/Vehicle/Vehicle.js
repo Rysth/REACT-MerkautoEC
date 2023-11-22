@@ -50,7 +50,7 @@ function Vehicle() {
   useEffect(() => {
     setVehicleOrders([]);
     dispatch(vehicleDataActions.setDefaultValue());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
