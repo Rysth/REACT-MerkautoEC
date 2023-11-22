@@ -39,11 +39,11 @@ const fields = [
   },
   {
     id: 10,
-    name: 'Espejos ext',
+    name: 'Espejos externos',
   },
   {
     id: 11,
-    name: 'Espejos int',
+    name: 'Espejos internos',
   },
   {
     id: 12,

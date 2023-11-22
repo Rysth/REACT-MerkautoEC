@@ -15,7 +15,7 @@ function Checkbox({ id, name, method }) {
         type="checkbox"
         {...method(`e_${id}`)}
         id={`e_${id}`}
-        className="w-5 h-5 bg-black"
+        className="w-5 h-5 text-indigo-600 bg-black border-gray-300 rounded focus:ring-indigo-500"
       />
     </div>
   );

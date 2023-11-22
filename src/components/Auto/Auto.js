@@ -276,7 +276,7 @@ function Auto({ register }) {
         />
       </div>
       <div
-        className="relative mt-2 overflow-hidden border auto"
+        className="relative mt-2 overflow-hidden border rounded-lg auto"
         id="auto-picture"
       >
         <img
