@@ -22,7 +22,7 @@ function NavBar({ variant, linksVariant, method }) {
       </NavLink>
       <button
         type="button"
-        className={`${linksVariant} bg-red-200`}
+        className={`${linksVariant} !bg-red-400`}
         onClick={logOut}
       >
         <i className="w-4 text-center fa-solid fa-key" />
