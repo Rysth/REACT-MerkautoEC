@@ -19,7 +19,7 @@ function Header() {
           href="https://maps.app.goo.gl/LRxm7ESpvsyR2iwq9"
           target="_blank"
           rel="noopener noreferrer"
-          className="grid text-center"
+          className="text-center"
         >
           <img
             className="object-cover w-36 sm:w-48"
@@ -33,22 +33,22 @@ function Header() {
             <button
               onClick={toggleNavigationBar}
               type="button"
-              className="text-2xl sm:hidden"
+              className="text-2xl md:hidden print:hidden"
             >
               <span className="hidden">Toggle</span>
               <i className="fa-solid fa-bars" />
             </button>
             {isOpen && (
-              <div className="w-full sm:hidden">
+              <div className="w-full md:hidden">
                 <NavBar
-                  variant="items-center p-0 text-sm list-none sm:hidden md:text-sm grid bg-gray-200 p-3 rounded-md  grid gap-1"
+                  variant="items-center p-0 text-sm list-none md:hidden md:text-sm grid bg-gray-200 p-3 rounded-md  grid gap-1"
                   linksVariant="md:hover:scale-105 md:transition p-2 md:hover:bg-gray-500 md:hover:text-white print:hidden w-full flex items-center gap-1.5 rounded-md"
                   method={closeNavigationBar}
                 />
               </div>
             )}
             <NavBar
-              variant="items-center hidden gap-3 p-0 text-xs list-none sm:flex md:text-sm"
+              variant="items-center hidden gap-3 p-0 text-xs list-none md:flex md:text-sm"
               linksVariant="md:hover:scale-105 md:transition bg-gray-300 p-2 bg-gray-200 md:hover:bg-gray-500 md:hover:text-white rounded-md print:hidden flex items-center gap-1.5 font-semibold "
               method={() => {}}
             />

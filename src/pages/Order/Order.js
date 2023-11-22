@@ -123,7 +123,7 @@ function Order() {
       <Heading text="Orden de Recepción" element={actualID} />
       <div>
         <section
-          className={`container max-w-screen-lg p-4 mx-auto border   ${
+          className={`container max-w-screen-lg p-4 mx-auto border min-h-[550px]   ${
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >

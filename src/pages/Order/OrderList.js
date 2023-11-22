@@ -21,7 +21,11 @@ function OrderList() {
     <div>
       <Heading text="Listado de Ordenes" element="" />
       <div>
-        <section className="container max-w-screen-lg p-4 mx-auto border">
+        <section
+          className={`container max-w-screen-lg p-4 mx-auto border min-h-[550px] ${
+            orderQuantity <= 0 && 'grid'
+          }`}
+        >
           {orderQuantity > 0 && (
             <>
               <header className="text-center sm:text-left">
@@ -47,13 +51,13 @@ function OrderList() {
           )}
           {orderQuantity <= 0 && (
             <>
-              <header className="py-3 text-center bg-black sm:py-6 rounded-xl">
-                <h3 className="text-lg font-bold text-white sm:text-4xl">
+              <header className="flex flex-col items-center justify-center w-full h-full py-3 text-center bg-black sm:py-6 rounded-xl">
+                <h3 className="text-3xl font-bold text-white sm:text-5xl lg:text-6xl max-w-[15rem] sm:max-w-[20rem] md:max-w-[38rem]">
                   ¡No Existen Ordenes en el Sistema!
                 </h3>
                 <NavLink
                   to="/orden"
-                  className="inline-block gap-1 p-1 px-4 mt-3 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
+                  className="inline-block gap-1 p-2 px-4 mt-5 text-sm text-white transition bg-blue-700 rounded-lg sm:text-base md:hover:shadow-2xl md:hover:scale-105"
                 >
                   Generar Orden
                 </NavLink>
