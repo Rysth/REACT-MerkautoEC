@@ -52,6 +52,8 @@ function Order() {
       .filter((equipment) => data[`e_${equipment.id}`])
       .map((equipment) => equipment.id);
 
+    vehicleData.placa.toUpperCase();
+
     const JSONDATA = {
       id: actualID,
       fecha: actualDate,

@@ -114,10 +114,10 @@ function Vehicle() {
             </div>
           </div>
         </div>
+        <header className="mt-3 text-center sm:text-left">
+          <h3 className="text-xl font-bold ">Historial de Ordenes</h3>
+        </header>
         <div className="grid mt-8 overflow-auto">
-          <header className="mb-3 text-center sm:text-left">
-            <h3 className="text-2xl font-bold ">Historial de Ordenes</h3>
-          </header>
           {vehicleOrders.map((order, index) => (
             <Accordion
               key={order.id}

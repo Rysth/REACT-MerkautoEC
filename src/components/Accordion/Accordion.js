@@ -11,13 +11,15 @@ function Accordion({ codigo, index, expandedIndex, toggle, date, order }) {
         className="flex items-center justify-between font-semibold text-white cursor-pointer"
         onClick={() => toggle(index)}
       >
-        <h3 className="text-base font-bold sm:text-lg md:text-xl hover:select-auto selection:bg-white selection:text-black">{`Orden #${codigo}`}</h3>
+        <h3 className="text-base font-bold sm:text-lg md:text-xl hover:select-auto selection:bg-white selection:text-black">{`${
+          index + 1
+        }) Orden - Vehículo ${order.vehiculo.placa}`}</h3>
         <h4 className="text-sm">{`Fecha ${date}`}</h4>
       </header>
       <Collapse isOpened={isExpanded}>
         <article class="bg-white p-3 mt-3 rounded-md">
           <header className="flex items-center justify-between mb-3 text-center sm:text-left">
-            <h5 className="text-sm font-bold ">Datos Relevantes</h5>
+            <h5 className="text-base font-bold ">Datos Relevantes</h5>
             <h5 className="text-xl font-black ">{codigo}</h5>
           </header>
           <div className="grid grid-cols-2 mt-3 sm:grid-cols-4 min-w-[500px] sm:w-full gap-2">

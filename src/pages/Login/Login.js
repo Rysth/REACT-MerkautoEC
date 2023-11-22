@@ -72,10 +72,7 @@ function Login() {
             </ul>
           </form>
           <footer className="absolute bottom-0 right-0 flex justify-between w-full p-5 mt-auto">
-            <div className="flex items-center justify-center w-full sm:justify-end">
-              <h3 className="text-xs font-semibold pointer-events-none">
-                Powered by
-              </h3>
+            <div className="flex items-center justify-between w-full">
               <a
                 href="https://www.asvesot.com/"
                 target="_blank"
@@ -88,7 +85,7 @@ function Login() {
                 href="https://react-rysthcraft.onrender.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="ysthcraft Portfolio Website"
+                aria-label="Rysthcraft Portfolio Website"
               >
                 <img
                   src={RysthImage}
