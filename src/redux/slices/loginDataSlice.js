@@ -12,7 +12,7 @@ const credentials = {
 export const changeActiveStatus = createAsyncThunk(
   'credentials/changeActiveStatus',
   async (payload) => {
-    NotificationManager.info('Autentificando..', 'Información', 1500);
+    NotificationManager.info('Autentificando...', 'Información', 1500);
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const { email, password } = payload;

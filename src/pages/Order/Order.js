@@ -52,6 +52,8 @@ function Order() {
       .filter((equipment) => data[`e_${equipment.id}`])
       .map((equipment) => equipment.id);
 
+    vehicleData.placa = vehicleData.placa.toUpperCase();
+
     const JSONDATA = {
       id: actualID,
       fecha: actualDate,
@@ -62,7 +64,6 @@ function Order() {
     };
 
     NotificationManager.info('Envíando..', 'Información');
-    handlePrint();
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
@@ -81,11 +82,14 @@ function Order() {
     setLoading(false);
   };
 
-  const clearForm = () => reset();
+  const clearForm = () => {
+    setActualID(uuidv4().slice(0, 8).toUpperCase());
+    dispatch(orderDataActions.setDefaultOrderSelected());
+    reset();
+  };
 
   useEffect(() => {
     if (selectedOrder) {
-      setActualID(uuidv4().slice(0, 8).toUpperCase());
       if (!selectedOrder.id) {
         reset();
         return;
@@ -121,7 +125,7 @@ function Order() {
       <Heading text="Orden de Recepción" element={actualID} />
       <div>
         <section
-          className={`container max-w-screen-lg p-4 mx-auto border   ${
+          className={`container max-w-screen-lg p-4 mx-auto border min-h-[550px]   ${
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
@@ -202,6 +206,7 @@ function Order() {
                     label="Celular"
                     name="cl_celular"
                     id="cl_celular"
+                    type="tel"
                     method={register}
                   />
                   <Input
@@ -366,21 +371,21 @@ function Order() {
             </fieldset>
             <fieldset className="flex justify-center gap-2 print:hidden">
               <button
+                type="button"
+                className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                id="printButton"
+                onClick={handlePrint}
+              >
+                <i className="fas fa-print" />
+                Imprimir
+              </button>
+              <button
                 type="submit"
                 className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="submit"
               >
                 <i className="fas fa-save" />
                 Guardar
-              </button>
-              <button
-                type="button"
-                className="items-center hidden gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
-                id="printButton"
-                onClick={handlePrint}
-              >
-                <i className="fas fa-print" />
-                Imprimir
               </button>
             </fieldset>
           </form>

@@ -34,6 +34,9 @@ export const orderDataSlice = createSlice({
         state.selectedOrder = {};
       }
     },
+    setDefaultOrderSelected: (state) => {
+      state.selectedOrder = {};
+    },
   },
 });
 

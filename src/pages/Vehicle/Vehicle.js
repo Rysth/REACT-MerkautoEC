@@ -1,10 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  NotificationManager,
-  NotificationContainer,
-} from 'react-notifications';
+import { NotificationManager } from 'react-notifications';
 import Heading from '../../components/Heading/Heading';
 import Input from '../../components/Forms/Input/Input';
 import Accordion from '../../components/Accordion/Accordion';
@@ -56,9 +53,8 @@ function Vehicle() {
     <div>
       {selectedVehicle && true}
       <Heading text="Control de Taller" element="" />
-      <NotificationContainer />
       <section
-        className={`container max-w-screen-lg p-4 mx-auto border  ${
+        className={`container max-w-screen-lg p-4 mx-auto border min-h-[550px] ${
           loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
         }`}
       >
@@ -114,10 +110,10 @@ function Vehicle() {
             </div>
           </div>
         </div>
+        <header className="mt-3 text-center sm:text-left">
+          <h3 className="text-xl font-bold ">Historial de Ordenes</h3>
+        </header>
         <div className="grid mt-8 overflow-auto">
-          <header className="mb-3 text-center sm:text-left">
-            <h3 className="text-2xl font-bold ">Historial de Ordenes</h3>
-          </header>
           {vehicleOrders.map((order, index) => (
             <Accordion
               key={order.id}

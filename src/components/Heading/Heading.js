@@ -20,13 +20,13 @@ function Heading({ text, element = null }) {
   return (
     <section className="container max-w-screen-lg p-4 mx-auto border-t border-b-0 rounded-t-lg border-x">
       <header className="flex flex-col items-center justify-between sm:flex-row">
-        <h1 className="flex items-center gap-3 text-2xl font-bold sm:text-3xl">
+        <h1 className="flex flex-col items-center text-2xl font-bold sm:gap-3 sm:flex-row sm:text-3xl">
           {text}
           {element && (
             <span className="text-2xl font-bold text-blue-700 uppercase">{`#${element}`}</span>
           )}
         </h1>
-        <p className="flex items-center gap-1 text-sm font-bold">
+        <p className="flex items-center gap-1 mt-3 text-sm font-bold sm:mt-0">
           Fecha:
           <span id="actualDate">{actualDate}</span>
         </p>
