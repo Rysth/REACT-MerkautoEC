@@ -17,7 +17,7 @@ export const orderDataSlice = createSlice({
     addNewOrder: (state, action) => {
       state.orderArray = [...state.orderArray, action.payload];
       localStorage.setItem('ordenes', JSON.stringify(state.orderArray));
-      NotificationManager.success('¡Orden Registrada!', 'Exíto');
+      NotificationManager.success('¡Orden Registrada!', 'Exíto', 1500);
     },
     getOrderByID: (state, action) => {
       const orderID = action.payload;
@@ -27,10 +27,10 @@ export const orderDataSlice = createSlice({
       );
 
       if (orderSelected) {
-        NotificationManager.success('¡Orden Encontrada!', 'Exíto');
+        NotificationManager.success('¡Orden Encontrada!', 'Exíto', 1500);
         state.selectedOrder = orderSelected;
       } else {
-        NotificationManager.error('¡Orden no Encontrada!', 'Fallo');
+        NotificationManager.error('¡Orden no Encontrada!', 'Fallo', 1500);
         state.selectedOrder = {};
       }
     },

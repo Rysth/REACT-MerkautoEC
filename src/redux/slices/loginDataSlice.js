@@ -12,16 +12,20 @@ const credentials = {
 export const changeActiveStatus = createAsyncThunk(
   'credentials/changeActiveStatus',
   async (payload) => {
-    NotificationManager.info('Autentificando..', 'Información');
+    NotificationManager.info('Autentificando..', 'Información', 1500);
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const { email, password } = payload;
     if (email !== credentials.email || password !== credentials.password) {
-      NotificationManager.error('¡Email o Contraseña incorrecta!', 'Fallo');
+      NotificationManager.error(
+        '¡Email o Contraseña incorrecta!',
+        'Fallo',
+        1500,
+      );
       return { ...credentials, active: false };
     }
 
-    NotificationManager.success('¡Ingreso Exítoso!', 'Exíto');
+    NotificationManager.success('¡Ingreso Exítoso!', 'Exíto', 1500);
     sessionStorage.setItem('active', true);
     return { ...credentials, active: true };
   },
@@ -39,7 +43,7 @@ export const loginDataSlice = createSlice({
     logoutFromApp: (state) => {
       state.userCredentials.active = false;
       sessionStorage.setItem('active', state.userCredentials.active);
-      NotificationManager.info('¡Muchas Gracias!', 'Información');
+      NotificationManager.info('¡Muchas Gracias!', 'Información', 1500);
     },
   },
   extraReducers: (builder) => {

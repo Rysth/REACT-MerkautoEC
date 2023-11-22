@@ -62,7 +62,7 @@ function Order() {
 
   const checkOrderSubmit = async () => {
     const orderData = document.querySelector('#f_orden').value;
-    NotificationManager.info('Consultando..', 'Información');
+    NotificationManager.info('Consultando..', 'Información', 1500);
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.getOrderByID(orderData));
@@ -131,7 +131,7 @@ function Order() {
                 <button
                   type="button"
                   onClick={checkOrderSubmit}
-                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-search" />
