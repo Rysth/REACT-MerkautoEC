@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import NavBar from '../NavBar/NavBar';
 import BrandImage from '../../assets/images/brand/logo_cofic.png';
 
@@ -54,14 +53,6 @@ function Header() {
               method={() => {}}
             />
           </>
-        )}
-        {!userCredentials.active && (
-          <NavLink
-            to="/"
-            className="md:hover:-translate-y-0.5 md:transition bg-gray-200 p-2  md:hover:bg-gray-500 md:hover:text-white rounded-md print:hidden flex items-center gap-2 font-semibold"
-          >
-            Iniciar Sesión
-          </NavLink>
         )}
       </div>
     </header>
