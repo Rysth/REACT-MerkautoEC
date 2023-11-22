@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Header from './components/Header/Header';
 import Order from './pages/Order/Order';
+import OrderList from './pages/Order/OrderList';
 import Login from './pages/Login/Login';
 import Vehicle from './pages/Vehicle/Vehicle';
 import RysthImage from './assets/images/brand/logo_rysthcraft.png';
@@ -37,6 +38,14 @@ function App() {
             element={
               <ProtectedRoute isAllowed={active} redirectTo="/">
                 <Order />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/listado"
+            element={
+              <ProtectedRoute isAllowed={active} redirectTo="/">
+                <OrderList />
               </ProtectedRoute>
             }
           />
