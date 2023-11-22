@@ -9,7 +9,7 @@ function TextArea({ name, label, method }) {
       </header>
       <textarea
         {...method(name)}
-        className="w-full p-2 bg-gray-100 border rounded-md outline-none resize-none h-18 md:p-4 focus:border-gray-500 focus:bg-white"
+        className="w-full p-2 bg-gray-100 border rounded-md outline-none resize-none h-28 md:p-4 focus:border-gray-500 focus:bg-white"
       />
     </fieldset>
   );

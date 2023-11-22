@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
-const activeStatusFromSession = sessionStorage.getItem('active');
+const activeStatusFromSession = localStorage.getItem('active');
 
 const credentials = {
   email: 'admin@merkautoec.com',
@@ -12,17 +12,21 @@ const credentials = {
 export const changeActiveStatus = createAsyncThunk(
   'credentials/changeActiveStatus',
   async (payload) => {
-    NotificationManager.info('Autentificando..', 'Información');
+    NotificationManager.info('Autentificando..', 'Información', 1500);
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     const { email, password } = payload;
     if (email !== credentials.email || password !== credentials.password) {
-      NotificationManager.error('¡Email o Contraseña incorrecta!', 'Fallo');
+      NotificationManager.error(
+        '¡Email o Contraseña incorrecta!',
+        'Fallo',
+        1500,
+      );
       return { ...credentials, active: false };
     }
 
-    NotificationManager.success('¡Ingreso Exítoso!', 'Exíto');
-    sessionStorage.setItem('active', true);
+    NotificationManager.success('¡Ingreso Exítoso!', 'Exíto', 1500);
+    localStorage.setItem('active', true);
     return { ...credentials, active: true };
   },
 );
@@ -38,8 +42,8 @@ export const loginDataSlice = createSlice({
   reducers: {
     logoutFromApp: (state) => {
       state.userCredentials.active = false;
-      sessionStorage.setItem('active', state.userCredentials.active);
-      NotificationManager.info('¡Muchas Gracias!', 'Información');
+      localStorage.setItem('active', state.userCredentials.active);
+      NotificationManager.info('¡Muchas Gracias!', 'Información', 1500);
     },
   },
   extraReducers: (builder) => {

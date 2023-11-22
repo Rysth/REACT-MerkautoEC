@@ -8,6 +8,7 @@ function Input({
   type = 'text',
   complement = '',
   method = () => {},
+  isRequired = true,
 }) {
   return (
     <li>
@@ -20,10 +21,10 @@ function Input({
           type={type}
           {...method(name)}
           id={id}
-          className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-md outline-none focus:border-gray-500 focus:bg-white ${
+          className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-lg outline-none focus:border-gray-400 focus:bg-white ${
             label == 'Placa' || label == 'Orden' ? 'uppercase' : ''
           }`}
-          required
+          required={isRequired}
         />
       </label>
     </li>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-function Heading({ text }) {
+function Heading({ text, element = null }) {
   const [actualDate, setActualDate] = useState();
 
   const getCurrentDate = () => {
@@ -18,9 +18,14 @@ function Heading({ text }) {
   }, []);
 
   return (
-    <section className="container max-w-screen-lg p-4 mx-auto border">
+    <section className="container max-w-screen-lg p-4 mx-auto border-t border-b-0 rounded-t-lg border-x">
       <header className="flex flex-col items-center justify-between sm:flex-row">
-        <h1 className="text-2xl font-bold sm:text-3xl">{text}</h1>
+        <h1 className="flex items-center gap-3 text-2xl font-bold sm:text-3xl">
+          {text}
+          {element && (
+            <span className="text-2xl font-bold text-blue-700 uppercase">{`#${element}`}</span>
+          )}
+        </h1>
         <p className="flex items-center gap-1 text-sm font-bold">
           Fecha:
           <span id="actualDate">{actualDate}</span>
@@ -32,6 +37,7 @@ function Heading({ text }) {
 
 Heading.propTypes = {
   text: PropTypes.string.isRequired,
+  element: PropTypes.string.isRequired,
 };
 
 export default Heading;

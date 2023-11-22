@@ -21,7 +21,7 @@ function Vehicle() {
 
   const checkVehicleSubmit = async () => {
     const vehicleData = document.querySelector('#f_placa').value;
-    NotificationManager.info('Consultando..', 'Información');
+    NotificationManager.info('Consultando..', 'Información', 1500);
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(vehicleDataActions.getVehicleByID(vehicleData));
@@ -50,12 +50,12 @@ function Vehicle() {
   useEffect(() => {
     setVehicleOrders([]);
     dispatch(vehicleDataActions.setDefaultValue());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
       {selectedVehicle && true}
-      <Heading text="Control de Taller" />
+      <Heading text="Control de Taller" element="" />
       <NotificationContainer />
       <section
         className={`container max-w-screen-lg p-4 mx-auto border  ${
@@ -63,9 +63,6 @@ function Vehicle() {
         }`}
       >
         <ul className="grid gap-2 p-0 list-none print:hidden">
-          <li className="h-10 text-center sm:text-left">
-            <h2 className="text-base font-bold md:text-lg">Formulario</h2>
-          </li>
           <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
             <fieldset className="grow">
               <Input
@@ -90,25 +87,22 @@ function Vehicle() {
           </li>
         </ul>
         <div className="grid gap-5 mt-8">
-          <header className="text-center sm:text-left">
-            <h3 className="text-3xl font-bold md:text-4xl">Vehículo</h3>
-          </header>
           <div className="grid grid-cols-2 gap-5 mt-2 sm:grid-cols-4">
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Placa:</h4>
-              <p className="text-2xl font-bold text-blue-700 uppercase truncate text-ellipsis">
+              <p className="text-xl font-bold text-blue-700 uppercase truncate text-ellipsis">
                 {selectedVehicle.placa ? selectedVehicle.placa : '----'}
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Marca:</h4>
-              <p className="text-2xl font-bold text-blue-700 capitalize truncate text-ellipsis">
+              <p className="text-xl font-bold text-blue-700 capitalize truncate text-ellipsis">
                 {selectedVehicle.marca ? selectedVehicle.marca : '----'}
               </p>
             </div>
             <div className="p-2 text-center border rounded-md sm:text-left">
               <h4 className="text-lg font-semibold">Modelo:</h4>
-              <p className="text-2xl font-bold text-blue-700 capitalize truncate text-ellipsis">
+              <p className="text-xl font-bold text-blue-700 capitalize truncate text-ellipsis">
                 {selectedVehicle.modelo ? selectedVehicle.modelo : '----'}
               </p>
             </div>
@@ -120,7 +114,7 @@ function Vehicle() {
             </div>
           </div>
         </div>
-        <div className="grid mt-8">
+        <div className="grid mt-8 overflow-auto">
           <header className="mb-3 text-center sm:text-left">
             <h3 className="text-2xl font-bold ">Historial de Ordenes</h3>
           </header>
@@ -132,7 +126,6 @@ function Vehicle() {
               expandedIndex={expandedIndex}
               toggle={changeAccordionVision}
               date={order.fecha}
-              text="Welcome World!"
               order={order}
             />
           ))}

@@ -12,7 +12,9 @@ import { orderDataActions } from '../../redux/slices/orderDataSlice';
 import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
+  const [documentTitle, setDocumentTitle] = useState(document.title);
   const [loading, setLoading] = useState(false);
+  const [actualID, setActualID] = useState(uuidv4().slice(0, 8).toUpperCase());
   /* eslint-disable */
   const { register, handleSubmit, reset, setValue } = useForm();
   /* eslint-enable */
@@ -30,10 +32,18 @@ function Order() {
   /* eslint-enable */
   const dispatch = useDispatch();
 
+  const handlePrint = () => {
+    const prevTitle = documentTitle;
+    const uniqueName = `Orden_${actualID}_MerkautoEC.pdf`;
+
+    document.title = uniqueName;
+    window.print();
+    setDocumentTitle(prevTitle);
+    document.title = documentTitle;
+  };
+
   const onSubmit = async (data) => {
     const actualDate = document.querySelector('#actualDate').innerText;
-    const id = uuidv4().slice(0, 8).toUpperCase();
-
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
     const workData = getFieldsData(data, 't_');
@@ -43,14 +53,16 @@ function Order() {
       .map((equipment) => equipment.id);
 
     const JSONDATA = {
-      id,
+      id: actualID,
       fecha: actualDate,
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
       equipamento: selectedEquipment,
     };
+
     NotificationManager.info('Envíando..', 'Información');
+    handlePrint();
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
@@ -62,7 +74,7 @@ function Order() {
 
   const checkOrderSubmit = async () => {
     const orderData = document.querySelector('#f_orden').value;
-    NotificationManager.info('Consultando..', 'Información');
+    NotificationManager.info('Consultando..', 'Información', 1500);
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.getOrderByID(orderData));
@@ -71,12 +83,9 @@ function Order() {
 
   const clearForm = () => reset();
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   useEffect(() => {
     if (selectedOrder) {
+      setActualID(uuidv4().slice(0, 8).toUpperCase());
       if (!selectedOrder.id) {
         reset();
         return;
@@ -109,18 +118,14 @@ function Order() {
 
   return (
     <>
-      <Heading text="Orden de Recepción" />
+      <Heading text="Orden de Recepción" element={actualID} />
       <div>
-        {/* eslint-disable */}
         <section
-          className={`container max-w-screen-lg p-4 mx-auto border  ${
+          className={`container max-w-screen-lg p-4 mx-auto border   ${
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
           <ul className="grid gap-2 p-0 list-none print:hidden">
-            <li className="h-10 text-center sm:text-left">
-              <h2 className="text-base font-bold md:text-lg">Formulario</h2>
-            </li>
             <li className="flex flex-col w-full gap-2 sm:items-center sm:flex-row">
               <fieldset className="grow">
                 <Input
@@ -131,11 +136,11 @@ function Order() {
                   method={register}
                 />
               </fieldset>
-              <fieldset className="grid grid-cols-2 print:hidden">
+              <fieldset className="grid grid-cols-2 gap-1 print:hidden">
                 <button
                   type="button"
                   onClick={checkOrderSubmit}
-                  className="flex items-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-search" />
@@ -144,7 +149,7 @@ function Order() {
                 <button
                   type="button"
                   onClick={clearForm}
-                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                  className="flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105"
                   id="submit"
                 >
                   <i className="fas fa-trash" />
@@ -157,12 +162,12 @@ function Order() {
             action="#"
             id="form"
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-8 print:mt-5 "
+            className="mt-3 print:mt-1"
           >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
               <ul className="grid gap-2 p-0 list-none">
-                <li className="h-10 text-center sm:text-left">
+                <li className="h-8 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Cliente
                   </h2>
@@ -184,6 +189,7 @@ function Order() {
                   name="cl_propietario"
                   id="cl_propietario"
                   method={register}
+                  isRequired={false}
                 />
                 <Input
                   label="Dirección"
@@ -204,6 +210,7 @@ function Order() {
                     id="cl_telefono"
                     type="tel"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <Input
@@ -223,7 +230,7 @@ function Order() {
               </ul>
               {/* Datos del Vehículo */}
               <ul className="grid gap-2 p-0 list-none">
-                <li className="h-10 text-center sm:text-left">
+                <li className="h-8 text-center sm:text-left">
                   <h2 className="text-base font-bold md:text-lg">
                     Datos del Vehículo
                   </h2>
@@ -241,6 +248,7 @@ function Order() {
                     name="v_clave"
                     id="v_clave"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
@@ -256,6 +264,7 @@ function Order() {
                     id="v_color"
                     type="color"
                     method={register}
+                    isRequired={false}
                   />
                 </div>
                 <div className="grid gap-3 sm:grid-cols-3">
@@ -308,17 +317,13 @@ function Order() {
                   name="v_detalle"
                   id="v_detalle"
                   method={register}
+                  isRequired={false}
                 />
               </ul>
             </fieldset>
             <TextArea
               name="t_mecanica"
-              label="Trabajos de Mecánica / Electricidad / Aire Acondicionado"
-              method={register}
-            />
-            <TextArea
-              name="t_pintura"
-              label="Trabajos de Pintura"
+              label="Trabajos de Mecánica / Electricidad / Aire Acondicionado / Pintura"
               method={register}
             />
             <fieldset className="grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]">
@@ -329,7 +334,7 @@ function Order() {
                   </h2>
                 </header>
                 <div className="grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3">
-                  {equipmentFields.map((equipment, index) => (
+                  {equipmentFields.map((equipment) => (
                     <Checkbox
                       key={equipment.id}
                       id={equipment.id}
@@ -370,7 +375,7 @@ function Order() {
               </button>
               <button
                 type="button"
-                className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                className="items-center hidden gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="printButton"
                 onClick={handlePrint}
               >

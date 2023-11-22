@@ -24,7 +24,7 @@ export const vehicleDataSlice = createSlice({
       if (!vehicleSelected) {
         state.vehicleArray = [...state.vehicleArray, action.payload];
         localStorage.setItem('vehiculos', JSON.stringify(state.vehicleArray));
-        NotificationManager.success('¡Vehículo Registrado!', 'Exíto');
+        NotificationManager.success('¡Vehículo Registrado!', 'Exíto', 1500);
       }
     },
     getVehicleByID: (state, action) => {
@@ -35,10 +35,10 @@ export const vehicleDataSlice = createSlice({
       );
 
       if (vehicleSelected) {
-        NotificationManager.success('Vehículo Encontrado!', 'Exíto');
+        NotificationManager.success('Vehículo Encontrado!', 'Exíto', 1500);
         state.selectedVehicle = vehicleSelected;
       } else {
-        NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo');
+        NotificationManager.error('¡Vehículo no Encontrado!', 'Fallo', 1500);
         state.selectedVehicle = {};
       }
     },
