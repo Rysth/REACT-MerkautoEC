@@ -12,7 +12,9 @@ import { orderDataActions } from '../../redux/slices/orderDataSlice';
 import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
+  const [documentTitle, setDocumentTitle] = useState(document.title);
   const [loading, setLoading] = useState(false);
+  const [actualID, setActualID] = useState(uuidv4().slice(0, 8).toUpperCase());
   /* eslint-disable */
   const { register, handleSubmit, reset, setValue } = useForm();
   /* eslint-enable */
@@ -30,10 +32,18 @@ function Order() {
   /* eslint-enable */
   const dispatch = useDispatch();
 
+  const handlePrint = () => {
+    const prevTitle = documentTitle;
+    const uniqueName = `Orden_${actualID}_MerkautoEC.pdf`;
+
+    document.title = uniqueName;
+    window.print();
+    setDocumentTitle(prevTitle);
+    document.title = documentTitle;
+  };
+
   const onSubmit = async (data) => {
     const actualDate = document.querySelector('#actualDate').innerText;
-    const id = uuidv4().slice(0, 8).toUpperCase();
-
     const clientData = getFieldsData(data, 'cl_');
     const vehicleData = getFieldsData(data, 'v_');
     const workData = getFieldsData(data, 't_');
@@ -43,14 +53,16 @@ function Order() {
       .map((equipment) => equipment.id);
 
     const JSONDATA = {
-      id,
+      id: actualID,
       fecha: actualDate,
       cliente: clientData,
       vehiculo: vehicleData,
       trabajos: workData,
       equipamento: selectedEquipment,
     };
+
     NotificationManager.info('Envíando..', 'Información');
+    handlePrint();
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 1000));
     dispatch(orderDataActions.addNewOrder(JSONDATA));
@@ -71,12 +83,9 @@ function Order() {
 
   const clearForm = () => reset();
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   useEffect(() => {
     if (selectedOrder) {
+      setActualID(uuidv4().slice(0, 8).toUpperCase());
       if (!selectedOrder.id) {
         reset();
         return;
@@ -109,10 +118,10 @@ function Order() {
 
   return (
     <>
-      <Heading text="Orden de Recepción" />
+      <Heading text="Orden de Recepción" element={actualID} />
       <div>
         <section
-          className={`container max-w-screen-lg p-4 mx-auto border rounded-b-lg  ${
+          className={`container max-w-screen-lg p-4 mx-auto border   ${
             loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
           }`}
         >
@@ -153,7 +162,7 @@ function Order() {
             action="#"
             id="form"
             onSubmit={handleSubmit(onSubmit)}
-            className="mt-5 print:mt-1"
+            className="mt-3 print:mt-1"
           >
             <fieldset className="grid gap-8 md:gap-12 sm:grid-cols-2">
               {/* Datos del Cliente */}
@@ -366,7 +375,7 @@ function Order() {
               </button>
               <button
                 type="button"
-                className="flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
+                className="items-center hidden gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105"
                 id="printButton"
                 onClick={handlePrint}
               >

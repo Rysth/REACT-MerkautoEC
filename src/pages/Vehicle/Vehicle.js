@@ -55,7 +55,7 @@ function Vehicle() {
   return (
     <div>
       {selectedVehicle && true}
-      <Heading text="Control de Taller" />
+      <Heading text="Control de Taller" element="" />
       <NotificationContainer />
       <section
         className={`container max-w-screen-lg p-4 mx-auto border  ${
