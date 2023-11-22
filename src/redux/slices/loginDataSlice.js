@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
 const activeStatusFromSession = localStorage.getItem('active');
-console.log(activeStatusFromSession);
 
 const credentials = {
   email: 'admin@merkautoec.com',
