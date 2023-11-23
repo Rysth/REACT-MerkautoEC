@@ -5,10 +5,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import Header from './components/Header/Header';
-import Order from './pages/Order/Order';
-import OrderList from './pages/Order/OrderList';
-import Login from './pages/Login/Login';
 import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png';
 
@@ -27,35 +23,19 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute isAllowed={!active} redirectTo="/orden">
+              <ProtectedRoute isAllowed={!active} redirectTo="/">
                 <Login />
               </ProtectedRoute>
             }
           />
-          <Route
+          {/* <Route
             path="/orden"
             element={
               <ProtectedRoute isAllowed={active} redirectTo="/">
                 <Order />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/listado"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <OrderList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <Order />
-              </ProtectedRoute>
-            }
-          />
+          /> */}
         </Routes>
       </main>
       <footer className="mt-auto">
