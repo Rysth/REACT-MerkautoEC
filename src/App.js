@@ -9,7 +9,6 @@ import Header from './components/Header/Header';
 import Order from './pages/Order/Order';
 import OrderList from './pages/Order/OrderList';
 import Login from './pages/Login/Login';
-import Vehicle from './pages/Vehicle/Vehicle';
 import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png';
 
@@ -46,14 +45,6 @@ function App() {
             element={
               <ProtectedRoute isAllowed={active} redirectTo="/">
                 <OrderList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/consultar"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <Vehicle />
               </ProtectedRoute>
             }
           />
