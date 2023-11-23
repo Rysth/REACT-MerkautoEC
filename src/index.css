@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --CL-primary-blue: #3044bc;
+}
+
 .active {
   @apply text-white bg-black;
 }

@@ -5,8 +5,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import RysthImage from './assets/images/brand/logo_rysthcraft.png';
-import CoficImage from './assets/images/brand/logo_cofic.png';
+import Login from './pages/Login/Login';
+/* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
+import CoficImage from './assets/images/brand/logo_cofic.png'; */
 
 /* eslint-disable */
 function App() {
@@ -16,7 +17,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Header />
       <main>
         <NotificationContainer />
         <Routes>
@@ -38,7 +38,7 @@ function App() {
           /> */}
         </Routes>
       </main>
-      <footer className="mt-auto">
+      {/* <footer className="mt-auto">
         <div className="flex justify-between max-w-screen-lg p-4 mx-auto border-t-0 border-b rounded-b-lg border-x">
           <div className="">
             <a
@@ -61,7 +61,7 @@ function App() {
             </a>
           </div>
         </div>
-      </footer>
+      </footer> */}
     </BrowserRouter>
   );
 }
