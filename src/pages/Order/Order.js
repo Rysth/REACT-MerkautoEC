@@ -14,12 +14,13 @@ import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 function Order() {
   const [documentTitle, setDocumentTitle] = useState(document.title);
   const [loading, setLoading] = useState(false);
-  const [actualID, setActualID] = useState(uuidv4().slice(0, 8).toUpperCase());
+  const { selectedOrder, orderArray } = useSelector((store) => store.orders);
+  const [actualID, setActualID] = useState('');
+  const [actualPlaca, setActualPlaca] = useState('');
   /* eslint-disable */
   const { register, handleSubmit, reset, setValue } = useForm();
   /* eslint-enable */
   const { equipmentFields } = useSelector((store) => store.equipment);
-  const { selectedOrder } = useSelector((store) => store.orders);
 
   /* eslint-disable */
   const getFieldsData = (data, prefix) => {
@@ -33,13 +34,15 @@ function Order() {
   const dispatch = useDispatch();
 
   const handlePrint = () => {
-    const prevTitle = documentTitle;
-    const uniqueName = `Orden_${actualID}_MerkautoEC.pdf`;
+    if (actualPlaca !== '') {
+      const prevTitle = documentTitle;
+      const uniqueName = `ORDEN_${actualID}_${actualPlaca}.pdf`;
 
-    document.title = uniqueName;
-    window.print();
-    setDocumentTitle(prevTitle);
-    document.title = documentTitle;
+      document.title = uniqueName;
+      window.print();
+      setDocumentTitle(prevTitle);
+      document.title = documentTitle;
+    }
   };
 
   const onSubmit = async (data) => {
@@ -53,6 +56,7 @@ function Order() {
       .map((equipment) => equipment.id);
 
     vehicleData.placa = vehicleData.placa.toUpperCase();
+    setActualPlaca(vehicleData.placa);
 
     const JSONDATA = {
       id: actualID,
@@ -119,6 +123,22 @@ function Order() {
       });
     }
   }, [selectedOrder, setValue, reset]);
+
+  useEffect(() => {
+    if (orderArray.length > 0) {
+      // Calculate the next incremental order number
+      const nextOrderNumber = orderArray.length + 1;
+
+      // Format the order number with leading zeros
+      const formattedNumber = nextOrderNumber.toString().padStart(7, '0');
+
+      // Set the actualID
+      setActualID(formattedNumber);
+    } else {
+      // If there are no existing orders, set a default order number
+      setActualID('0000001');
+    }
+  }, [orderArray]);
 
   return (
     <>
