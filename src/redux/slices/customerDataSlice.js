@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   customersArray: [
     {
-      id: '0000001',
+      id: '1',
       cedula: '0931237663',
       nombre: 'John Palacios',
       celular: '0988949117',
@@ -11,7 +11,7 @@ const initialState = {
       estado: 'Activo',
     },
     {
-      id: '0000002',
+      id: '2',
       cedula: '0934567890',
       nombre: 'Maria Rodriguez',
       celular: '0998765432',
@@ -19,7 +19,7 @@ const initialState = {
       estado: 'Inactivo',
     },
     {
-      id: '0000003',
+      id: '3',
       cedula: '0939876543',
       nombre: 'Carlos Gomez',
       celular: '0976543210',
@@ -50,6 +50,16 @@ const customersSlice = createSlice({
         (element) => element.id !== elementID,
       );
       state.customersArray = newArray;
+      state.matchedElements = state.customersArray;
+    },
+    addNewCustomer: (state, action) => {
+      const customerData = action.payload;
+      const customerQuantity = state.customersArray.length + 1;
+
+      state.customersArray = [
+        ...state.customersArray,
+        { ...customerData, id: customerQuantity, estado: 'Activo' },
+      ];
       state.matchedElements = state.customersArray;
     },
     /* eslint-enable */

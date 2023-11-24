@@ -1,72 +1,95 @@
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+import { customerDataActions } from '../../redux/slices/customerDataSlice';
 
 function OrderModal({ handleModalClose }) {
+  const dispatch = useDispatch();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    // Handle form submission logic with the form data
+    dispatch(customerDataActions.addNewCustomer(data));
+    // Close the modal
+    handleModalClose();
+  };
+
   return (
     <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black bg-opacity-75 z-[100]">
       <article className="p-5 bg-white rounded-lg w-[30rem]">
         <header>
-          <h2 className="text-xl font-bold sm:text-3xl">Nueva Orden</h2>
+          <h2 className="text-xl font-bold sm:text-3xl">Nuevo Cliente</h2>
         </header>
-        <form action="#" className="grid gap-5 mt-5 text-sm">
-          <fieldset className="">
+        {/* eslint-disable */}
+        <form
+          action="#"
+          className="grid gap-5 mt-5 text-sm"
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <fieldset className="grid gap-3 sm:grid-cols-2">
             <label
-              htmlFor="cliente"
+              htmlFor="cedula"
               className="relative grid gap-2 font-semibold"
             >
-              Cliente:
-              <span className="flex gap-2">
-                <input
-                  type="text"
-                  className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
-                  placeholder="Cédula.."
-                />
-                <button
-                  type="button"
-                  aria-label="Cliente identifier"
-                  className=" btn btn-info"
-                >
-                  Buscar
-                </button>
-              </span>
+              Cédula:
+              <input
+                id="cedula"
+                type="text"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('cedula')}
+              />
+            </label>
+            <label
+              htmlFor="nombre"
+              className="relative grid gap-2 font-semibold"
+            >
+              Nombre:
+              <input
+                id="nombre"
+                type="text"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('nombre')}
+              />
             </label>
           </fieldset>
-          <fieldset className="">
+          <fieldset className="grid gap-3 sm:grid-cols-2">
             <label
-              htmlFor="vehiculo"
+              htmlFor="celular"
               className="relative grid gap-2 font-semibold"
             >
-              Vehículo:
-              <span className="flex gap-2">
-                <input
-                  type="text"
-                  className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
-                  placeholder="Placa.."
-                />
-                <button
-                  type="button"
-                  aria-label="Cliente identifier"
-                  className=" btn btn-info"
-                >
-                  Buscar
-                </button>
-              </span>
+              Celular:
+              <input
+                type="text"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('celular')}
+              />
+            </label>
+            <label
+              htmlFor="email"
+              className="relative grid gap-2 font-semibold"
+            >
+              Email:
+              <input
+                type="email"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('email')}
+              />
             </label>
           </fieldset>
           <fieldset>
             <label
-              htmlFor="kilometraje"
+              htmlFor="direccion"
               className="relative grid gap-2 font-semibold"
             >
-              Kilometraje:
-              <span className="flex gap-2">
-                <input
-                  type="text"
-                  className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
-                  placeholder="Cantidad.."
-                />
-              </span>
+              Dirección:
+              <input
+                type="text"
+                className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('direccion')}
+              />
             </label>
           </fieldset>
+          {/* eslint-enable */}
           <fieldset className="flex items-center justify-end gap-1">
             <button type="submit" className="float-right btn btn-success">
               Guardar
