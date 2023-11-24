@@ -17,15 +17,15 @@ function Sidebar() {
     <aside className="h-screen">
       <nav
         className={`flex flex-col h-full p-3 bg-white transition-all ${
-          expanded ? 'w-[16rem]' : 'w-[3.5rem]'
+          expanded ? 'sm:w-[12rem] lg:w-[16rem]' : 'w-[3.5rem]'
         }`}
       >
         <picture className="relative flex justify-center py-4 border-b h-[4rem]">
           <img
             src={MerkautoImage}
             alt="MerkautoEC's brand logo"
-            className={`w-40  transition-all ${
-              expanded ? 'w-44' : 'object-contain'
+            className={`w-40  transition-all  object-contain ${
+              expanded ? 'w-44' : ''
             }`}
           />
           <button

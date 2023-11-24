@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import Login from './pages/Login/Login';
+import Order from './pages/Login/Order/Order';
 import Sidebar from './components/Sidebar/Sidebar';
 /* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png'; */
@@ -22,13 +22,13 @@ function App() {
         <Sidebar />
         <NotificationContainer />
         <section className="flex-1 p-6">
-          <div className="h-full p-4 bg-white rounded-2xl">
+          <div className="h-full p-6 py-8 bg-white rounded-2xl">
             <Routes>
               <Route
                 path="/"
                 element={
                   <ProtectedRoute isAllowed={!active} redirectTo="/">
-                    <Login />
+                    <Order />
                   </ProtectedRoute>
                 }
               />

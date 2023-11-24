@@ -16,6 +16,14 @@ body {
   @apply text-white bg-[var(--CL-primary-blue)] rounded-lg;
 }
 
+.btn {
+  @apply px-3 py-1.5 border rounded-lg md:hover:bg-black md:hover:shadow-lg md:transition-all md:hover:scale-105 md:active:scale-95;
+}
+
+.btn-info {
+  @apply bg-[var(--CL-primary-blue)] text-white;
+}
+
 .status-circle.placed {
   position: absolute;
   z-index: 1000;
