@@ -125,6 +125,14 @@ const ordersSlice = createSlice({
         element.vehiculo.toUpperCase().includes(searchFilter),
       );
     },
+    deleteOrder: (state, action) => {
+      const elementID = action.payload.toUpperCase();
+      const newArray = state.ordersArray.filter(
+        (element) => element.id !== elementID,
+      );
+      state.ordersArray = newArray;
+      state.matchedOrders = state.ordersArray;
+    },
     /* eslint-enable */
   },
 });

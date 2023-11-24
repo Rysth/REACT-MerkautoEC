@@ -18,6 +18,10 @@ function Order() {
     }
   };
 
+  const handleDeleteOrder = (elementID) => {
+    dispatch(orderDataActions.deleteOrder(elementID));
+  };
+
   useEffect(() => {
     dispatch(orderDataActions.startArrays());
   }, [dispatch]);
@@ -81,6 +85,9 @@ function Order() {
                       type="button"
                       aria-label="Edit button"
                       className="text-white bg-red-700 btn"
+                      onClick={() => {
+                        handleDeleteOrder(data.id);
+                      }}
                     >
                       Eliminar
                     </button>
