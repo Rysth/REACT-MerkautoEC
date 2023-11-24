@@ -29,6 +29,10 @@ body {
 }
 
 .status-active {
+  @apply bg-teal-300;
+}
+
+.status-complete {
   @apply bg-green-300;
 }
 

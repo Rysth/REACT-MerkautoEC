@@ -1,10 +1,22 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { orderDataActions } from '../../../redux/slices/orderDataSlice';
 
 function Order() {
-  const { ordersArray } = useSelector((store) => store.orders);
+  const [searchData, setSearchData] = useState('');
+  const { matchedOrders } = useSelector((store) => store.orders);
+  const dispatch = useDispatch();
 
-  useEffect(() => {}, [ordersArray]);
+  const handleSearchData = (event) => {
+    const inputValue = event.target.value;
+    setSearchData(inputValue);
+
+    if (searchData === '') {
+      dispatch(orderDataActions.setCopyToMatched());
+    } else {
+      dispatch(orderDataActions.searchOrder(inputValue));
+    }
+  };
 
   return (
     <section className="h-full">
@@ -20,14 +32,8 @@ function Order() {
             aria-label="Orden/Placa searcher"
             className="flex-1 px-3 py-1.5 rounded-lg border focus:outline-none focus:border-gray-500"
             placeholder="Buscar..."
+            onChange={handleSearchData}
           />
-          <button
-            type="button"
-            aria-label="Search button"
-            className="btn btn-info"
-          >
-            Buscar
-          </button>
         </div>
         <div className="flex-1 w-full mt-5 overflow-auto">
           <table className="w-full h-full text-sm ">
@@ -42,14 +48,22 @@ function Order() {
               </tr>
             </thead>
             <tbody>
-              {ordersArray.map((data) => (
+              {matchedOrders.map((data) => (
                 <tr key={data.id} className="w-full py-2 text-sm">
                   <td className="py-2">{data.id}</td>
                   <td className="py-2">{data.cliente}</td>
                   <td className="py-2">{data.vehiculo}</td>
                   <td className="py-2">{data.fecha}</td>
                   <td className="py-2 text-center">
-                    <span className="status status-active">{data.estado}</span>
+                    <span
+                      className={`status ${
+                        data.estado === 'Activo'
+                          ? 'status-active'
+                          : 'status-complete'
+                      }`}
+                    >
+                      {data.estado}
+                    </span>
                   </td>
                   <td className="flex items-center justify-center gap-3 py-2">
                     <button

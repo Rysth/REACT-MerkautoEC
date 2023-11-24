@@ -73,12 +73,27 @@ const initialState = {
       estado: 'Completo',
     },
   ],
+  matchedOrders: [],
 };
 
 const ordersSlice = createSlice({
   name: 'orders',
   initialState,
-  reducers: {},
+  reducers: {
+    /* eslint-disable */
+    setCopyToMatched: (state) => {
+      state.matchedOrders = state.ordersArray;
+    },
+    searchOrder: (state, action) => {
+      const searchFilter = action.payload.toUpperCase();
+      state.matchedOrders = state.ordersArray.filter((element) =>
+        element.vehiculo.toUpperCase().includes(searchFilter),
+      );
+    },
+    /* eslint-enable */
+  },
 });
+
+export const orderDataActions = ordersSlice.actions;
 
 export default ordersSlice.reducer;
