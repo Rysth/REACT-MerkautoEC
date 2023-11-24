@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { orderDataActions } from '../../../redux/slices/orderDataSlice';
+import OrderModal from './OrderModal';
 
 function Order() {
   const [searchData, setSearchData] = useState('');
@@ -49,10 +50,10 @@ function Order() {
               <tr className="font-normal text-left">
                 <th className="w-40 pb-2 font-normal ">#</th>
                 <th className="w-48 pb-2 font-normal">Cliente</th>
-                <th className="w-40 pb-2 font-normal">Vehículo</th>
-                <th className="w-48 pb-2 font-normal">Fecha</th>
+                <th className="w-48 pb-2 font-normal">Vehículo</th>
+                <th className="w-32 pb-2 font-normal">Fecha</th>
                 <th className="w-32 pb-2 font-normal">Estado</th>
-                <th className="pb-2 font-normal w-60">Acciones</th>
+                <th className="w-32 pb-2 font-normal">Acciones</th>
               </tr>
             </thead>
             <tbody className="">
@@ -84,7 +85,7 @@ function Order() {
                     <button
                       type="button"
                       aria-label="Edit button"
-                      className="text-white bg-red-700 btn"
+                      className="hidden text-white bg-red-700 btn"
                       onClick={() => {
                         handleDeleteOrder(data.id);
                       }}
@@ -107,6 +108,7 @@ function Order() {
           Crear
         </button>
       </div>
+      <OrderModal />
     </section>
   );
 }
