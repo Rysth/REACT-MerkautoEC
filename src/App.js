@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import Order from './pages/Login/Order/Order';
+import Order from './pages/Order/Order';
 import Sidebar from './components/Sidebar/Sidebar';
 /* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png'; */

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { orderDataActions } from '../../../redux/slices/orderDataSlice';
+import { orderDataActions } from '../../redux/slices/orderDataSlice';
 import OrderModal from './OrderModal';
 
 function Order() {
   const [searchData, setSearchData] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const { matchedOrders } = useSelector((store) => store.orders);
   const dispatch = useDispatch();
 
@@ -21,6 +22,14 @@ function Order() {
 
   const handleDeleteOrder = (elementID) => {
     dispatch(orderDataActions.deleteOrder(elementID));
+  };
+
+  const handleModalOpen = () => {
+    setShowModal(true);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
   };
 
   useEffect(() => {
@@ -104,11 +113,14 @@ function Order() {
           type="button"
           aria-label="New Order button"
           className="btn btn-success"
+          onClick={() => {
+            handleModalOpen();
+          }}
         >
           Crear
         </button>
       </div>
-      <OrderModal />
+      {showModal && <OrderModal handleModalClose={handleModalClose} />}
     </section>
   );
 }
