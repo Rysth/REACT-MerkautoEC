@@ -17,11 +17,19 @@ body {
 }
 
 .btn {
-  @apply px-3 py-1.5 border rounded-lg md:hover:bg-black md:hover:shadow-lg md:transition-all md:hover:scale-105 md:active:scale-95;
+  @apply px-3 py-1.5 border rounded-lg md:hover:bg-black md:hover:shadow-lg md:transition-all md:hover:scale-105 md:active:scale-95 cursor-pointer text-xs w-20;
 }
 
 .btn-info {
   @apply bg-[var(--CL-primary-blue)] text-white;
+}
+
+.status {
+  @apply px-3 py-1.5 border rounded-lg pointer-events-none text-xs w-full inline-block font-semibold;
+}
+
+.status-active {
+  @apply bg-green-300;
 }
 
 .status-circle.placed {

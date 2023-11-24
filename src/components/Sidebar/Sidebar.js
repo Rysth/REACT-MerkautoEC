@@ -17,7 +17,7 @@ function Sidebar() {
     <aside className="h-screen">
       <nav
         className={`flex flex-col h-full p-3 bg-white transition-all ${
-          expanded ? 'sm:w-[12rem] lg:w-[16rem]' : 'w-[3.5rem]'
+          expanded ? 'sm:w-[12rem] lg:w-[15rem]' : 'w-[3.5rem]'
         }`}
       >
         <picture className="relative flex justify-center py-4 border-b h-[4rem]">
