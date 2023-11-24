@@ -59,7 +59,6 @@ function Customer() {
                 <th className="w-48 pb-2 font-normal">Nombre</th>
                 <th className="w-32 pb-2 font-normal">Celular</th>
                 <th className="w-32 pb-2 font-normal">Email</th>
-                <th className="w-32 pb-2 font-normal">Estado</th>
                 <th className="w-32 pb-2 font-normal">Acciones</th>
               </tr>
             </thead>
@@ -71,17 +70,6 @@ function Customer() {
                   <td className="py-2">{data.nombre}</td>
                   <td className="py-2">{data.celular}</td>
                   <td className="py-2">{data.email}</td>
-                  <td className="py-2 text-center">
-                    <span
-                      className={`status ${
-                        data.estado === 'Activo'
-                          ? 'status-active'
-                          : 'status-complete'
-                      }`}
-                    >
-                      {data.estado}
-                    </span>
-                  </td>
                   <td className="flex items-center justify-center gap-3 py-2">
                     <button
                       type="button"

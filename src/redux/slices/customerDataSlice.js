@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { NotificationManager } from 'react-notifications';
 
 const initialState = {
   customersArray: [
@@ -8,7 +9,6 @@ const initialState = {
       nombre: 'John Palacios',
       celular: '0988949117',
       email: 'johnpalacios.t@gmail.com',
-      estado: 'Activo',
     },
     {
       id: '2',
@@ -16,7 +16,6 @@ const initialState = {
       nombre: 'Maria Rodriguez',
       celular: '0998765432',
       email: 'maria.rodriguez@example.com',
-      estado: 'Inactivo',
     },
     {
       id: '3',
@@ -24,7 +23,6 @@ const initialState = {
       nombre: 'Carlos Gomez',
       celular: '0976543210',
       email: 'carlos.gomez@example.com',
-      estado: 'Activo',
     },
   ],
   matchedElements: [],
@@ -55,12 +53,21 @@ const customersSlice = createSlice({
     addNewCustomer: (state, action) => {
       const customerData = action.payload;
       const customerQuantity = state.customersArray.length + 1;
+      const customerExist = state.customersArray.find(
+        (element) =>
+          element.cedula.toUpperCase() === customerData.cedula.toUpperCase(),
+      );
 
-      state.customersArray = [
-        ...state.customersArray,
-        { ...customerData, id: customerQuantity, estado: 'Activo' },
-      ];
-      state.matchedElements = state.customersArray;
+      if (!customerExist) {
+        state.customersArray = [
+          ...state.customersArray,
+          { ...customerData, id: customerQuantity, estado: 'Activo' },
+        ];
+        state.matchedElements = state.customersArray;
+        NotificationManager.success('¡Cliente Registrado!', 'Éxito');
+        return;
+      }
+      NotificationManager.error('¡Cliente ya Existe!', 'Fallo');
     },
     /* eslint-enable */
   },

@@ -4,8 +4,8 @@ import MerkautoImage from '../../assets/images/brand/brand.png';
 
 /* eslint-disable */
 const sidebarItems = [
-  { id: 1, route: '/', text: 'Inicio', icon: 'fa-list' },
-  { id: 2, route: '/clientes', text: 'Clientes', icon: 'fa-user' },
+  { id: 1, route: '/clientes', text: 'Clientes', icon: 'fa-user' },
+  { id: 2, route: '/ordenes', text: 'Ordenes', icon: 'fa-list' },
 ];
 /* eslint-enable */
 

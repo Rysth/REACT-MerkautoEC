@@ -37,6 +37,7 @@ function OrderModal({ handleModalClose }) {
                 type="text"
                 className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('cedula')}
+                required
               />
             </label>
             <label
@@ -49,6 +50,7 @@ function OrderModal({ handleModalClose }) {
                 type="text"
                 className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('nombre')}
+                required
               />
             </label>
           </fieldset>
@@ -62,6 +64,7 @@ function OrderModal({ handleModalClose }) {
                 type="text"
                 className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('celular')}
+                required
               />
             </label>
             <label
@@ -73,6 +76,7 @@ function OrderModal({ handleModalClose }) {
                 type="email"
                 className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('email')}
+                required
               />
             </label>
           </fieldset>
@@ -86,6 +90,7 @@ function OrderModal({ handleModalClose }) {
                 type="text"
                 className="flex-1 p-2 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('direccion')}
+                required
               />
             </label>
           </fieldset>
