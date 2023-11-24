@@ -21,7 +21,7 @@ function App() {
       <main className="bg-[var(--CL-primary-blue)] flex">
         <Sidebar />
         <NotificationContainer />
-        <section className="flex-1 p-6">
+        <section className="flex-1 p-6 overflow-hidden">
           <div className="h-full p-6 py-8 bg-white rounded-2xl">
             <Routes>
               <Route

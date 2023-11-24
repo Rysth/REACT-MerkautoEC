@@ -72,6 +72,41 @@ const initialState = {
       fecha: '2023-12-02',
       estado: 'Completo',
     },
+    {
+      id: '0000011',
+      cliente: 'Isaac Green',
+      vehiculo: 'OPQ-1111',
+      fecha: '2023-12-03',
+      estado: 'Activo',
+    },
+    {
+      id: '0000012',
+      cliente: 'Hannah Brown',
+      vehiculo: 'RST-2222',
+      fecha: '2023-12-04',
+      estado: 'Completo',
+    },
+    {
+      id: '0000013',
+      cliente: 'Oliver Black',
+      vehiculo: 'UVW-3333',
+      fecha: '2023-12-05',
+      estado: 'Activo',
+    },
+    {
+      id: '0000014',
+      cliente: 'Zoe White',
+      vehiculo: 'XYZ-4444',
+      fecha: '2023-12-06',
+      estado: 'Completo',
+    },
+    {
+      id: '0000015',
+      cliente: 'Nathan Grey',
+      vehiculo: 'JKL-5555',
+      fecha: '2023-12-07',
+      estado: 'Activo',
+    },
   ],
   matchedOrders: [],
 };
@@ -81,7 +116,7 @@ const ordersSlice = createSlice({
   initialState,
   reducers: {
     /* eslint-disable */
-    setCopyToMatched: (state) => {
+    startArrays: (state) => {
       state.matchedOrders = state.ordersArray;
     },
     searchOrder: (state, action) => {

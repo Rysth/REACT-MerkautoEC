@@ -24,6 +24,10 @@ body {
   @apply bg-[var(--CL-primary-blue)] text-white;
 }
 
+.btn-success {
+  @apply text-white bg-green-600;
+}
+
 .status {
   @apply px-3 py-1.5 border rounded-lg pointer-events-none text-xs w-full inline-block font-semibold;
 }
