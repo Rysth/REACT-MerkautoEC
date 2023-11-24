@@ -108,7 +108,7 @@ const initialState = {
       estado: 'Activo',
     },
   ],
-  matchedOrders: [],
+  matchedElements: [],
 };
 
 const ordersSlice = createSlice({
@@ -117,11 +117,11 @@ const ordersSlice = createSlice({
   reducers: {
     /* eslint-disable */
     startArrays: (state) => {
-      state.matchedOrders = state.ordersArray;
+      state.matchedElements = state.ordersArray;
     },
     searchOrder: (state, action) => {
       const searchFilter = action.payload.toUpperCase();
-      state.matchedOrders = state.ordersArray.filter((element) =>
+      state.matchedElements = state.ordersArray.filter((element) =>
         element.vehiculo.toUpperCase().includes(searchFilter),
       );
     },
@@ -131,7 +131,7 @@ const ordersSlice = createSlice({
         (element) => element.id !== elementID,
       );
       state.ordersArray = newArray;
-      state.matchedOrders = state.ordersArray;
+      state.matchedElements = state.ordersArray;
     },
     /* eslint-enable */
   },

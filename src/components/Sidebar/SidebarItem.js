@@ -24,7 +24,7 @@ function SidebarItem({ route, text, icon, context }) {
 SidebarItem.propTypes = {
   route: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
-  context: PropTypes.func.isRequired,
+  context: PropTypes.any.isRequired,
   icon: PropTypes.string.isRequired,
 };
 

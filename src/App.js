@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Order from './pages/Order/Order';
+import Customer from './pages/Customer/Customer';
 import Sidebar from './components/Sidebar/Sidebar';
 /* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png'; */
@@ -29,6 +30,14 @@ function App() {
                 element={
                   <ProtectedRoute isAllowed={!active} redirectTo="/">
                     <Order />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/clientes"
+                element={
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
+                    <Customer />
                   </ProtectedRoute>
                 }
               />

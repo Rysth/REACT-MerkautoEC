@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { orderDataActions } from '../../redux/slices/orderDataSlice';
-import OrderModal from './OrderModal';
+import { customerDataActions } from '../../redux/slices/customerDataSlice';
+import CustomerModal from './CustomerModal';
 import Heading from '../../components/Heading/Heading';
 
-function Order() {
+function Customer() {
   const [searchData, setSearchData] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const { matchedElements } = useSelector((store) => store.orders);
+  const { matchedElements } = useSelector((store) => store.customers);
   const dispatch = useDispatch();
 
   const handleSearchData = (event) => {
@@ -15,14 +15,14 @@ function Order() {
     setSearchData(inputValue);
 
     if (searchData === '') {
-      dispatch(orderDataActions.startArrays());
+      dispatch(customerDataActions.startArrays());
     } else {
-      dispatch(orderDataActions.searchOrder(inputValue));
+      dispatch(customerDataActions.searchCustomer(inputValue));
     }
   };
 
   const handleDeleteElement = (elementID) => {
-    dispatch(orderDataActions.deleteOrder(elementID));
+    dispatch(customerDataActions.deleteCustomer(elementID));
   };
 
   const handleModalOpen = () => {
@@ -34,12 +34,12 @@ function Order() {
   };
 
   useEffect(() => {
-    dispatch(orderDataActions.startArrays());
+    dispatch(customerDataActions.startArrays());
   }, [dispatch]);
 
   return (
     <section className="flex flex-col h-full">
-      <Heading text="Ordenes" />
+      <Heading text="Clientes" />
       <div className="flex flex-col max-h-[30rem] lg:max-h-[35rem]">
         <div className="flex items-center gap-2 py-4 text-sm">
           <input
@@ -54,10 +54,11 @@ function Order() {
           <table className="relative w-full text-sm min-w-[60rem]">
             <thead className="sticky top-0 text-gray-400 bg-white border-b">
               <tr className="font-normal text-left">
-                <th className="w-40 pb-2 font-normal ">#</th>
-                <th className="w-48 pb-2 font-normal">Cliente</th>
-                <th className="w-48 pb-2 font-normal">Vehículo</th>
-                <th className="w-32 pb-2 font-normal">Fecha</th>
+                <th className="w-20 pb-2 font-normal">#</th>
+                <th className="pb-2 font-normal w-28">Cedula</th>
+                <th className="w-48 pb-2 font-normal">Nombre</th>
+                <th className="w-32 pb-2 font-normal">Celular</th>
+                <th className="w-32 pb-2 font-normal">Email</th>
                 <th className="w-32 pb-2 font-normal">Estado</th>
                 <th className="w-32 pb-2 font-normal">Acciones</th>
               </tr>
@@ -66,9 +67,10 @@ function Order() {
               {matchedElements.map((data) => (
                 <tr key={data.id} className="py-2 text-sm ">
                   <td className="py-2">{data.id}</td>
-                  <td className="py-2">{data.cliente}</td>
-                  <td className="py-2">{data.vehiculo}</td>
-                  <td className="py-2">{data.fecha}</td>
+                  <td className="py-2">{data.cedula}</td>
+                  <td className="py-2">{data.nombre}</td>
+                  <td className="py-2">{data.celular}</td>
+                  <td className="py-2">{data.email}</td>
                   <td className="py-2 text-center">
                     <span
                       className={`status ${
@@ -117,9 +119,9 @@ function Order() {
           Crear
         </button>
       </div>
-      {showModal && <OrderModal handleModalClose={handleModalClose} />}
+      {showModal && <CustomerModal handleModalClose={handleModalClose} />}
     </section>
   );
 }
 
-export default Order;
+export default Customer;
