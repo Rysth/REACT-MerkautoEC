@@ -1,11 +1,5 @@
-import Sidebar from '../../components/Sidebar/Sidebar';
-
 function Login() {
-  return (
-    <div className="bg-[var(--CL-primary-blue)]">
-      <Sidebar />
-    </div>
-  );
+  return <div>Hello</div>;
 }
 
 export default Login;

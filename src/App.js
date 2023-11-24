@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Login from './pages/Login/Login';
+import Sidebar from './components/Sidebar/Sidebar';
 /* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png'; */
 
@@ -17,18 +18,21 @@ function App() {
 
   return (
     <BrowserRouter>
-      <main>
+      <main className="bg-[var(--CL-primary-blue)] flex">
+        <Sidebar />
         <NotificationContainer />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute isAllowed={!active} redirectTo="/">
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          {/* <Route
+        <section className="flex-1 p-6 py-4">
+          <div className="h-full p-4 bg-white rounded-2xl">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
+                    <Login />
+                  </ProtectedRoute>
+                }
+              />
+              {/* <Route
             path="/orden"
             element={
               <ProtectedRoute isAllowed={active} redirectTo="/">
@@ -36,7 +40,9 @@ function App() {
               </ProtectedRoute>
             }
           /> */}
-        </Routes>
+            </Routes>
+          </div>
+        </section>
       </main>
       {/* <footer className="mt-auto">
         <div className="flex justify-between max-w-screen-lg p-4 mx-auto border-t-0 border-b rounded-b-lg border-x">

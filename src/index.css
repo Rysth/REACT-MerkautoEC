@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,8 +8,12 @@
   --CL-primary-blue: #3044bc;
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
 .active {
-  @apply text-white bg-black;
+  @apply text-white bg-[var(--CL-primary-blue)] rounded-lg;
 }
 
 .status-circle.placed {
