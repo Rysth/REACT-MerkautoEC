@@ -32,9 +32,9 @@ function App() {
           <div className="h-full p-6 py-8 bg-white rounded-2xl">
             <Routes>
               <Route
-                path="/clientes"
+                path="/"
                 element={
-                  <ProtectedRoute isAllowed={!active} redirectTo="/clientes">
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
                     <Customer />
                   </ProtectedRoute>
                 }
