@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
 import 'react-notifications/lib/notifications.css';
-import { NotificationContainer } from 'react-notifications';
+import {
+  NotificationContainer,
+  NotificationManager,
+} from 'react-notifications';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -20,7 +23,9 @@ function App() {
   );
 
   useEffect(() => {
-    dispatch(fetchCustomers());
+    setTimeout(() => {
+      dispatch(fetchCustomers());
+    }, 1000);
   }, [dispatch]);
 
   return (

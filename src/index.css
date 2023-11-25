@@ -17,7 +17,7 @@ body {
 }
 
 .btn {
-  @apply px-3 py-1.5 border rounded-lg md:hover:bg-black md:hover:shadow-lg md:transition-all md:hover:scale-105 md:active:scale-95 cursor-pointer text-xs w-20;
+  @apply px-3 py-1.5 border rounded-lg md:hover:bg-black md:hover:shadow-lg md:transition-all md:hover:scale-105 md:active:scale-95 cursor-pointer text-xs;
 }
 
 .btn-info {

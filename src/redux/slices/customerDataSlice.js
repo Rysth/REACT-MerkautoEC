@@ -4,7 +4,7 @@ import { NotificationManager } from 'react-notifications';
 const initialState = {
   customersArray: [],
   matchedElements: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -18,7 +18,7 @@ async function fetchCsrfToken() {
   }
 }
 
-// Define an asynchronous thunk to fetch customers
+// GET customers#index
 export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
   async () => {
@@ -32,7 +32,7 @@ export const fetchCustomers = createAsyncThunk(
   },
 );
 
-// Define an asynchronous thunk to fetch customers
+// POST customers#create
 export const createCustomer = createAsyncThunk(
   'customers/createCustomer',
   async (customerData) => {
@@ -60,6 +60,7 @@ export const createCustomer = createAsyncThunk(
   },
 );
 
+// DELETE customers#destroy
 export const destroyCustomer = createAsyncThunk(
   'customers/destroyCustomer',
   async (customerID) => {
@@ -76,13 +77,44 @@ export const destroyCustomer = createAsyncThunk(
       );
 
       if (response.status !== 204) {
-        NotificationManager.error('Cliente no Encontrado.', 'Fallo');
+        NotificationManager.error('Cliente no Encontrado.', 'Fallo', 1500);
         throw new Error('Error deleting customer');
       }
 
-      NotificationManager.success('Cliente Eliminado.', 'Exito');
+      NotificationManager.success('Cliente Eliminado.', 'Exito', 1500);
     } catch (error) {
       throw new Error(`Error deleting customers: ${error.message}`);
+    }
+  },
+);
+
+// PUT customers#update
+export const updateCustomer = createAsyncThunk(
+  'customers/updateCustomer',
+  async ({ customerData, customerID }) => {
+    try {
+      const csrfToken = await fetchCsrfToken();
+      const response = await fetch(
+        `http://localhost:4000/api/customers/${customerID}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': csrfToken,
+          },
+          credentials: 'include',
+          body: JSON.stringify(customerData),
+        },
+      );
+
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        throw new Error(
+          `Error updating customer: ${response.status} - ${errorResponse.message}`,
+        );
+      }
+    } catch (error) {
+      throw new Error(`Error updating customers: ${error.message}`);
     }
   },
 );
@@ -100,33 +132,6 @@ const customersSlice = createSlice({
       state.matchedElements = state.customersArray.filter((element) =>
         element.cedula.toUpperCase().includes(searchFilter),
       );
-    },
-    deleteCustomer: (state, action) => {
-      const elementID = action.payload.toUpperCase();
-      const newArray = state.customersArray.filter(
-        (element) => element.id !== elementID,
-      );
-      state.customersArray = newArray;
-      state.matchedElements = state.customersArray;
-    },
-    addNewCustomer: (state, action) => {
-      const customerData = action.payload;
-      const customerQuantity = state.customersArray.length + 1;
-      const customerExist = state.customersArray.find(
-        (element) =>
-          element.cedula.toUpperCase() === customerData.cedula.toUpperCase(),
-      );
-
-      if (!customerExist) {
-        state.customersArray = [
-          ...state.customersArray,
-          { ...customerData, id: customerQuantity, estado: 'Activo' },
-        ];
-        state.matchedElements = state.customersArray;
-        NotificationManager.success('¡Cliente Registrado!', 'Éxito');
-        return;
-      }
-      NotificationManager.error('¡Cliente ya Existe!', 'Fallo');
     },
     /* eslint-enable */
   },

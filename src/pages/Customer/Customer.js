@@ -11,6 +11,7 @@ import Heading from '../../components/Heading/Heading';
 function Customer() {
   const [searchData, setSearchData] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [customerSelected, setCustomerSelected] = useState(null);
   const { matchedElements } = useSelector((store) => store.customers);
   const dispatch = useDispatch();
 
@@ -29,7 +30,15 @@ function Customer() {
     dispatch(destroyCustomer(elementID)).then(() => dispatch(fetchCustomers()));
   };
 
-  const handleModalOpen = () => {
+  const handleModalOpen = (customerID = null) => {
+    if (customerID) {
+      setCustomerSelected(
+        matchedElements.find((customer) => customer.id === customerID),
+      );
+    } else {
+      setCustomerSelected(null);
+    }
+
     setShowModal(true);
   };
 
@@ -38,10 +47,8 @@ function Customer() {
   };
 
   useEffect(() => {
-    dispatch(customerDataActions.startArrays());
-  }, [dispatch]);
-
-  useEffect(() => {}, [matchedElements]);
+    console.log(matchedElements);
+  }, [matchedElements]);
 
   return (
     <section className="flex flex-col h-full">
@@ -81,13 +88,16 @@ function Customer() {
                       type="button"
                       aria-label="Edit button"
                       className="text-white bg-blue-600 btn"
+                      onClick={() => {
+                        handleModalOpen(data.id);
+                      }}
                     >
                       Editar
                     </button>
                     <button
                       type="button"
                       aria-label="Edit button"
-                      className="text-white btn-danger btn"
+                      className="hidden text-white btn-danger btn"
                       onClick={() => {
                         handleDeleteElement(data.id);
                       }}
@@ -113,7 +123,12 @@ function Customer() {
           Crear
         </button>
       </div>
-      {showModal && <CustomerModal handleModalClose={handleModalClose} />}
+      {showModal && (
+        <CustomerModal
+          handleModalClose={handleModalClose}
+          customerData={customerSelected}
+        />
+      )}
     </section>
   );
 }
