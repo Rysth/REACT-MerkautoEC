@@ -38,7 +38,6 @@ function Customer() {
     } else {
       setCustomerSelected(null);
     }
-
     setShowModal(true);
   };
 
@@ -46,9 +45,7 @@ function Customer() {
     setShowModal(false);
   };
 
-  useEffect(() => {
-    console.log(matchedElements);
-  }, [matchedElements]);
+  useEffect(() => {}, [matchedElements]);
 
   return (
     <section className="flex flex-col h-full">
@@ -97,7 +94,7 @@ function Customer() {
                     <button
                       type="button"
                       aria-label="Edit button"
-                      className="hidden text-white btn-danger btn"
+                      className="text-white  btn-danger btn"
                       onClick={() => {
                         handleDeleteElement(data.id);
                       }}

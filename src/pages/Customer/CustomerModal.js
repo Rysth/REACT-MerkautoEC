@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   createCustomer,
+  fetchCustomers,
   updateCustomer,
 } from '../../redux/slices/customerDataSlice';
 
@@ -11,15 +12,13 @@ function CustomerModal({ handleModalClose, customerData }) {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = (newData) => {
-    // Handle form submission logic with the form data
     if (customerData) {
       dispatch(
         updateCustomer({ customerData: newData, customerID: customerData.id }),
-      );
+      ).then(() => dispatch(fetchCustomers()));
     } else {
-      dispatch(createCustomer(newData));
+      dispatch(createCustomer(newData)).then(() => dispatch(fetchCustomers()));
     }
-
     handleModalClose();
   };
 

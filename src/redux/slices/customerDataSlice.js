@@ -136,31 +136,11 @@ const customersSlice = createSlice({
     /* eslint-enable */
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchCustomers.fulfilled, (state, action) => {
-        state.customersArray = action.payload;
-        state.matchedElements = action.payload;
-        state.loading = false;
-      })
-      .addCase(fetchCustomers.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchCustomers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      })
-      .addCase(createCustomer.fulfilled, (state, action) => {
-        state.customersArray = [...state.customersArray, action.payload];
-        state.matchedElements = state.customersArray;
-        state.loading = false;
-      })
-      .addCase(createCustomer.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(createCustomer.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.error.message;
-      });
+    builder.addCase(fetchCustomers.fulfilled, (state, action) => {
+      state.customersArray = action.payload;
+      state.matchedElements = action.payload;
+      state.loading = false;
+    });
   },
 });
 
