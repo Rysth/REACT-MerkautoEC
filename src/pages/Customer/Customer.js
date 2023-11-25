@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { customerDataActions } from '../../redux/slices/customerDataSlice';
+import {
+  customerDataActions,
+  destroyCustomer,
+  fetchCustomers,
+} from '../../redux/slices/customerDataSlice';
 import CustomerModal from './CustomerModal';
 import Heading from '../../components/Heading/Heading';
 
@@ -22,7 +26,7 @@ function Customer() {
   };
 
   const handleDeleteElement = (elementID) => {
-    dispatch(customerDataActions.deleteCustomer(elementID));
+    dispatch(destroyCustomer(elementID)).then(() => dispatch(fetchCustomers()));
   };
 
   const handleModalOpen = () => {
@@ -36,6 +40,8 @@ function Customer() {
   useEffect(() => {
     dispatch(customerDataActions.startArrays());
   }, [dispatch]);
+
+  useEffect(() => {}, [matchedElements]);
 
   return (
     <section className="flex flex-col h-full">
@@ -63,9 +69,9 @@ function Customer() {
               </tr>
             </thead>
             <tbody className="">
-              {matchedElements.map((data) => (
+              {matchedElements.map((data, index) => (
                 <tr key={data.id} className="py-2 text-sm ">
-                  <td className="py-2">{data.id}</td>
+                  <td className="py-2">{index + 1}</td>
                   <td className="py-2">{data.cedula}</td>
                   <td className="py-2">{data.nombre}</td>
                   <td className="py-2">{data.celular}</td>
@@ -81,7 +87,7 @@ function Customer() {
                     <button
                       type="button"
                       aria-label="Edit button"
-                      className="hidden text-white btn-danger btn"
+                      className="text-white btn-danger btn"
                       onClick={() => {
                         handleDeleteElement(data.id);
                       }}

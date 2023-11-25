@@ -1,6 +1,23 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
+const initialState = {
+  customersArray: [],
+  matchedElements: [],
+  loading: false,
+  error: null,
+};
+
+async function fetchCsrfToken() {
+  try {
+    const response = await fetch('http://localhost:4000/api/csrf_token');
+    const data = await response.json();
+    return data.token;
+  } catch (error) {
+    return null;
+  }
+}
+
 // Define an asynchronous thunk to fetch customers
 export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
@@ -14,15 +31,18 @@ export const fetchCustomers = createAsyncThunk(
     }
   },
 );
+
 // Define an asynchronous thunk to fetch customers
 export const createCustomer = createAsyncThunk(
   'customers/createCustomer',
   async (customerData) => {
     try {
+      const csrfToken = await fetchCsrfToken();
       const response = await fetch('http://localhost:4000/api/customers', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Include the CSRF token in the headers
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken,
         },
         credentials: 'include',
         body: JSON.stringify(customerData),
@@ -40,12 +60,32 @@ export const createCustomer = createAsyncThunk(
   },
 );
 
-const initialState = {
-  customersArray: [],
-  matchedElements: [],
-  loading: false,
-  error: null,
-};
+export const destroyCustomer = createAsyncThunk(
+  'customers/destroyCustomer',
+  async (customerID) => {
+    try {
+      const csrfToken = await fetchCsrfToken();
+      const response = await fetch(
+        `http://localhost:4000/api/customers/${customerID}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'X-CSRF-Token': csrfToken,
+          },
+        },
+      );
+
+      if (response.status !== 204) {
+        NotificationManager.error('Cliente no Encontrado.', 'Fallo');
+        throw new Error('Error deleting customer');
+      }
+
+      NotificationManager.success('Cliente Eliminado.', 'Exito');
+    } catch (error) {
+      throw new Error(`Error deleting customers: ${error.message}`);
+    }
+  },
+);
 
 const customersSlice = createSlice({
   name: 'customers',
