@@ -1,21 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Order from './pages/Order/Order';
 import Customer from './pages/Customer/Customer';
 import Sidebar from './components/Sidebar/Sidebar';
+import { fetchCustomers } from './redux/slices/customerDataSlice';
 /* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
 import CoficImage from './assets/images/brand/logo_cofic.png'; */
 
 /* eslint-disable */
 function App() {
+  const dispatch = useDispatch();
   const active = useSelector(
     (state) => state.credentials.userCredentials.active,
   );
+
+  useEffect(() => {
+    dispatch(fetchCustomers());
+  }, [dispatch]);
 
   return (
     <BrowserRouter>

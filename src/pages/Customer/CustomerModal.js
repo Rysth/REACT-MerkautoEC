@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { customerDataActions } from '../../redux/slices/customerDataSlice';
+import { createCustomer } from '../../redux/slices/customerDataSlice';
 
 function OrderModal({ handleModalClose }) {
   const dispatch = useDispatch();
@@ -9,7 +9,7 @@ function OrderModal({ handleModalClose }) {
 
   const onSubmit = (data) => {
     // Handle form submission logic with the form data
-    dispatch(customerDataActions.addNewCustomer(data));
+    dispatch(createCustomer(data));
     // Close the modal
     handleModalClose();
   };
