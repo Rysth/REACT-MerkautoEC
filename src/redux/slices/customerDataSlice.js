@@ -49,9 +49,11 @@ export const createCustomer = createAsyncThunk(
       });
 
       if (!response.ok) {
+        NotificationManager.error('Cliente no Creado', 'Fallo', 1250);
         throw new Error('Error creating customer');
       }
 
+      NotificationManager.success('Cliente Creado.', 'Exito', 1250);
       const newCustomer = await response.json();
       return newCustomer;
     } catch (error) {
@@ -77,11 +79,11 @@ export const destroyCustomer = createAsyncThunk(
       );
 
       if (response.status !== 204) {
-        NotificationManager.error('Cliente no Encontrado.', 'Fallo', 1500);
+        NotificationManager.error('Cliente no Encontrado.', 'Fallo', 1250);
         throw new Error('Error deleting customer');
       }
 
-      NotificationManager.success('Cliente Eliminado.', 'Exito', 1500);
+      NotificationManager.success('Cliente Eliminado.', 'Exito', 1250);
     } catch (error) {
       throw new Error(`Error deleting customers: ${error.message}`);
     }
@@ -109,10 +111,12 @@ export const updateCustomer = createAsyncThunk(
 
       if (!response.ok) {
         const errorResponse = await response.json();
+        NotificationManager.error('Cliente no Actualizado.', 'Exito', 1250);
         throw new Error(
           `Error updating customer: ${response.status} - ${errorResponse.message}`,
         );
       }
+      NotificationManager.success('Cliente Actualizado.', 'Exito', 1250);
     } catch (error) {
       throw new Error(`Error updating customers: ${error.message}`);
     }
@@ -129,8 +133,10 @@ const customersSlice = createSlice({
     },
     searchCustomer: (state, action) => {
       const searchFilter = action.payload.toUpperCase();
-      state.matchedElements = state.customersArray.filter((element) =>
-        element.cedula.toUpperCase().includes(searchFilter),
+      state.matchedElements = state.customersArray.filter(
+        (element) =>
+          element.cedula.toUpperCase().includes(searchFilter) ||
+          element.nombre.toUpperCase().includes(searchFilter),
       );
     },
     /* eslint-enable */

@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { NotificationManager } from 'react-notifications';
 import {
   createCustomer,
   fetchCustomers,
@@ -10,11 +11,25 @@ import {
 function CustomerModal({ handleModalClose, customerData }) {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
+  const { matchedElements } = useSelector((store) => store.customers);
 
   const onSubmit = (newData) => {
+    const customerID = newData.cedula;
+    const customerExist = matchedElements.find(
+      (customer) => customer.cedula.toUpperCase() === customerID,
+    );
+
+    if (customerExist) {
+      NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
+      return;
+    }
+
     if (customerData) {
       dispatch(
-        updateCustomer({ customerData: newData, customerID: customerData.id }),
+        updateCustomer({
+          customerData: newData,
+          customerID: customerData.id,
+        }),
       ).then(() => dispatch(fetchCustomers()));
     } else {
       dispatch(createCustomer(newData)).then(() => dispatch(fetchCustomers()));
@@ -24,7 +39,7 @@ function CustomerModal({ handleModalClose, customerData }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black bg-opacity-75 z-[100]">
-      <article className="p-5 bg-white rounded-lg w-[30rem]">
+      <article className="p-6 bg-white rounded-lg w-[28rem]">
         <header>
           <h2 className="text-xl font-bold sm:text-3xl">
             {customerData ? 'Actualizar Cliente' : 'Nuevo Cliente'}
@@ -110,7 +125,7 @@ function CustomerModal({ handleModalClose, customerData }) {
             </label>
           </fieldset>
           {/* eslint-enable */}
-          <fieldset className="flex items-center justify-end gap-1">
+          <fieldset className="flex items-center justify-end gap-1 mt-auto">
             <button type="submit" className="float-right btn btn-success">
               {customerData ? 'Actualizar' : 'Guardar'}
             </button>
