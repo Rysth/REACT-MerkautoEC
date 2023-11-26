@@ -8,7 +8,7 @@ function SidebarItem({ route, text, icon, context }) {
   return (
     <li className="grid text-gray-800">
       <NavLink to={route} className="flex items-center w-full gap-2 p-2 ">
-        <i className={`fa-solid ${icon}`} />
+        <i className={`w-4 text-center fa-solid ${icon}`} />
         <span
           className={`overflow-hidden transition-all text-sm ${
             expanded ? 'w-full' : 'hidden'

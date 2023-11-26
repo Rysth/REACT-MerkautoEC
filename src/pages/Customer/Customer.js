@@ -53,7 +53,7 @@ function Customer() {
   return (
     <section className="flex flex-col h-full">
       <Heading text="Clientes" />
-      <div className="flex flex-col max-h-[30rem] 2xl:max-h-[35rem]">
+      <div className="flex flex-col max-h-[28rem] sm:max-h-[30rem] 2xl:max-h-[35rem]">
         <div className="flex items-center gap-2 py-4 text-sm">
           <input
             type="text"

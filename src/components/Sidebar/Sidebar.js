@@ -3,10 +3,7 @@ import SidebarItem from './SidebarItem';
 import MerkautoImage from '../../assets/images/brand/brand.png';
 
 /* eslint-disable */
-const sidebarItems = [
-  { id: 1, route: '/clientes', text: 'Clientes', icon: 'fa-user' },
-  { id: 2, route: '/ordenes', text: 'Ordenes', icon: 'fa-list' },
-];
+const sidebarItems = [{ id: 1, route: '/', text: 'Clientes', icon: 'fa-user' }];
 /* eslint-enable */
 
 const SidebarContext = createContext();
@@ -14,36 +11,41 @@ function Sidebar() {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <aside className="h-screen">
+    <aside className={`${expanded ? 'h-screen' : 'h-max sm:h-screen'}`}>
       <nav
-        className={`flex flex-col h-full p-3 bg-white transition-all ${
-          expanded ? 'sm:w-[12rem] lg:w-[15rem]' : 'w-[3.5rem]'
-        }`}
+        className={`flex flex-col p-4 py-2 bg-white transition-all h-full ${
+          expanded
+            ? 'fixed w-full sm:relative sm:w-[12rem] lg:w-[14rem] z-50'
+            : 'z-0 w-full pt-2 pb-0 sm:w-[4rem]'
+        }
+        `}
       >
-        <picture className="relative flex justify-center py-4 border-b h-[4rem]">
+        <picture className="relative flex justify-between sm:justify-center sm:py-4 border-b py-2 sm:h-[4.5rem] sm:px-4">
           <img
             src={MerkautoImage}
             alt="MerkautoEC's brand logo"
-            className={`w-40  transition-all  object-contain ${
-              expanded ? 'w-44' : ''
-            }`}
+            className="w-48 transition-all sm:object-contain"
           />
           <button
             onClick={() => {
               setExpanded(!expanded);
             }}
-            className="absolute w-10 h-10 text-white bg-[var(--CL-primary-blue)] border-2 border-white rounded-full bottom-3 -right-8 md:hover:bg-black md:transition md:active:scale-95 md:hover:shadow-2xl z-50"
+            className="absolute right-0 grid place-items-center bottom-1.5 sm:bottom-4 h-10 w-10 text-white bg-[var(--CL-primary-blue)] border-2 border-white rounded-full  sm:-right-[2.25rem] md:hover:bg-black md:transition md:active:scale-95 md:hover:shadow-2xl z-50"
             type="button"
-            aria-label="Toggle Sidebar "
+            aria-label="Toggle Sidebar Button"
           >
             <i
-              className={`text-xl fa-solid  ${
-                expanded ? 'fa-arrow-left' : 'fa-arrow-right'
+              className={`text-xl fa-solid   ${
+                expanded ? 'fa-minus' : 'fa-plus'
               }`}
             />
           </button>
         </picture>
-        <ul className="flex flex-col flex-1 gap-1 py-3 rounded-lg">
+        <ul
+          className={`flex flex-col flex-1 gap-1 py-3 rounded-lg ${
+            !expanded && 'hidden sm:inline-block'
+          }`}
+        >
           <SidebarContext.Provider value={{ expanded }}>
             {sidebarItems.map((item) => (
               <SidebarItem
