@@ -9,6 +9,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Customer from './pages/Customer/Customer';
 import Vehicle from './pages/Vehicle/Vehicle';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
+import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 
 /* eslint-disable */
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    dispatch(fetchVehicles());
   }, [dispatch]);
 
   return (

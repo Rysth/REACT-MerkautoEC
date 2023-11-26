@@ -136,7 +136,8 @@ const vehiclesSlice = createSlice({
       state.matchedElements = state.vehiclesArray.filter(
         (element) =>
           element.placa.toUpperCase().includes(searchFilter) ||
-          element.narca.toUpperCase().includes(searchFilter),
+          element.customer.nombre.toUpperCase().includes(searchFilter) ||
+          element.marca.toUpperCase().includes(searchFilter),
       );
     },
     /* eslint-enable */

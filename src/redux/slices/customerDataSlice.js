@@ -136,7 +136,8 @@ const customersSlice = createSlice({
       state.matchedElements = state.customersArray.filter(
         (element) =>
           element.cedula.toUpperCase().includes(searchFilter) ||
-          element.nombre.toUpperCase().includes(searchFilter),
+          element.nombre.toUpperCase().includes(searchFilter) ||
+          element.email.toUpperCase().includes(searchFilter),
       );
     },
     /* eslint-enable */

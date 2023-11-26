@@ -48,7 +48,7 @@ function Sidebar() {
         </picture>
         <ul
           className={`flex flex-col flex-1 gap-1 py-3 rounded-lg ${
-            !expanded && 'hidden sm:inline-block'
+            !expanded && 'hidden sm:flex'
           }`}
         >
           <SidebarContext.Provider value={{ expanded }}>

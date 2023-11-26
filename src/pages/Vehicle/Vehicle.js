@@ -1,17 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  customerDataActions,
-  destroyCustomer,
-  fetchCustomers,
-} from '../../redux/slices/customerDataSlice';
+  vehicleDataActions,
+  destroyVehicle,
+  fetchVehicles,
+} from '../../redux/slices/vehicleDataSlice';
 import Heading from '../../components/Heading/Heading';
 
 function Vehicle() {
   const [searchData, setSearchData] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [customerSelected, setCustomerSelected] = useState(null);
-  const { matchedElements } = useSelector((store) => store.customers);
+  const [vehicleSelected, setVehicleSelected] = useState(null);
+  const { matchedElements } = useSelector((store) => store.vehicles);
   const dispatch = useDispatch();
 
   const handleSearchData = (event) => {
@@ -22,23 +22,23 @@ function Vehicle() {
 
     // Use inputValue directly in the condition
     if (inputValue === '') {
-      dispatch(customerDataActions.startArrays());
+      dispatch(vehicleDataActions.startArrays());
     } else {
-      dispatch(customerDataActions.searchCustomer(inputValue));
+      dispatch(vehicleDataActions.searchVehicle(inputValue));
     }
   };
 
   const handleDeleteElement = (elementID) => {
-    dispatch(destroyCustomer(elementID)).then(() => dispatch(fetchCustomers()));
+    dispatch(destroyVehicle(elementID)).then(() => dispatch(fetchVehicles()));
   };
 
-  const handleModalOpen = (customerID = null) => {
-    if (customerID) {
-      setCustomerSelected(
-        matchedElements.find((customer) => customer.id === customerID),
+  const handleModalOpen = (vehicleID = null) => {
+    if (vehicleID) {
+      setVehicleSelected(
+        matchedElements.find((vehicle) => vehicle.id === vehicleID),
       );
     } else {
-      setCustomerSelected(null);
+      setVehicleSelected(null);
     }
     setShowModal(true);
   };
@@ -49,7 +49,7 @@ function Vehicle() {
 
   useEffect(() => {
     handleModalClose();
-    console.log(customerSelected);
+    console.log(vehicleSelected);
   }, []);
 
   useEffect(() => {}, [matchedElements]);
@@ -73,10 +73,10 @@ function Vehicle() {
             <thead className="sticky top-0 text-gray-400 bg-white ">
               <tr className="text-left border-b">
                 <th className="font-normal pb-2 w-[3rem]">#</th>
-                <th className="font-normal pb-2 w-[8rem]">Cedula</th>
-                <th className="font-normal pb-2 w-[10rem]">Nombre</th>
-                <th className="font-normal pb-2 w-[8rem]">Celular</th>
-                <th className="font-normal pb-2 w-[10rem]">Email</th>
+                <th className="font-normal pb-2 w-[8rem]">Placa</th>
+                <th className="font-normal pb-2 w-[10rem]">Marca</th>
+                <th className="font-normal pb-2 w-[8rem]">Modelo</th>
+                <th className="font-normal pb-2 w-[10rem]">Cliente</th>
                 <th className="font-normal pb-2 w-[10rem] text-center">
                   Acciones
                 </th>
@@ -89,14 +89,10 @@ function Vehicle() {
                   className="py-2 text-xs sm:text-sm md:hover:bg-gray-100"
                 >
                   <td className="py-2 font-bold">{index + 1}</td>
-                  <td className="py-2">{data.cedula}</td>
-                  <td className="py-2">{data.nombre}</td>
-                  <td className="py-2">{data.celular}</td>
-                  <td className="py-2 ">
-                    <a href={`mailto:${data.email}`} className="underline">
-                      {data.email}
-                    </a>
-                  </td>
+                  <td className="py-2">{data.placa}</td>
+                  <td className="py-2">{data.marca}</td>
+                  <td className="py-2">{data.modelo}</td>
+                  <td className="py-2 ">{data.customer.nombre}</td>
                   <td className="flex items-center justify-center gap-1 py-2">
                     <button
                       type="button"
