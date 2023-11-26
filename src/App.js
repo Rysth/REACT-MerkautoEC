@@ -7,6 +7,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Customer from './pages/Customer/Customer';
+import Vehicle from './pages/Vehicle/Vehicle';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
 
 /* eslint-disable */
@@ -33,6 +34,14 @@ function App() {
                 element={
                   <ProtectedRoute isAllowed={!active} redirectTo="/">
                     <Customer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/vehiculos"
+                element={
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
+                    <Vehicle />
                   </ProtectedRoute>
                 }
               />

@@ -1,13 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import loginDataReducer from './slices/loginDataSlice';
-import orderDataReducer from './slices/orderDataSlice';
 import customerDataReducer from './slices/customerDataSlice';
+import vehicleDataReducer from './slices/vehicleDataSlice';
 
 const store = configureStore({
   reducer: {
-    credentials: loginDataReducer,
-    orders: orderDataReducer,
     customers: customerDataReducer,
+    vehicles: vehicleDataReducer,
   },
 });
 

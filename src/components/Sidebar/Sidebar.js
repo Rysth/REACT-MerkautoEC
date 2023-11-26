@@ -5,7 +5,10 @@ import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 
 /* eslint-disable */
-const sidebarItems = [{ id: 1, route: '/', text: 'Clientes', icon: 'fa-user' }];
+const sidebarItems = [
+  { id: 1, route: '/', text: 'Clientes', icon: 'fa-user' },
+  { id: 2, route: '/vehiculos', text: 'Vehículos', icon: 'fa-car' },
+];
 /* eslint-enable */
 
 const SidebarContext = createContext();
