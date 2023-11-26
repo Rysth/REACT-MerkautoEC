@@ -1,96 +1,53 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import Header from './components/Header/Header';
-import Order from './pages/Order/Order';
-import OrderList from './pages/Order/OrderList';
-import Login from './pages/Login/Login';
-import Vehicle from './pages/Vehicle/Vehicle';
-import RysthImage from './assets/images/brand/logo_rysthcraft.png';
-import CoficImage from './assets/images/brand/logo_cofic.png';
+import Sidebar from './components/Sidebar/Sidebar';
+import Customer from './pages/Customer/Customer';
+import { fetchCustomers } from './redux/slices/customerDataSlice';
 
 /* eslint-disable */
 function App() {
+  const dispatch = useDispatch();
   const active = useSelector(
     (state) => state.credentials.userCredentials.active,
   );
 
+  useEffect(() => {
+    dispatch(fetchCustomers());
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
-      <Header />
-      <main>
+      <main className="bg-[var(--CL-primary-blue)] flex flex-col sm:flex-row h-screen">
+        <Sidebar />
         <NotificationContainer />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute isAllowed={!active} redirectTo="/orden">
-                <Login />
-              </ProtectedRoute>
-            }
-          />
-          <Route
+        <section className="flex-1 p-4 overflow-hidden">
+          <div className="h-full p-6 bg-white sm:p-10 rounded-2xl">
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
+                    <Customer />
+                  </ProtectedRoute>
+                }
+              />
+              {/* <Route
             path="/orden"
             element={
               <ProtectedRoute isAllowed={active} redirectTo="/">
                 <Order />
               </ProtectedRoute>
             }
-          />
-          <Route
-            path="/listado"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <OrderList />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/consultar"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <Vehicle />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <Order />
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
+          /> */}
+            </Routes>
+          </div>
+        </section>
       </main>
-      <footer className="mt-auto">
-        <div className="flex justify-between max-w-screen-lg p-4 mx-auto border-t-0 border-b rounded-b-lg border-x">
-          <div className="">
-            <a
-              href="https://www.asvesot.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Asvesot Website"
-            >
-              <img src={CoficImage} alt="Cofic logo" className="w-28" />
-            </a>
-          </div>
-          <div className="">
-            <a
-              href="https://react-rysthcraft.onrender.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="ysthcraft Portfolio Website"
-            >
-              <img src={RysthImage} alt="Rysthcraft logo" className="w-20" />
-            </a>
-          </div>
-        </div>
-      </footer>
     </BrowserRouter>
   );
 }
