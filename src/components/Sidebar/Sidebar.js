@@ -1,6 +1,8 @@
 import { createContext, useState } from 'react';
 import SidebarItem from './SidebarItem';
 import MerkautoImage from '../../assets/images/brand/brand.png';
+import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
+import CoficImage from '../../assets/images/brand/logo_cofic.png';
 
 /* eslint-disable */
 const sidebarItems = [{ id: 1, route: '/', text: 'Clientes', icon: 'fa-user' }];
@@ -58,6 +60,24 @@ function Sidebar() {
             ))}
           </SidebarContext.Provider>
         </ul>
+        <div className={`flex justify-between gap-5 ${!expanded && 'hidden'}`}>
+          <a
+            href="https://www.asvesot.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Asvesot Website"
+          >
+            <img src={CoficImage} alt="Cofic logo" className="w-20" />
+          </a>
+          <a
+            href="https://react-rysthcraft.onrender.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="ysthcraft Portfolio Website"
+          >
+            <img src={RysthImage} alt="Rysthcraft logo" className="w-16" />
+          </a>
+        </div>
       </nav>
     </aside>
   );

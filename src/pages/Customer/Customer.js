@@ -68,7 +68,7 @@ function Customer() {
           <table className="relative w-full text-sm min-w-[60rem]">
             <thead className="sticky top-0 text-gray-400 bg-white ">
               <tr className="text-left border-b">
-                <th className="font-normal pb-2 w-[2rem]">#</th>
+                <th className="font-normal pb-2 w-[3rem]">#</th>
                 <th className="font-normal pb-2 w-[8rem]">Cedula</th>
                 <th className="font-normal pb-2 w-[10rem]">Nombre</th>
                 <th className="font-normal pb-2 w-[8rem]">Celular</th>
@@ -84,7 +84,7 @@ function Customer() {
                   key={data.id}
                   className="py-2 text-xs sm:text-sm md:hover:bg-gray-100"
                 >
-                  <td className="py-2">{index + 1}</td>
+                  <td className="py-2 font-bold">{index + 1}</td>
                   <td className="py-2">{data.cedula}</td>
                   <td className="py-2">{data.nombre}</td>
                   <td className="py-2">{data.celular}</td>

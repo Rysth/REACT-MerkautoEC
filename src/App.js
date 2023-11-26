@@ -5,12 +5,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
-import Order from './pages/Order/Order';
-import Customer from './pages/Customer/Customer';
 import Sidebar from './components/Sidebar/Sidebar';
+import Customer from './pages/Customer/Customer';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
-/* import RysthImage from './assets/images/brand/logo_rysthcraft.png';
-import CoficImage from './assets/images/brand/logo_cofic.png'; */
 
 /* eslint-disable */
 function App() {
@@ -39,14 +36,6 @@ function App() {
                   </ProtectedRoute>
                 }
               />
-              <Route
-                path="/ordenes"
-                element={
-                  <ProtectedRoute isAllowed={!active} redirectTo="/clientes">
-                    <Order />
-                  </ProtectedRoute>
-                }
-              />
               {/* <Route
             path="/orden"
             element={
@@ -59,30 +48,6 @@ function App() {
           </div>
         </section>
       </main>
-      {/* <footer className="mt-auto">
-        <div className="flex justify-between max-w-screen-lg p-4 mx-auto border-t-0 border-b rounded-b-lg border-x">
-          <div className="">
-            <a
-              href="https://www.asvesot.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Asvesot Website"
-            >
-              <img src={CoficImage} alt="Cofic logo" className="w-28" />
-            </a>
-          </div>
-          <div className="">
-            <a
-              href="https://react-rysthcraft.onrender.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="ysthcraft Portfolio Website"
-            >
-              <img src={RysthImage} alt="Rysthcraft logo" className="w-20" />
-            </a>
-          </div>
-        </div>
-      </footer> */}
     </BrowserRouter>
   );
 }
