@@ -19,22 +19,27 @@ function CustomerModal({ handleModalClose, customerData }) {
       (customer) => customer.cedula.toUpperCase() === customerID,
     );
 
-    if (customerExist) {
+    /* Creating a New Customer */
+    if (!customerExist && !customerData) {
+      dispatch(createCustomer(newData))
+        .then(() => dispatch(fetchCustomers()))
+        .finally(() => handleModalClose());
+      return;
+    }
+
+    if (customerExist && customerID !== customerData.cedula) {
       NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
       return;
     }
 
-    if (customerData) {
-      dispatch(
-        updateCustomer({
-          customerData: newData,
-          customerID: customerData.id,
-        }),
-      ).then(() => dispatch(fetchCustomers()));
-    } else {
-      dispatch(createCustomer(newData)).then(() => dispatch(fetchCustomers()));
-    }
-    handleModalClose();
+    dispatch(
+      updateCustomer({
+        customerData: newData,
+        customerID: customerData.id,
+      }),
+    )
+      .then(() => dispatch(fetchCustomers()))
+      .finally(() => handleModalClose());
   };
 
   return (
