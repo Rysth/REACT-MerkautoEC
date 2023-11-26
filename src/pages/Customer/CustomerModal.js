@@ -43,17 +43,17 @@ function CustomerModal({ handleModalClose, customerData }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black bg-opacity-75 z-[100]">
-      <article className="p-6 bg-white rounded-lg w-[28rem]">
+    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black backdrop-grayscale bg-opacity-75 z-[100] p-4">
+      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[28rem]">
         <header>
-          <h2 className="text-xl font-bold sm:text-3xl">
+          <h2 className="text-2xl font-bold sm:text-3xl">
             {customerData ? 'Actualizar Cliente' : 'Nuevo Cliente'}
           </h2>
         </header>
         {/* eslint-disable */}
         <form
           action="#"
-          className="grid gap-5 mt-10 text-sm"
+          className="grid gap-5 mt-5 text-sm"
           onSubmit={handleSubmit(onSubmit)}
         >
           <fieldset className="grid gap-3 sm:grid-cols-2">

@@ -54,7 +54,7 @@ function Customer() {
     <section className="flex flex-col h-full">
       <Heading text="Clientes" />
       <div className="flex flex-col max-h-[28rem] sm:max-h-[30rem] 2xl:max-h-[35rem]">
-        <div className="flex items-center gap-2 py-4 text-sm">
+        <div className="flex items-center gap-2 py-2 text-sm sm:py-3">
           <input
             type="text"
             aria-label={`Customer search bar value: ${searchData}`}
@@ -68,17 +68,22 @@ function Customer() {
           <table className="relative w-full text-sm min-w-[60rem]">
             <thead className="sticky top-0 text-gray-400 bg-white ">
               <tr className="text-left border-b">
-                <th className="font-normal pb-2 w-[3rem]">#</th>
-                <th className="font-normal pb-2 w-[6rem]">Cedula</th>
-                <th className="font-normal pb-2 w-[15rem]">Nombre</th>
+                <th className="font-normal pb-2 w-[2rem]">#</th>
+                <th className="font-normal pb-2 w-[8rem]">Cedula</th>
+                <th className="font-normal pb-2 w-[10rem]">Nombre</th>
                 <th className="font-normal pb-2 w-[8rem]">Celular</th>
-                <th className="font-normal pb-2 w-[8rem]">Email</th>
-                <th className="font-normal pb-2 w-[10rem]">Acciones</th>
+                <th className="font-normal pb-2 w-[10rem]">Email</th>
+                <th className="font-normal pb-2 w-[10rem] text-center">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody className="">
               {matchedElements.map((data, index) => (
-                <tr key={data.id} className="py-2 text-sm md:hover:bg-gray-100">
+                <tr
+                  key={data.id}
+                  className="py-2 text-xs sm:text-sm md:hover:bg-gray-100"
+                >
                   <td className="py-2">{index + 1}</td>
                   <td className="py-2">{data.cedula}</td>
                   <td className="py-2">{data.nombre}</td>
