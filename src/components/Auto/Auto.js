@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import AutoImage from '../../assets/images/auto/auto.png';
-import Input from '../Forms/Input/Input';
 
 function Auto({ register }) {
   const [createdCircles, setCreatedCircles] = useState([]);
@@ -247,6 +246,7 @@ function Auto({ register }) {
           circle.addEventListener('click', createNewCircleInside);
         }
       });
+    console.log(register);
   }, []);
   /* eslint-enable */
 
@@ -290,13 +290,14 @@ function Auto({ register }) {
       </div>
       <div className="items-center justify-end gap-2 mt-3 content-actions">
         <ul className="list-none">
-          <Input
+          {/* <Input
             label="Combustible"
             name="v_combustible"
             id="v_combustible"
             type="range"
             method={register}
-          />
+          /> */}
+          <li>None</li>
         </ul>
         <button
           type="button"
