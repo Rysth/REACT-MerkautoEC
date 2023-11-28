@@ -19,17 +19,21 @@ function VehicleModal({ handleModalClose, vehicleData }) {
     const vehicleExist = matchedElements.find(
       (vehicle) => vehicle.placa.toUpperCase() === vehicleID,
     );
-    console.log(vehicleData);
+
+    if (vehicleExist) {
+      NotificationManager.error('¡Vehículo ya registrado!', 'Advertencia');
+      return;
+    }
 
     /* Creating a New Customer */
-    if (!vehicleExist) {
+    if (!vehicleExist && !vehicleData) {
       dispatch(createVehicle(newData))
         .then(() => dispatch(fetchVehicles()))
         .finally(() => handleModalClose());
       return;
     }
 
-    if (vehicleExist && vehicleID !== vehicleData.placa) {
+    if (vehicleID === vehicleData.placa) {
       NotificationManager.error('¡Vehículo ya registrado!', 'Advertencia');
       return;
     }

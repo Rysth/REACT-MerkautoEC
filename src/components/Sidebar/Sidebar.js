@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
 import MerkautoImage from '../../assets/images/brand/brand.png';
 import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
@@ -13,7 +13,14 @@ const sidebarItems = [
 
 const SidebarContext = createContext();
 function Sidebar() {
+  const isMobile = window.innerWidth < 640;
   const [expanded, setExpanded] = useState(true);
+
+  const closeSideBar = () => setExpanded(false);
+
+  useEffect(() => {
+    if (isMobile) setExpanded(false);
+  }, [isMobile]);
 
   return (
     <aside className={`${expanded ? 'h-screen' : 'h-max sm:h-screen'}`}>
@@ -59,6 +66,7 @@ function Sidebar() {
                 text={item.text}
                 icon={item.icon}
                 context={SidebarContext}
+                method={isMobile ? closeSideBar : () => {}}
               />
             ))}
           </SidebarContext.Provider>

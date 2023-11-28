@@ -50,7 +50,6 @@ function Vehicle() {
 
   useEffect(() => {
     handleModalClose();
-    console.log(vehicleSelected);
   }, []);
 
   useEffect(() => {}, [matchedElements]);
