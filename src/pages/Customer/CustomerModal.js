@@ -19,6 +19,11 @@ function CustomerModal({ handleModalClose, customerData }) {
       (customer) => customer.cedula.toUpperCase() === customerID,
     );
 
+    if (customerExist) {
+      NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
+      return;
+    }
+
     /* Creating a New Customer */
     if (!customerExist && !customerData) {
       dispatch(createCustomer(newData))
@@ -27,7 +32,7 @@ function CustomerModal({ handleModalClose, customerData }) {
       return;
     }
 
-    if (customerExist && customerID !== customerData.cedula) {
+    if (customerID === customerData.cedula) {
       NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
       return;
     }
@@ -43,8 +48,8 @@ function CustomerModal({ handleModalClose, customerData }) {
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center w-full h-full bg-black backdrop-grayscale bg-opacity-75 z-[100] p-4">
-      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[28rem]">
+    <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black backdrop-grayscale bg-opacity-75 z-[100] p-4 ">
+      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[28rem] h-full sm:h-max overflow-auto">
         <header>
           <h2 className="text-2xl font-bold sm:text-3xl">
             {customerData ? 'Actualizar Cliente' : 'Nuevo Cliente'}

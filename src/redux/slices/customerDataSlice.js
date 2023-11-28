@@ -79,7 +79,7 @@ export const destroyCustomer = createAsyncThunk(
       );
 
       if (response.status !== 204) {
-        NotificationManager.error('Cliente no Encontrado.', 'Fallo', 1250);
+        NotificationManager.error('Cliente tiene Vehículos.', 'Fallo', 1250);
         throw new Error('Error deleting customer');
       }
 
@@ -136,7 +136,8 @@ const customersSlice = createSlice({
       state.matchedElements = state.customersArray.filter(
         (element) =>
           element.cedula.toUpperCase().includes(searchFilter) ||
-          element.nombre.toUpperCase().includes(searchFilter),
+          element.nombre.toUpperCase().includes(searchFilter) ||
+          element.email.toUpperCase().includes(searchFilter),
       );
     },
     /* eslint-enable */

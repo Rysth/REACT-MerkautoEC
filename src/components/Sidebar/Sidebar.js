@@ -1,16 +1,26 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
 import MerkautoImage from '../../assets/images/brand/brand.png';
 import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 
 /* eslint-disable */
-const sidebarItems = [{ id: 1, route: '/', text: 'Clientes', icon: 'fa-user' }];
+const sidebarItems = [
+  { id: 1, route: '/', text: 'Clientes', icon: 'fa-user' },
+  { id: 2, route: '/vehiculos', text: 'Vehículos', icon: 'fa-car' },
+];
 /* eslint-enable */
 
 const SidebarContext = createContext();
 function Sidebar() {
+  const isMobile = window.innerWidth < 640;
   const [expanded, setExpanded] = useState(true);
+
+  const closeSideBar = () => setExpanded(false);
+
+  useEffect(() => {
+    if (isMobile) setExpanded(false);
+  }, [isMobile]);
 
   return (
     <aside className={`${expanded ? 'h-screen' : 'h-max sm:h-screen'}`}>
@@ -45,7 +55,7 @@ function Sidebar() {
         </picture>
         <ul
           className={`flex flex-col flex-1 gap-1 py-3 rounded-lg ${
-            !expanded && 'hidden sm:inline-block'
+            !expanded && 'hidden sm:flex'
           }`}
         >
           <SidebarContext.Provider value={{ expanded }}>
@@ -56,6 +66,7 @@ function Sidebar() {
                 text={item.text}
                 icon={item.icon}
                 context={SidebarContext}
+                method={isMobile ? closeSideBar : () => {}}
               />
             ))}
           </SidebarContext.Provider>

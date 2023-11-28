@@ -7,7 +7,9 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Customer from './pages/Customer/Customer';
+import Vehicle from './pages/Vehicle/Vehicle';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
+import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 
 /* eslint-disable */
 function App() {
@@ -18,6 +20,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCustomers());
+    dispatch(fetchVehicles());
   }, [dispatch]);
 
   return (
@@ -25,7 +28,7 @@ function App() {
       <main className="bg-[var(--CL-primary-blue)] flex flex-col sm:flex-row h-screen">
         <Sidebar />
         <NotificationContainer />
-        <section className="flex-1 p-4 overflow-hidden">
+        <section className="flex-1 p-4 sm:overflow-hidden">
           <div className="h-full p-6 bg-white sm:p-10 rounded-2xl">
             <Routes>
               <Route
@@ -33,6 +36,14 @@ function App() {
                 element={
                   <ProtectedRoute isAllowed={!active} redirectTo="/">
                     <Customer />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/vehiculos"
+                element={
+                  <ProtectedRoute isAllowed={!active} redirectTo="/">
+                    <Vehicle />
                   </ProtectedRoute>
                 }
               />

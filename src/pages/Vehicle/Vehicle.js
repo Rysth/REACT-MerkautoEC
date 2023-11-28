@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  customerDataActions,
-  destroyCustomer,
-  fetchCustomers,
-} from '../../redux/slices/customerDataSlice';
-import CustomerModal from './CustomerModal';
+  vehicleDataActions,
+  destroyVehicle,
+  fetchVehicles,
+} from '../../redux/slices/vehicleDataSlice';
 import Heading from '../../components/Heading/Heading';
+import VehicleModal from './VehicleModal';
 
-function Customer() {
+function Vehicle() {
   const [searchData, setSearchData] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [customerSelected, setCustomerSelected] = useState(null);
-  const { matchedElements } = useSelector((store) => store.customers);
+  const [vehicleSelected, setVehicleSelected] = useState(null);
+  const { matchedElements } = useSelector((store) => store.vehicles);
   const dispatch = useDispatch();
 
   const handleSearchData = (event) => {
@@ -23,25 +23,24 @@ function Customer() {
 
     // Use inputValue directly in the condition
     if (inputValue === '') {
-      dispatch(customerDataActions.startArrays());
+      dispatch(vehicleDataActions.startArrays());
     } else {
-      dispatch(customerDataActions.searchCustomer(inputValue));
+      dispatch(vehicleDataActions.searchVehicle(inputValue));
     }
   };
 
   const handleDeleteElement = (elementID) => {
-    dispatch(destroyCustomer(elementID)).then(() => dispatch(fetchCustomers()));
+    dispatch(destroyVehicle(elementID)).then(() => dispatch(fetchVehicles()));
   };
 
-  const handleModalOpen = (customerID = null) => {
-    if (customerID) {
-      setCustomerSelected(
-        matchedElements.find((customer) => customer.id === customerID),
+  const handleModalOpen = (vehicleID = null) => {
+    if (vehicleID) {
+      setVehicleSelected(
+        matchedElements.find((vehicle) => vehicle.id === vehicleID),
       );
     } else {
-      setCustomerSelected(null);
+      setVehicleSelected(null);
     }
-    console.log(customerSelected);
     setShowModal(true);
   };
 
@@ -49,16 +48,20 @@ function Customer() {
     setShowModal(false);
   };
 
+  useEffect(() => {
+    handleModalClose();
+  }, []);
+
   useEffect(() => {}, [matchedElements]);
 
   return (
     <section className="flex flex-col h-full">
-      <Heading text="Clientes" />
+      <Heading text="Vehículos" />
       <div className="flex flex-col max-h-[28rem] sm:max-h-[30rem] 2xl:max-h-[35rem]">
         <div className="flex items-center gap-2 py-2 text-sm sm:py-3">
           <input
             type="text"
-            aria-label={`Customer search bar value: ${searchData}`}
+            aria-label={`Vehicle search bar value: ${searchData}`}
             className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
             placeholder="Buscar..."
             onChange={handleSearchData}
@@ -70,10 +73,10 @@ function Customer() {
             <thead className="sticky top-0 text-gray-400 bg-white ">
               <tr className="text-left border-b">
                 <th className="font-normal pb-2 w-[3rem]">#</th>
-                <th className="font-normal pb-2 w-[8rem]">Cedula</th>
-                <th className="font-normal pb-2 w-[10rem]">Nombre</th>
-                <th className="font-normal pb-2 w-[8rem]">Celular</th>
-                <th className="font-normal pb-2 w-[10rem]">Email</th>
+                <th className="font-normal pb-2 w-[8rem]">Placa</th>
+                <th className="font-normal pb-2 w-[10rem]">Cliente</th>
+                <th className="font-normal pb-2 w-[10rem]">Marca</th>
+                <th className="font-normal pb-2 w-[8rem]">Modelo</th>
                 <th className="font-normal pb-2 w-[10rem] text-center">
                   Acciones
                 </th>
@@ -86,14 +89,10 @@ function Customer() {
                   className="py-2 text-xs sm:text-sm md:hover:bg-gray-100"
                 >
                   <td className="py-2 font-bold">{index + 1}</td>
-                  <td className="py-2">{data.cedula}</td>
-                  <td className="py-2">{data.nombre}</td>
-                  <td className="py-2">{data.celular}</td>
-                  <td className="py-2 ">
-                    <a href={`mailto:${data.email}`} className="underline">
-                      {data.email}
-                    </a>
-                  </td>
+                  <td className="py-2">{data.placa}</td>
+                  <td className="py-2 ">{data.customer.nombre}</td>
+                  <td className="py-2">{data.marca}</td>
+                  <td className="py-2">{data.modelo}</td>
                   <td className="flex items-center justify-center gap-1 py-2">
                     <button
                       type="button"
@@ -135,13 +134,13 @@ function Customer() {
         </button>
       </div>
       {showModal && (
-        <CustomerModal
+        <VehicleModal
           handleModalClose={handleModalClose}
-          customerData={customerSelected}
+          vehicleData={vehicleSelected}
         />
       )}
     </section>
   );
 }
 
-export default Customer;
+export default Vehicle;
