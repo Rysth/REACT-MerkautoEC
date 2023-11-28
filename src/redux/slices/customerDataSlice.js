@@ -78,8 +78,10 @@ export const destroyCustomer = createAsyncThunk(
         },
       );
 
+      console.log(response);
+
       if (response.status !== 204) {
-        NotificationManager.error('Cliente no Encontrado.', 'Fallo', 1250);
+        NotificationManager.error('Cliente tiene Vehículos.', 'Fallo', 1250);
         throw new Error('Error deleting customer');
       }
 

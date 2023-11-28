@@ -6,6 +6,7 @@ import {
   fetchVehicles,
 } from '../../redux/slices/vehicleDataSlice';
 import Heading from '../../components/Heading/Heading';
+import VehicleModal from './VehicleModal';
 
 function Vehicle() {
   const [searchData, setSearchData] = useState('');
@@ -74,9 +75,9 @@ function Vehicle() {
               <tr className="text-left border-b">
                 <th className="font-normal pb-2 w-[3rem]">#</th>
                 <th className="font-normal pb-2 w-[8rem]">Placa</th>
+                <th className="font-normal pb-2 w-[10rem]">Cliente</th>
                 <th className="font-normal pb-2 w-[10rem]">Marca</th>
                 <th className="font-normal pb-2 w-[8rem]">Modelo</th>
-                <th className="font-normal pb-2 w-[10rem]">Cliente</th>
                 <th className="font-normal pb-2 w-[10rem] text-center">
                   Acciones
                 </th>
@@ -90,9 +91,9 @@ function Vehicle() {
                 >
                   <td className="py-2 font-bold">{index + 1}</td>
                   <td className="py-2">{data.placa}</td>
+                  <td className="py-2 ">{data.customer.nombre}</td>
                   <td className="py-2">{data.marca}</td>
                   <td className="py-2">{data.modelo}</td>
-                  <td className="py-2 ">{data.customer.nombre}</td>
                   <td className="flex items-center justify-center gap-1 py-2">
                     <button
                       type="button"
@@ -133,7 +134,12 @@ function Vehicle() {
           Crear
         </button>
       </div>
-      {showModal && <p>Hola</p>}
+      {showModal && (
+        <VehicleModal
+          handleModalClose={handleModalClose}
+          vehicleData={vehicleSelected}
+        />
+      )}
     </section>
   );
 }

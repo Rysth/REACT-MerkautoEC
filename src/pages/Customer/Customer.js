@@ -41,6 +41,7 @@ function Customer() {
     } else {
       setCustomerSelected(null);
     }
+    console.log(customerSelected);
     setShowModal(true);
   };
 

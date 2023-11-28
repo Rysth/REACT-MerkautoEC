@@ -19,6 +19,11 @@ function CustomerModal({ handleModalClose, customerData }) {
       (customer) => customer.cedula.toUpperCase() === customerID,
     );
 
+    if (customerExist) {
+      NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
+      return;
+    }
+
     /* Creating a New Customer */
     if (!customerExist && !customerData) {
       dispatch(createCustomer(newData))
@@ -27,7 +32,7 @@ function CustomerModal({ handleModalClose, customerData }) {
       return;
     }
 
-    if (customerExist && customerID !== customerData.cedula) {
+    if (customerID === customerData.cedula) {
       NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
       return;
     }
