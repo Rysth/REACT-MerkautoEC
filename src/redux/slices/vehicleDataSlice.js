@@ -131,7 +131,7 @@ const vehiclesSlice = createSlice({
     startArrays: (state) => {
       state.matchedElements = state.vehiclesArray;
     },
-    searchVehicle: (state, action) => {
+    searchElement: (state, action) => {
       const searchFilter = action.payload.toUpperCase();
       state.matchedElements = state.vehiclesArray.filter(
         (element) =>

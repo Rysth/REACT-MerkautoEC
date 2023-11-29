@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import {
   customerDataActions,
   destroyCustomer,
@@ -8,40 +7,24 @@ import {
 import CustomerModal from './CustomerModal';
 import Heading from '../../components/Heading/Heading';
 import SearchForm from '../../components/Forms/SearchForm/SearchForm';
+import useSearchModalState from '../../hooks/useSearchModalState/useSearchModalState';
 
 function Customer() {
-  const [searchData, setSearchData] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [customerSelected, setCustomerSelected] = useState(null);
-  const { matchedElements } = useSelector((store) => store.customers);
-  const dispatch = useDispatch();
-
-  const handleSearchData = (event) => {
-    const inputValue = event.target.value;
-    setSearchData(inputValue);
-
-    if (inputValue !== '') {
-      dispatch(customerDataActions.searchCustomer(inputValue));
-      return;
-    }
-
-    dispatch(customerDataActions.startArrays());
-  };
-
-  const handleDeleteElement = (elementID) => {
-    dispatch(destroyCustomer(elementID)).then(() => dispatch(fetchCustomers()));
-  };
-
-  const handleModalOpen = (customerID = null) => {
-    if (customerID) {
-      setCustomerSelected(
-        matchedElements.find((customer) => customer.id === customerID),
-      );
-    }
-    setShowModal(true);
-  };
-
-  const handleModalClose = () => setShowModal(false);
+  const {
+    searchData,
+    showModal,
+    elementSelected,
+    matchedElements,
+    handleSearchData,
+    handleDeleteElement,
+    handleModalOpen,
+    handleModalClose,
+  } = useSearchModalState(
+    'customers',
+    customerDataActions,
+    destroyCustomer,
+    fetchCustomers,
+  );
 
   useEffect(() => {}, [matchedElements]);
 
@@ -125,7 +108,7 @@ function Customer() {
       {showModal && (
         <CustomerModal
           handleModalClose={handleModalClose}
-          customerData={customerSelected}
+          customerData={elementSelected}
         />
       )}
     </section>

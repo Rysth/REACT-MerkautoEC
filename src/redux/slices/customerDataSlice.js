@@ -131,7 +131,7 @@ const customersSlice = createSlice({
     startArrays: (state) => {
       state.matchedElements = state.customersArray;
     },
-    searchCustomer: (state, action) => {
+    searchElement: (state, action) => {
       const searchFilter = action.payload.toUpperCase();
       state.matchedElements = state.customersArray.filter(
         (element) =>

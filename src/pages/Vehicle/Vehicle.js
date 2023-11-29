@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 import {
   vehicleDataActions,
   destroyVehicle,
@@ -7,50 +6,25 @@ import {
 } from '../../redux/slices/vehicleDataSlice';
 import Heading from '../../components/Heading/Heading';
 import VehicleModal from './VehicleModal';
+import SearchForm from '../../components/Forms/SearchForm/SearchForm';
+import useSearchModalState from '../../hooks/useSearchModalState/useSearchModalState';
 
 function Vehicle() {
-  const [searchData, setSearchData] = useState('');
-  const [showModal, setShowModal] = useState(false);
-  const [vehicleSelected, setVehicleSelected] = useState(null);
-  const { matchedElements } = useSelector((store) => store.vehicles);
-  const dispatch = useDispatch();
-
-  const handleSearchData = (event) => {
-    const inputValue = event.target.value;
-
-    // Update the state and use the inputValue directly
-    setSearchData(inputValue);
-
-    // Use inputValue directly in the condition
-    if (inputValue === '') {
-      dispatch(vehicleDataActions.startArrays());
-    } else {
-      dispatch(vehicleDataActions.searchVehicle(inputValue));
-    }
-  };
-
-  const handleDeleteElement = (elementID) => {
-    dispatch(destroyVehicle(elementID)).then(() => dispatch(fetchVehicles()));
-  };
-
-  const handleModalOpen = (vehicleID = null) => {
-    if (vehicleID) {
-      setVehicleSelected(
-        matchedElements.find((vehicle) => vehicle.id === vehicleID),
-      );
-    } else {
-      setVehicleSelected(null);
-    }
-    setShowModal(true);
-  };
-
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
-
-  useEffect(() => {
-    handleModalClose();
-  }, []);
+  const {
+    searchData,
+    showModal,
+    elementSelected,
+    matchedElements,
+    handleSearchData,
+    handleDeleteElement,
+    handleModalOpen,
+    handleModalClose,
+  } = useSearchModalState(
+    'vehicles',
+    vehicleDataActions,
+    destroyVehicle,
+    fetchVehicles,
+  );
 
   useEffect(() => {}, [matchedElements]);
 
@@ -58,16 +32,10 @@ function Vehicle() {
     <section className="flex flex-col h-full">
       <Heading text="Vehículos" />
       <div className="flex flex-col max-h-[28rem] sm:max-h-[30rem] 2xl:max-h-[35rem]">
-        <div className="flex items-center gap-2 py-2 text-sm sm:py-3">
-          <input
-            type="text"
-            aria-label={`Vehicle search bar value: ${searchData}`}
-            className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
-            placeholder="Buscar..."
-            onChange={handleSearchData}
-            onPaste={handleSearchData}
-          />
-        </div>
+        <SearchForm
+          searchData={searchData}
+          handleSearchData={handleSearchData}
+        />
         <div className="w-full mt-5 overflow-auto border-b">
           <table className="relative w-full text-sm min-w-[60rem]">
             <thead className="sticky top-0 text-gray-400 bg-white ">
@@ -136,7 +104,7 @@ function Vehicle() {
       {showModal && (
         <VehicleModal
           handleModalClose={handleModalClose}
-          vehicleData={vehicleSelected}
+          vehicleData={elementSelected}
         />
       )}
     </section>
