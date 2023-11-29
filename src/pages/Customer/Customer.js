@@ -7,6 +7,7 @@ import {
 } from '../../redux/slices/customerDataSlice';
 import CustomerModal from './CustomerModal';
 import Heading from '../../components/Heading/Heading';
+import SearchForm from '../../components/Forms/SearchForm/SearchForm';
 
 function Customer() {
   const [searchData, setSearchData] = useState('');
@@ -17,16 +18,14 @@ function Customer() {
 
   const handleSearchData = (event) => {
     const inputValue = event.target.value;
-
-    // Update the state and use the inputValue directly
     setSearchData(inputValue);
 
-    // Use inputValue directly in the condition
-    if (inputValue === '') {
-      dispatch(customerDataActions.startArrays());
-    } else {
+    if (inputValue !== '') {
       dispatch(customerDataActions.searchCustomer(inputValue));
+      return;
     }
+
+    dispatch(customerDataActions.startArrays());
   };
 
   const handleDeleteElement = (elementID) => {
@@ -38,16 +37,11 @@ function Customer() {
       setCustomerSelected(
         matchedElements.find((customer) => customer.id === customerID),
       );
-    } else {
-      setCustomerSelected(null);
     }
-    console.log(customerSelected);
     setShowModal(true);
   };
 
-  const handleModalClose = () => {
-    setShowModal(false);
-  };
+  const handleModalClose = () => setShowModal(false);
 
   useEffect(() => {}, [matchedElements]);
 
@@ -55,16 +49,10 @@ function Customer() {
     <section className="flex flex-col h-full">
       <Heading text="Clientes" />
       <div className="flex flex-col max-h-[28rem] sm:max-h-[30rem] 2xl:max-h-[35rem]">
-        <div className="flex items-center gap-2 py-2 text-sm sm:py-3">
-          <input
-            type="text"
-            aria-label={`Customer search bar value: ${searchData}`}
-            className="flex-1 px-3 py-2 border rounded-lg focus:outline-none focus:border-gray-500"
-            placeholder="Buscar..."
-            onChange={handleSearchData}
-            onPaste={handleSearchData}
-          />
-        </div>
+        <SearchForm
+          searchData={searchData}
+          handleSearchData={handleSearchData}
+        />
         <div className="w-full mt-5 overflow-auto border-b">
           <table className="relative w-full text-sm min-w-[60rem]">
             <thead className="sticky top-0 text-gray-400 bg-white ">
