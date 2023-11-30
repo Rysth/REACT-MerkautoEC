@@ -29,6 +29,8 @@ function useSearchModalState(slice, dataActions, destroyAction, fetchAction) {
       setElementSelected(
         matchedElements.find((element) => element.id === elementID),
       );
+    } else {
+      setElementSelected(null);
     }
     setShowModal(true);
   };

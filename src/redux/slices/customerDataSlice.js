@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
+import API_URL from '../../helpers/environment';
 
 const initialState = {
   customersArray: [],
@@ -10,9 +12,8 @@ const initialState = {
 
 async function fetchCsrfToken() {
   try {
-    const response = await fetch('http://localhost:4000/api/csrf_token');
-    const data = await response.json();
-    return data.token;
+    const response = await axios.get(`${API_URL}/csrf_token`);
+    return response.data.token;
   } catch (error) {
     return null;
   }
@@ -23,9 +24,8 @@ export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
   async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/customers');
-      const data = await response.json();
-      return data;
+      const response = await axios.get(`${API_URL}/customers`);
+      return response.data;
     } catch (error) {
       throw new Error(`Error fetching customers: ${error.message}`);
     }
@@ -38,24 +38,21 @@ export const createCustomer = createAsyncThunk(
   async (customerData) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch('http://localhost:4000/api/customers', {
-        method: 'POST',
+      const response = await axios.post(`${API_URL}/customers`, customerData, {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken,
         },
-        credentials: 'include',
-        body: JSON.stringify(customerData),
+        withCredentials: true,
       });
 
-      if (!response.ok) {
+      if (!response.status === 200) {
         NotificationManager.error('Cliente no Creado', 'Fallo', 1250);
         throw new Error('Error creating customer');
       }
 
       NotificationManager.success('Cliente Creado.', 'Exito', 1250);
-      const newCustomer = await response.json();
-      return newCustomer;
+      return response.data;
     } catch (error) {
       throw new Error(`Error creating  customers: ${error.message}`);
     }
@@ -68,10 +65,9 @@ export const destroyCustomer = createAsyncThunk(
   async (customerID) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch(
-        `http://localhost:4000/api/customers/${customerID}`,
+      const response = await axios.delete(
+        `${API_URL}/customers/${customerID}`,
         {
-          method: 'DELETE',
           headers: {
             'X-CSRF-Token': csrfToken,
           },
@@ -79,12 +75,13 @@ export const destroyCustomer = createAsyncThunk(
       );
 
       if (response.status !== 204) {
-        NotificationManager.error('Cliente tiene Vehículos.', 'Fallo', 1250);
+        NotificationManager.error('Cliente no Eliminado', 'Fallo', 1250);
         throw new Error('Error deleting customer');
       }
 
       NotificationManager.success('Cliente Eliminado.', 'Exito', 1250);
     } catch (error) {
+      NotificationManager.error('Cliente tiene Vehículos.', 'Fallo', 1250);
       throw new Error(`Error deleting customers: ${error.message}`);
     }
   },
@@ -96,21 +93,20 @@ export const updateCustomer = createAsyncThunk(
   async ({ customerData, customerID }) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch(
-        `http://localhost:4000/api/customers/${customerID}`,
+      const response = await axios.put(
+        `${API_URL}/customers/${customerID}`,
+        customerData,
         {
-          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken,
           },
-          credentials: 'include',
-          body: JSON.stringify(customerData),
+          withCredentials: true,
         },
       );
 
-      if (!response.ok) {
-        const errorResponse = await response.json();
+      if (!response.status === 200) {
+        const errorResponse = response.data;
         NotificationManager.error('Cliente no Actualizado.', 'Exito', 1250);
         throw new Error(
           `Error updating customer: ${response.status} - ${errorResponse.message}`,

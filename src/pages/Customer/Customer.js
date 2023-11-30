@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import {
   customerDataActions,
   destroyCustomer,
@@ -43,8 +43,6 @@ function Customer() {
   const handleCancel = () => {
     setShowConfirmation(false);
   };
-
-  useEffect(() => {}, [matchedElements]);
 
   return (
     <section className="flex flex-col h-full">

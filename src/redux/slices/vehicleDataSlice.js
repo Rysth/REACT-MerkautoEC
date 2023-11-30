@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
+import API_URL from '../../helpers/environment';
 
 const initialState = {
   vehiclesArray: [],
@@ -10,9 +12,8 @@ const initialState = {
 
 async function fetchCsrfToken() {
   try {
-    const response = await fetch('http://localhost:4000/api/csrf_token');
-    const data = await response.json();
-    return data.token;
+    const response = await axios.get(`${API_URL}/csrf_token`);
+    return response.data.token;
   } catch (error) {
     return null;
   }
@@ -23,9 +24,8 @@ export const fetchVehicles = createAsyncThunk(
   'vehicles/fetchVehicles',
   async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/vehicles');
-      const data = await response.json();
-      return data;
+      const response = await axios.get(`${API_URL}/vehicles`);
+      return response.data;
     } catch (error) {
       throw new Error(`Error fetching vehicles: ${error.message}`);
     }
@@ -38,24 +38,21 @@ export const createVehicle = createAsyncThunk(
   async (vehicleData) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch('http://localhost:4000/api/vehicles', {
-        method: 'POST',
+      const response = await axios.post(`${API_URL}/vehicles`, vehicleData, {
         headers: {
           'Content-Type': 'application/json',
           'X-CSRF-Token': csrfToken,
         },
-        credentials: 'include',
-        body: JSON.stringify(vehicleData),
+        withCredentials: true,
       });
 
-      if (!response.ok) {
+      if (!response.status === 200) {
         NotificationManager.error('Vehículo no Creado', 'Fallo', 1250);
         throw new Error('Error creating vehicle');
       }
 
       NotificationManager.success('Vehículo Creado.', 'Exito', 1250);
-      const newVehicle = await response.json();
-      return newVehicle;
+      return response.data;
     } catch (error) {
       throw new Error(`Error creating vehicles: ${error.message}`);
     }
@@ -68,15 +65,11 @@ export const destroyVehicle = createAsyncThunk(
   async (vehicleID) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch(
-        `http://localhost:4000/api/vehicles/${vehicleID}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'X-CSRF-Token': csrfToken,
-          },
+      const response = await axios.delete(`${API_URL}/vehicles/${vehicleID}`, {
+        headers: {
+          'X-CSRF-Token': csrfToken,
         },
-      );
+      });
 
       if (response.status !== 204) {
         NotificationManager.error('Vehículo no Encontrado.', 'Fallo', 1250);
@@ -96,21 +89,20 @@ export const updateVehicle = createAsyncThunk(
   async ({ vehicleData, vehicleID }) => {
     try {
       const csrfToken = await fetchCsrfToken();
-      const response = await fetch(
-        `http://localhost:4000/api/vehicles/${vehicleID}`,
+      const response = await axios.put(
+        `${API_URL}/vehicles/${vehicleID}`,
+        vehicleData,
         {
-          method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-Token': csrfToken,
           },
-          credentials: 'include',
-          body: JSON.stringify(vehicleData),
+          withCredentials: true,
         },
       );
 
-      if (!response.ok) {
-        const errorResponse = await response.json();
+      if (!response.status === 200) {
+        const errorResponse = response.data;
         NotificationManager.error('Vehículo no Actualizado.', 'Exito', 1250);
         throw new Error(
           `Error updating vehicle: ${response.status} - ${errorResponse.message}`,
