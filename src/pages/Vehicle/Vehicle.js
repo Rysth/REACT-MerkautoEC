@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   vehicleDataActions,
   destroyVehicle,
@@ -7,6 +7,7 @@ import {
 import Heading from '../../components/Heading/Heading';
 import VehicleModal from './VehicleModal';
 import SearchForm from '../../components/Forms/SearchForm/SearchForm';
+import ConfirmationModal from '../../components/Modal/ConfirmationModal';
 import useSearchModalState from '../../hooks/useSearchModalState/useSearchModalState';
 
 function Vehicle() {
@@ -25,6 +26,23 @@ function Vehicle() {
     destroyVehicle,
     fetchVehicles,
   );
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [element, setElement] = useState('');
+
+  const handleDeleteConfirmation = (elementID) => {
+    setElement(elementID);
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDeleteElement(element);
+    setShowConfirmation(false);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {}, [matchedElements]);
 
@@ -77,7 +95,7 @@ function Vehicle() {
                       aria-label="Edit button"
                       className="text-white btn-danger btn"
                       onClick={() => {
-                        handleDeleteElement(data.id);
+                        handleDeleteConfirmation(data.id);
                       }}
                     >
                       Eliminar
@@ -105,6 +123,12 @@ function Vehicle() {
         <VehicleModal
           handleModalClose={handleModalClose}
           vehicleData={elementSelected}
+        />
+      )}
+      {showConfirmation && (
+        <ConfirmationModal
+          handleConfirmDelete={handleConfirmDelete}
+          handleCancel={handleCancel}
         />
       )}
     </section>

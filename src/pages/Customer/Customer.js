@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   customerDataActions,
   destroyCustomer,
@@ -8,6 +8,7 @@ import CustomerModal from './CustomerModal';
 import Heading from '../../components/Heading/Heading';
 import SearchForm from '../../components/Forms/SearchForm/SearchForm';
 import useSearchModalState from '../../hooks/useSearchModalState/useSearchModalState';
+import ConfirmationModal from '../../components/Modal/ConfirmationModal';
 
 function Customer() {
   const {
@@ -25,6 +26,23 @@ function Customer() {
     destroyCustomer,
     fetchCustomers,
   );
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [element, setElement] = useState('');
+
+  const handleDeleteConfirmation = (elementID) => {
+    setElement(elementID);
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmDelete = () => {
+    handleDeleteElement(element);
+    setShowConfirmation(false);
+  };
+
+  const handleCancel = () => {
+    setShowConfirmation(false);
+  };
 
   useEffect(() => {}, [matchedElements]);
 
@@ -81,7 +99,7 @@ function Customer() {
                       aria-label="Edit button"
                       className="text-white btn-danger btn"
                       onClick={() => {
-                        handleDeleteElement(data.id);
+                        handleDeleteConfirmation(data.id);
                       }}
                     >
                       Eliminar
@@ -109,6 +127,12 @@ function Customer() {
         <CustomerModal
           handleModalClose={handleModalClose}
           customerData={elementSelected}
+        />
+      )}
+      {showConfirmation && (
+        <ConfirmationModal
+          handleConfirmDelete={handleConfirmDelete}
+          handleCancel={handleCancel}
         />
       )}
     </section>
