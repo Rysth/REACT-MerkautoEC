@@ -1,63 +1,97 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
-const activeStatusFromSession = localStorage.getItem('active');
+const userCredentialsData = JSON.parse(localStorage.getItem('userCredentials'));
+const authTokenData = localStorage.getItem('authToken');
 
-const credentials = {
-  email: 'admin@merkautoec.com',
-  password: '@MerkautoEC',
-  active: activeStatusFromSession === 'true',
+const initialState = {
+  userCredentials: userCredentialsData || {},
+  loading: false,
+  active: userCredentialsData !== null,
+  authToken: authTokenData || '',
 };
 
-export const changeActiveStatus = createAsyncThunk(
-  'credentials/changeActiveStatus',
-  async (payload) => {
-    NotificationManager.info('Autentificando...', 'Información', 1500);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    const { email, password } = payload;
-    if (email !== credentials.email || password !== credentials.password) {
-      NotificationManager.error(
-        '¡Email o Contraseña incorrecta!',
-        'Fallo',
-        1500,
+export const createSession = createAsyncThunk(
+  'credentials/createSession',
+  async (customerData) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3001/login',
+        customerData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
       );
-      return { ...credentials, active: false };
-    }
 
-    NotificationManager.success('¡Ingreso Exítoso!', 'Exíto', 1500);
-    localStorage.setItem('active', true);
-    return { ...credentials, active: true };
+      if (!response.status === 200) {
+        NotificationManager.error('Email/Contraseña Incorrecta', 'Fallo', 1250);
+        throw new Error('Error creating customer');
+      }
+
+      NotificationManager.success('Ingresó Correctamente!', 'Exito', 1250);
+      return { ...response.data, ...response.headers };
+    } catch (error) {
+      NotificationManager.error('Email/Contraseña Incorrecta', 'Fallo', 1250);
+      throw new Error('Error creating customer');
+    }
   },
 );
 
-const initialState = {
-  userCredentials: credentials,
-  loading: false,
-};
+export const destroySession = createAsyncThunk(
+  'credentials/destroySession',
+  async (authorizationToken) => {
+    try {
+      const response = await axios.delete('http://localhost:3001/logout', {
+        headers: {
+          Authorization: authorizationToken,
+        },
+        withCredentials: true,
+      });
+
+      if (!response.status === 200) {
+        NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
+        throw new Error('Error logging out');
+      }
+
+      NotificationManager.success('¡Muchas Gracias!', 'Exito', 1250);
+    } catch (error) {
+      NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
+      throw new Error('Error logging out');
+    }
+  },
+);
 
 export const loginDataSlice = createSlice({
   name: 'credentials',
   initialState,
-  reducers: {
-    logoutFromApp: (state) => {
-      state.userCredentials.active = false;
-      localStorage.setItem('active', state.userCredentials.active);
-      NotificationManager.info('¡Muchas Gracias!', 'Información', 1500);
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(changeActiveStatus.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(changeActiveStatus.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userCredentials = action.payload;
-      })
-      .addCase(changeActiveStatus.rejected, (state) => {
-        state.loading = false;
-      });
+    builder.addCase(createSession.fulfilled, (state, action) => {
+      const { user } = action.payload.status.data;
+      const { authorization } = action.payload;
+
+      state.userCredentials = user;
+      state.loading = false;
+      state.active = true;
+      state.authToken = authorization;
+
+      localStorage.setItem(
+        'userCredentials',
+        JSON.stringify(state.userCredentials),
+      );
+      localStorage.setItem('authToken', state.authToken);
+    });
+    builder.addCase(destroySession.fulfilled, (state) => {
+      state.userCredentials = {};
+      state.loading = false;
+      state.active = false;
+      localStorage.removeItem('userCredentials');
+      localStorage.removeItem('authToken');
+    });
   },
 });
 

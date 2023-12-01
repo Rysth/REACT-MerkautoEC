@@ -20,7 +20,7 @@ function VehicleModal({ handleModalClose, vehicleData }) {
       (vehicle) => vehicle.placa.toUpperCase() === vehicleID,
     );
 
-    if (vehicleExist) {
+    if (vehicleExist && vehicleExist !== vehicleData) {
       NotificationManager.error('¡Vehículo ya registrado!', 'Advertencia');
       return;
     }
@@ -30,11 +30,6 @@ function VehicleModal({ handleModalClose, vehicleData }) {
       dispatch(createVehicle(newData))
         .then(() => dispatch(fetchVehicles()))
         .finally(() => handleModalClose());
-      return;
-    }
-
-    if (vehicleID === vehicleData.placa) {
-      NotificationManager.error('¡Vehículo ya registrado!', 'Advertencia');
       return;
     }
 
@@ -74,7 +69,9 @@ function VehicleModal({ handleModalClose, vehicleData }) {
                 defaultValue={vehicleData ? vehicleData.customer.id : ''}
               >
                 {customersArray.map((customer) => (
-                  <option value={customer.id}>{customer.nombre}</option>
+                  <option value={customer.id} key={customer.id}>
+                    {customer.nombre}
+                  </option>
                 ))}
               </select>
             </label>
