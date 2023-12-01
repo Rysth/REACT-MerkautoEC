@@ -1,6 +1,22 @@
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { createSession } from '../../redux/slices/loginDataSlice';
 import VehicleImage from '../../assets/images/vehicles/vehicle_1.jpg';
 
 function Login() {
+  const { register, handleSubmit } = useForm();
+  const dispatch = useDispatch();
+
+  const onSubmit = (data) => {
+    const userData = {
+      user: {
+        ...data,
+      },
+    };
+    dispatch(createSession(userData));
+  };
+
+  /* eslint-disable */
   return (
     <section className="w-full h-full bg-white">
       <div className="relative grid items-center justify-center h-full sm:grid-cols-2">
@@ -17,7 +33,10 @@ function Login() {
               Iniciar Sesión
             </h2>
           </header>
-          <form className="grid gap-5 mt-5 text-xs sm:text-sm sm:mt-10 w-60">
+          <form
+            className="grid gap-5 mt-5 text-xs sm:text-sm sm:mt-10 w-60"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <fieldset>
               <label
                 htmlFor="email"
@@ -26,9 +45,10 @@ function Login() {
                 Correo Electrónico:
                 <input
                   type="email"
-                  name="email"
-                  id="email"
+                  {...register('email')}
                   className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                  autoComplete=""
+                  required
                 />
               </label>
             </fieldset>
@@ -40,15 +60,16 @@ function Login() {
                 Contraseña
                 <input
                   type="password"
-                  name="password"
-                  id="password"
+                  {...register('password')}
                   className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                  autoComplete=""
+                  required
                 />
               </label>
             </fieldset>
             <fieldset className="flex items-center justify-end gap-1">
               <button
-                type="button"
+                type="submit"
                 className="float-right w-full !p-2 btn btn-info"
               >
                 Ingresar

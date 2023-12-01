@@ -15,9 +15,7 @@ import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 /* eslint-disable */
 function App() {
   const dispatch = useDispatch();
-  const active = useSelector(
-    (state) => state.credentials.userCredentials.active,
-  );
+  const active = useSelector((state) => state.credentials.active);
 
   useEffect(() => {
     dispatch(fetchCustomers());
