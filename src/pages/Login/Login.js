@@ -28,13 +28,14 @@ function Login() {
           />
         </picture>
         <article className="relative z-20 flex flex-col items-center justify-center p-6 bg-white sm:bg-none rounded-xl ">
-          <header>
+          <header className="mt-2 text-center">
             <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl">
-              Iniciar Sesión
+              Bienvenid@
             </h2>
+            <p className="text-base sm:text-2xl">Iniciar Sesión</p>
           </header>
           <form
-            className="grid gap-5 mt-5 text-xs sm:text-sm sm:mt-10 w-60"
+            className="grid gap-5 mt-5 text-xs sm:text-sm sm:mt-10 w-72"
             onSubmit={handleSubmit(onSubmit)}
           >
             <fieldset>
@@ -46,7 +47,7 @@ function Login() {
                 <input
                   type="email"
                   {...register('email')}
-                  className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                  className="flex-1 p-2 font-normal border rounded-lg shadow-lg focus:outline-none focus:border-gray-500"
                   autoComplete=""
                   required
                 />
@@ -61,7 +62,7 @@ function Login() {
                 <input
                   type="password"
                   {...register('password')}
-                  className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                  className="flex-1 p-2 font-normal border rounded-lg shadow-lg focus:outline-none focus:border-gray-500"
                   autoComplete=""
                   required
                 />
@@ -70,7 +71,7 @@ function Login() {
             <fieldset className="flex items-center justify-end gap-1">
               <button
                 type="submit"
-                className="float-right w-full !p-2 btn btn-info"
+                className="float-right w-full !p-2 btn btn-info !text-base"
               >
                 Ingresar
               </button>
