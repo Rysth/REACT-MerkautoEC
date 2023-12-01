@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
-import Cookies from 'js-cookie';
+
+const userCredentialsData = JSON.parse(localStorage.getItem('userCredentials'));
 
 const initialState = {
-  userCredentials: {},
+  userCredentials: userCredentialsData || {},
   loading: false,
-  active: Cookies.get('_session_id') !== '',
+  active: userCredentialsData !== null,
 };
 
 export const createSession = createAsyncThunk(
@@ -44,9 +45,14 @@ export const loginDataSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createSession.fulfilled, (state, action) => {
+      console.log(action.payload);
       state.userCredentials = action.payload;
       state.loading = false;
       state.active = true;
+      localStorage.setItem(
+        'userCredentials',
+        JSON.stringify(state.userCredentials),
+      );
     });
   },
 });

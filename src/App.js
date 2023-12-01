@@ -30,17 +30,17 @@ function App() {
         <section className="flex-1">
           <Routes>
             <Route
-              path="/"
+              path="/login"
               element={
-                <ProtectedRoute isAllowed={!active} redirectTo="/">
+                <ProtectedRoute isAllowed={!active} redirectTo="/login">
                   <Login />
                 </ProtectedRoute>
               }
             />
             <Route
-              path="/clientes"
+              path="/"
               element={
-                <ProtectedRoute isAllowed={active} redirectTo="/">
+                <ProtectedRoute isAllowed={active} redirectTo="/login">
                   <Customer />
                 </ProtectedRoute>
               }
@@ -48,7 +48,7 @@ function App() {
             <Route
               path="/vehiculos"
               element={
-                <ProtectedRoute isAllowed={active} redirectTo="/">
+                <ProtectedRoute isAllowed={active} redirectTo="/login">
                   <Vehicle />
                 </ProtectedRoute>
               }
