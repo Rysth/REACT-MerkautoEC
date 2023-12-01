@@ -1,26 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import 'react-notifications/lib/notifications.css';
 import { NotificationContainer } from 'react-notifications';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Customer from './pages/Customer/Customer';
 import Vehicle from './pages/Vehicle/Vehicle';
 import Login from './pages/Login/Login';
-import { fetchCustomers } from './redux/slices/customerDataSlice';
-import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 
 /* eslint-disable */
 function App() {
-  const dispatch = useDispatch();
   const active = useSelector((state) => state.credentials.active);
-
-  useEffect(() => {
-    dispatch(fetchCustomers());
-    dispatch(fetchVehicles());
-  }, [dispatch]);
 
   return (
     <BrowserRouter>

@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   vehicleDataActions,
   destroyVehicle,
@@ -27,6 +28,7 @@ function Vehicle() {
     fetchVehicles,
   );
 
+  const dispatch = useDispatch();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [element, setElement] = useState('');
 
@@ -43,6 +45,10 @@ function Vehicle() {
   const handleCancel = () => {
     setShowConfirmation(false);
   };
+
+  useEffect(() => {
+    dispatch(fetchVehicles());
+  }, [dispatch]);
 
   return (
     <section className="h-full p-4">

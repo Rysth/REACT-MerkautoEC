@@ -20,7 +20,7 @@ function CustomerModal({ handleModalClose, customerData }) {
     );
 
     if (customerExist && customerExist !== customerData) {
-      NotificationManager.error('¡Vehículo ya registrado!', 'Advertencia');
+      NotificationManager.error('¡Cliente ya registrado!', 'Advertencia');
       return;
     }
 

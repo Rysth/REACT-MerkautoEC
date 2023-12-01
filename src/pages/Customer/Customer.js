@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   customerDataActions,
   destroyCustomer,
@@ -27,6 +28,7 @@ function Customer() {
     fetchCustomers,
   );
 
+  const dispatch = useDispatch();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [element, setElement] = useState('');
 
@@ -43,6 +45,10 @@ function Customer() {
   const handleCancel = () => {
     setShowConfirmation(false);
   };
+
+  useEffect(() => {
+    dispatch(fetchCustomers());
+  }, [dispatch]);
 
   return (
     <section className="h-full p-4">
