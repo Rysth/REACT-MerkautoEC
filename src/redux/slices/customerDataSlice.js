@@ -10,15 +10,6 @@ const initialState = {
   error: null,
 };
 
-async function fetchCsrfToken() {
-  try {
-    const response = await axios.get(`${API_URL}/csrf_token`);
-    return response.data.token;
-  } catch (error) {
-    return null;
-  }
-}
-
 // GET customers#index
 export const fetchCustomers = createAsyncThunk(
   'customers/fetchCustomers',
@@ -37,11 +28,9 @@ export const createCustomer = createAsyncThunk(
   'customers/createCustomer',
   async (customerData) => {
     try {
-      const csrfToken = await fetchCsrfToken();
       const response = await axios.post(`${API_URL}/customers`, customerData, {
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
         },
         withCredentials: true,
       });
@@ -64,15 +53,7 @@ export const destroyCustomer = createAsyncThunk(
   'customers/destroyCustomer',
   async (customerID) => {
     try {
-      const csrfToken = await fetchCsrfToken();
-      const response = await axios.delete(
-        `${API_URL}/customers/${customerID}`,
-        {
-          headers: {
-            'X-CSRF-Token': csrfToken,
-          },
-        },
-      );
+      const response = await axios.delete(`${API_URL}/customers/${customerID}`);
 
       if (response.status !== 204) {
         NotificationManager.error('Cliente no Eliminado', 'Fallo', 1250);
@@ -92,14 +73,12 @@ export const updateCustomer = createAsyncThunk(
   'customers/updateCustomer',
   async ({ customerData, customerID }) => {
     try {
-      const csrfToken = await fetchCsrfToken();
       const response = await axios.put(
         `${API_URL}/customers/${customerID}`,
         customerData,
         {
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': csrfToken,
           },
           withCredentials: true,
         },

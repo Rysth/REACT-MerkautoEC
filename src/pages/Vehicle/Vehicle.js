@@ -69,6 +69,7 @@ function Vehicle() {
                     <th className="font-normal pb-2 w-[10rem]">Cliente</th>
                     <th className="font-normal pb-2 w-[10rem]">Marca</th>
                     <th className="font-normal pb-2 w-[8rem]">Modelo</th>
+                    <th className="font-normal pb-2 w-[8rem]">Color</th>
                     <th className="font-normal pb-2 w-[10rem] text-center">
                       Acciones
                     </th>
@@ -82,9 +83,15 @@ function Vehicle() {
                     >
                       <td className="py-2 font-bold">{index + 1}</td>
                       <td className="py-2">{data.placa}</td>
-                      <td className="py-2 ">{data.customer.nombre}</td>
+                      <td className="py-2">{data.customer.nombre}</td>
                       <td className="py-2">{data.marca}</td>
                       <td className="py-2">{data.modelo}</td>
+                      <td
+                        style={{ backgroundColor: `${data.color}` }}
+                        className="py-2"
+                      >
+                        <span className="opacity-0">{data.color}</span>
+                      </td>
                       <td className="flex items-center justify-center gap-1 py-2">
                         <button
                           type="button"
