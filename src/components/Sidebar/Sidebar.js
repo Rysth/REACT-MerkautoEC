@@ -1,5 +1,4 @@
 import { createContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import SidebarItem from './SidebarItem';
 import MerkautoImage from '../../assets/images/brand/brand.png';
 import RysthImage from '../../assets/images/brand/logo_rysthcraft.png';
@@ -16,7 +15,6 @@ const SidebarContext = createContext();
 function Sidebar() {
   const isMobile = window.innerWidth < 640;
   const [expanded, setExpanded] = useState(true);
-  const { userCredentials } = useSelector((store) => store.credentials);
 
   const closeSideBar = () => setExpanded(false);
 
@@ -72,13 +70,6 @@ function Sidebar() {
               />
             ))}
           </SidebarContext.Provider>
-          <li
-            className={`mt-auto text-sm font-bold text-center ${
-              expanded ? 'mt-auto' : 'hidden'
-            }`}
-          >
-            {`Usuario: ${userCredentials.name}`}
-          </li>
         </ul>
         <div className={`flex justify-between gap-5 ${!expanded && 'hidden'}`}>
           <a

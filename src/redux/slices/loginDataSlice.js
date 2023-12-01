@@ -3,11 +3,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
 const userCredentialsData = JSON.parse(localStorage.getItem('userCredentials'));
+const authTokenData = localStorage.getItem('authToken');
 
 const initialState = {
   userCredentials: userCredentialsData || {},
   loading: false,
   active: userCredentialsData !== null,
+  authToken: authTokenData || '',
 };
 
 export const createSession = createAsyncThunk(
@@ -31,10 +33,34 @@ export const createSession = createAsyncThunk(
       }
 
       NotificationManager.success('Ingresó Correctamente!', 'Exito', 1250);
-      return response.data.status.data.user;
+      return { ...response.data, ...response.headers };
     } catch (error) {
       NotificationManager.error('Email/Contraseña Incorrecta', 'Fallo', 1250);
       throw new Error('Error creating customer');
+    }
+  },
+);
+
+export const destroySession = createAsyncThunk(
+  'credentials/destroySession',
+  async (authorizationToken) => {
+    try {
+      const response = await axios.delete('http://localhost:3001/logout', {
+        headers: {
+          Authorization: authorizationToken,
+        },
+        withCredentials: true,
+      });
+
+      if (!response.status === 200) {
+        NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
+        throw new Error('Error logging out');
+      }
+
+      NotificationManager.success('¡Muchas Gracias!', 'Exito', 1250);
+    } catch (error) {
+      NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
+      throw new Error('Error logging out');
     }
   },
 );
@@ -45,14 +71,26 @@ export const loginDataSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createSession.fulfilled, (state, action) => {
-      console.log(action.payload);
-      state.userCredentials = action.payload;
+      const { user } = action.payload.status.data;
+      const { authorization } = action.payload;
+
+      state.userCredentials = user;
       state.loading = false;
       state.active = true;
+      state.authToken = authorization;
+
       localStorage.setItem(
         'userCredentials',
         JSON.stringify(state.userCredentials),
       );
+      localStorage.setItem('authToken', state.authToken);
+    });
+    builder.addCase(destroySession.fulfilled, (state) => {
+      state.userCredentials = {};
+      state.loading = false;
+      state.active = false;
+      localStorage.removeItem('userCredentials');
+      localStorage.removeItem('authToken');
     });
   },
 });

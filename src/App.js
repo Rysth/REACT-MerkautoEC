@@ -27,12 +27,12 @@ function App() {
       <main className="bg-[var(--CL-primary-blue)] flex flex-col sm:flex-row h-screen">
         {active && <Sidebar />}
         <NotificationContainer />
-        <section className="flex-1">
+        <section className="flex-1 overflow-hidden">
           <Routes>
             <Route
               path="/login"
               element={
-                <ProtectedRoute isAllowed={!active} redirectTo="/login">
+                <ProtectedRoute isAllowed={!active} redirectTo="/">
                   <Login />
                 </ProtectedRoute>
               }
