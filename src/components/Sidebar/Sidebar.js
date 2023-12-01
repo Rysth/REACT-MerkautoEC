@@ -6,8 +6,9 @@ import CoficImage from '../../assets/images/brand/logo_cofic.png';
 
 /* eslint-disable */
 const sidebarItems = [
-  { id: 1, route: '/', text: 'Clientes', icon: 'fa-user' },
-  { id: 2, route: '/vehiculos', text: 'Vehículos', icon: 'fa-car' },
+  { id: 1, route: '/', text: 'Inicio', icon: 'fa-home' },
+  { id: 2, route: '/clientes', text: 'Clientes', icon: 'fa-user' },
+  { id: 3, route: '/vehiculos', text: 'Vehículos', icon: 'fa-car' },
 ];
 /* eslint-enable */
 

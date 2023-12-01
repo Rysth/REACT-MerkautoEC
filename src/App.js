@@ -8,6 +8,7 @@ import './index.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Customer from './pages/Customer/Customer';
 import Vehicle from './pages/Vehicle/Vehicle';
+import Login from './pages/Login/Login';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
 import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 
@@ -26,37 +27,35 @@ function App() {
   return (
     <BrowserRouter>
       <main className="bg-[var(--CL-primary-blue)] flex flex-col sm:flex-row h-screen">
-        <Sidebar />
+        {active && <Sidebar />}
         <NotificationContainer />
-        <section className="flex-1 p-4 sm:overflow-hidden">
-          <div className="h-full p-6 bg-white sm:p-10 rounded-2xl">
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute isAllowed={!active} redirectTo="/">
-                    <Customer />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/vehiculos"
-                element={
-                  <ProtectedRoute isAllowed={!active} redirectTo="/">
-                    <Vehicle />
-                  </ProtectedRoute>
-                }
-              />
-              {/* <Route
-            path="/orden"
-            element={
-              <ProtectedRoute isAllowed={active} redirectTo="/">
-                <Order />
-              </ProtectedRoute>
-            }
-          /> */}
-            </Routes>
-          </div>
+        <section className="flex-1">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute isAllowed={!active} redirectTo="/">
+                  <Login />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/clientes"
+              element={
+                <ProtectedRoute isAllowed={active} redirectTo="/">
+                  <Customer />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/vehiculos"
+              element={
+                <ProtectedRoute isAllowed={active} redirectTo="/">
+                  <Vehicle />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
         </section>
       </main>
     </BrowserRouter>
