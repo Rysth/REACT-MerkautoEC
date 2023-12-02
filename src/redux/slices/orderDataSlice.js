@@ -49,8 +49,11 @@ const ordersSlice = createSlice({
     },
     searchElement: (state, action) => {
       const searchFilter = action.payload.toUpperCase();
-      state.matchedElements = state.ordersArray.filter((element) =>
-        element.vehiculo.toUpperCase().includes(searchFilter),
+      state.matchedElements = state.ordersArray.filter(
+        (element) =>
+          element.unique_id.toUpperCase().includes(searchFilter) ||
+          element.vehicle.placa.toUpperCase().includes(searchFilter) ||
+          element.customer.nombre.toUpperCase().includes(searchFilter),
       );
     },
     /* eslint-enable */

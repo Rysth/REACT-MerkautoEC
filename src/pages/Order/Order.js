@@ -65,9 +65,10 @@ function Order() {
                 <thead className="sticky top-0 text-gray-400 bg-white">
                   <tr className="text-left border-b">
                     <th className="font-normal pb-2 w-[3rem]">#</th>
-                    <th className="font-normal pb-2 w-[8rem]">Cliente</th>
-                    <th className="font-normal pb-2 w-[10rem]">Vehículo</th>
-                    <th className="font-normal pb-2 w-[10rem]">Fecha</th>
+                    <th className="font-normal pb-2 w-[6rem]">Código</th>
+                    <th className="font-normal pb-2 w-[6rem]">Vehículo</th>
+                    <th className="font-normal pb-2 w-[15rem]">Cliente</th>
+                    <th className="font-normal pb-2 w-[8rem]">Fecha</th>
                     <th className="font-normal pb-2 w-[8rem]">Estado</th>
                     <th className="font-normal pb-2 w-[10rem] text-center">
                       Acciones
@@ -78,18 +79,17 @@ function Order() {
                   {matchedElements.map((data, index) => (
                     <tr key={data.id} className="py-2 text-sm ">
                       <td className="py-2 font-bold">{index + 1}</td>
-                      <td className="py-2">{data.customer.nombre}</td>
+                      <td className="py-2">{data.unique_id}</td>
                       <td className="py-2">{data.vehicle.placa}</td>
+                      <td className="py-2">{data.customer.nombre}</td>
                       <td className="py-2">{data.order_date}</td>
                       <td className="py-2 text-center">
                         <span
                           className={`status ${
-                            data.estado === 'Activo'
-                              ? 'status-active'
-                              : 'status-complete'
+                            data.active ? 'status-active' : 'status-complete'
                           }`}
                         >
-                          {data.estado}
+                          {data.active ? 'Activo' : 'Completado'}
                         </span>
                       </td>
                       <td className="flex items-center justify-center gap-1 py-2">

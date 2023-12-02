@@ -2,8 +2,10 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
 
-const userCredentialsData = JSON.parse(localStorage.getItem('userCredentials'));
-const authTokenData = localStorage.getItem('authToken');
+const userCredentialsData = JSON.parse(
+  sessionStorage.getItem('userCredentials'),
+);
+const authTokenData = sessionStorage.getItem('authToken');
 
 const initialState = {
   userCredentials: userCredentialsData || {},
@@ -79,18 +81,18 @@ export const loginDataSlice = createSlice({
       state.active = true;
       state.authToken = authorization;
 
-      localStorage.setItem(
+      sessionStorage.setItem(
         'userCredentials',
         JSON.stringify(state.userCredentials),
       );
-      localStorage.setItem('authToken', state.authToken);
+      sessionStorage.setItem('authToken', state.authToken);
     });
     builder.addCase(destroySession.fulfilled, (state) => {
       state.userCredentials = {};
       state.loading = false;
       state.active = false;
-      localStorage.removeItem('userCredentials');
-      localStorage.removeItem('authToken');
+      sessionStorage.removeItem('userCredentials');
+      sessionStorage.removeItem('authToken');
     });
   },
 });

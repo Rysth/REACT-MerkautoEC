@@ -66,9 +66,9 @@ function Vehicle() {
                 <thead className="sticky top-0 text-gray-400 bg-white ">
                   <tr className="text-left border-b">
                     <th className="font-normal pb-2 w-[3rem]">#</th>
-                    <th className="font-normal pb-2 w-[8rem]">Placa</th>
-                    <th className="font-normal pb-2 w-[10rem]">Cliente</th>
-                    <th className="font-normal pb-2 w-[10rem]">Marca</th>
+                    <th className="font-normal pb-2 w-[6rem]">Placa</th>
+                    <th className="font-normal pb-2 w-[15rem]">Cliente</th>
+                    <th className="font-normal pb-2 w-[6rem]">Marca</th>
                     <th className="font-normal pb-2 w-[8rem]">Modelo</th>
                     <th className="font-normal pb-2 w-[8rem]">Color</th>
                     <th className="font-normal pb-2 w-[10rem] text-center">
