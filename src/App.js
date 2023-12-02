@@ -12,6 +12,7 @@ import Vehicle from './pages/Vehicle/Vehicle';
 import Order from './pages/Order/Order';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
 import { fetchVehicles } from './redux/slices/vehicleDataSlice';
+import { fetchOrders } from './redux/slices/orderDataSlice';
 
 /* eslint-disable */
 function App() {
