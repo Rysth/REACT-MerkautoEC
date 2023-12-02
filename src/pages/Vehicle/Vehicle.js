@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   vehicleDataActions,
   destroyVehicle,
@@ -31,6 +31,7 @@ function Vehicle() {
   const dispatch = useDispatch();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [element, setElement] = useState('');
+  const { customersArray } = useSelector((store) => store.customers);
 
   const handleDeleteConfirmation = (elementID) => {
     setElement(elementID);
@@ -124,10 +125,13 @@ function Vehicle() {
             <button
               type="button"
               aria-label="New Order button"
-              className="btn btn-success"
+              className={`btn btn-success ${
+                customersArray.length === 0 && 'grayscale pointer-events-none'
+              }`}
               onClick={() => {
                 handleModalOpen();
               }}
+              disabled={customersArray.length === 0}
             >
               Crear
             </button>
