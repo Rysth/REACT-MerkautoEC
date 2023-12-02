@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Sidebar from './components/Sidebar/Sidebar';
+import Login from './pages/Login/Login';
 import Customer from './pages/Customer/Customer';
 import Vehicle from './pages/Vehicle/Vehicle';
-import Login from './pages/Login/Login';
+import Order from './pages/Order/Order';
 import { fetchCustomers } from './redux/slices/customerDataSlice';
 import { fetchVehicles } from './redux/slices/vehicleDataSlice';
 
@@ -20,6 +21,7 @@ function App() {
   useEffect(() => {
     dispatch(fetchCustomers());
     dispatch(fetchVehicles());
+    dispatch(fetchOrders());
   }, [dispatch]);
 
   return (
@@ -50,6 +52,14 @@ function App() {
               element={
                 <ProtectedRoute isAllowed={active} redirectTo="/login">
                   <Vehicle />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/ordenes"
+              element={
+                <ProtectedRoute isAllowed={active} redirectTo="/login">
+                  <Order />
                 </ProtectedRoute>
               }
             />
