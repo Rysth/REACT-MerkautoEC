@@ -65,7 +65,7 @@ export const destroyVehicle = createAsyncThunk(
 
       NotificationManager.success('Vehículo Eliminado.', 'Exito', 1250);
     } catch (error) {
-      throw new Error(`Error deleting vehicles: ${error.message}`);
+      throw new Error(`Error deleting order: ${error.message}`);
     }
   },
 );

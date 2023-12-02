@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { NotificationManager } from 'react-notifications';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import API_URL from '../../helpers/environment';
 
@@ -18,6 +19,25 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
     throw new Error(`Error fetching orders: ${error.message}`);
   }
 });
+
+// DELETE orders#destroy
+export const destroyOrder = createAsyncThunk(
+  'orders/destroyOrder',
+  async (vehicleID) => {
+    try {
+      const response = await axios.delete(`${API_URL}/orders/${vehicleID}`, {});
+
+      if (response.status !== 204) {
+        NotificationManager.error('Orden no Encontrada.', 'Fallo', 1250);
+        throw new Error('Error deleting order');
+      }
+
+      NotificationManager.success('Orden Eliminada.', 'Exito', 1250);
+    } catch (error) {
+      throw new Error(`Error deleting order: ${error.message}`);
+    }
+  },
+);
 
 const ordersSlice = createSlice({
   name: 'orders',
