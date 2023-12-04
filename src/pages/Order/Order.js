@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   destroyOrder,
   fetchOrders,
@@ -31,6 +31,8 @@ function Order() {
   const dispatch = useDispatch();
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [element, setElement] = useState('');
+  const { customersArray } = useSelector((store) => store.customers);
+  const { vehiclesArray } = useSelector((store) => store.vehicles);
 
   const handleDeleteConfirmation = (elementID) => {
     setElement(elementID);
@@ -66,8 +68,8 @@ function Order() {
                   <tr className="text-left border-b">
                     <th className="font-normal pb-2 w-[3rem]">#</th>
                     <th className="font-normal pb-2 w-[6rem]">Código</th>
-                    <th className="font-normal pb-2 w-[6rem]">Vehículo</th>
                     <th className="font-normal pb-2 w-[15rem]">Cliente</th>
+                    <th className="font-normal pb-2 w-[6rem]">Vehículo</th>
                     <th className="font-normal pb-2 w-[8rem]">Fecha</th>
                     <th className="font-normal pb-2 w-[8rem]">Estado</th>
                     <th className="font-normal pb-2 w-[10rem] text-center">
@@ -80,8 +82,8 @@ function Order() {
                     <tr key={data.id} className="py-2 text-sm ">
                       <td className="py-2 font-bold">{index + 1}</td>
                       <td className="py-2">{data.unique_id}</td>
-                      <td className="py-2">{data.vehicle.placa}</td>
                       <td className="py-2">{data.customer.nombre}</td>
+                      <td className="py-2">{data.vehicle.placa}</td>
                       <td className="py-2">{data.order_date}</td>
                       <td className="py-2 text-center">
                         <span
@@ -121,13 +123,20 @@ function Order() {
             </div>
           </div>
           <div className="flex items-center justify-end gap-2 mt-auto text-sm">
+            {/* eslint-disable */}
             <button
               type="button"
               aria-label="New Order button"
-              className="btn btn-success"
+              className={`btn btn-success ${
+                (customersArray.length === 0 || vehiclesArray.length === 0) &&
+                'grayscale pointer-events-none'
+              }`}
               onClick={() => {
                 handleModalOpen();
               }}
+              disabled={
+                customersArray.length === 0 || vehiclesArray.length === 0
+              }
             >
               Crear
             </button>

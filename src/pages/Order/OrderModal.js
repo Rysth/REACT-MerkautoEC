@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -11,6 +12,7 @@ import {
 function OrderModal({ handleModalClose, orderData }) {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
+  const [customer, setCustomer] = useState(1);
   const { userCredentials } = useSelector((store) => store.credentials);
   const { matchedElements } = useSelector((store) => store.orders);
   const { customersArray } = useSelector((store) => store.customers);
@@ -26,7 +28,7 @@ function OrderModal({ handleModalClose, orderData }) {
       return;
     }
 
-    /* Creating a New Customer */
+    /* Creating a New Order */
     if (!orderExist && !orderData) {
       dispatch(createOrder(newData))
         .then(() => dispatch(fetchOrders()))
@@ -67,6 +69,7 @@ function OrderModal({ handleModalClose, orderData }) {
                 {...register('customer_id')}
                 className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
                 defaultValue={orderData ? orderData.customer.id : ''}
+                onChange={(e) => setCustomer(parseInt(e.target.value))}
               >
                 {customersArray.map((customer) => (
                   <option value={customer.id} key={customer.id}>
@@ -85,11 +88,14 @@ function OrderModal({ handleModalClose, orderData }) {
                 className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
                 defaultValue={orderData ? orderData.vehicle.id : ''}
               >
-                {vehiclesArray.map((vehicle) => (
-                  <option value={vehicle.id} key={vehicle.id}>
-                    {vehicle.placa}
-                  </option>
-                ))}
+                {customer &&
+                  vehiclesArray
+                    .filter((element) => element.customer_id === customer)
+                    .map((vehicle) => (
+                      <option value={vehicle.id} key={vehicle.id}>
+                        {vehicle.placa}
+                      </option>
+                    ))}
               </select>
             </label>
           </fieldset>
@@ -129,7 +135,6 @@ function OrderModal({ handleModalClose, orderData }) {
                 className="flex-1 p-2 font-normal bg-gray-300 border rounded-lg focus:outline-none focus:border-gray-500"
                 {...register('receptionist')}
                 defaultValue={userCredentials ? userCredentials.name : ''}
-                value={userCredentials ? userCredentials.name : ''}
                 required
                 readOnly
               />
