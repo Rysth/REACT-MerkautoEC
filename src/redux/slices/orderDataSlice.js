@@ -20,12 +20,37 @@ export const fetchOrders = createAsyncThunk('orders/fetchOrders', async () => {
   }
 });
 
+// POST orders#create
+export const createOrder = createAsyncThunk(
+  'orders/createOrder',
+  async (orderData) => {
+    try {
+      const response = await axios.post(`${API_URL}/orders`, orderData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true,
+      });
+
+      if (!response.status === 200) {
+        NotificationManager.error('Orden no Creada', 'Fallo', 1250);
+        throw new Error('Error creating order');
+      }
+
+      NotificationManager.success('Orden Creada.', 'Exito', 1250);
+      return response.data;
+    } catch (error) {
+      throw new Error(`Error creating order: ${error.message}`);
+    }
+  },
+);
+
 // DELETE orders#destroy
 export const destroyOrder = createAsyncThunk(
   'orders/destroyOrder',
-  async (vehicleID) => {
+  async (orderID) => {
     try {
-      const response = await axios.delete(`${API_URL}/orders/${vehicleID}`, {});
+      const response = await axios.delete(`${API_URL}/orders/${orderID}`, {});
 
       if (response.status !== 204) {
         NotificationManager.error('Orden no Encontrada.', 'Fallo', 1250);
@@ -35,6 +60,36 @@ export const destroyOrder = createAsyncThunk(
       NotificationManager.success('Orden Eliminada.', 'Exito', 1250);
     } catch (error) {
       throw new Error(`Error deleting order: ${error.message}`);
+    }
+  },
+);
+
+// PUT orders#update
+export const updateOrder = createAsyncThunk(
+  'orders/updateOrder',
+  async ({ orderData, orderID }) => {
+    try {
+      const response = await axios.put(
+        `${API_URL}/orders/${orderID}`,
+        orderData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          withCredentials: true,
+        },
+      );
+
+      if (!response.status === 200) {
+        const errorResponse = response.data;
+        NotificationManager.error('Orden no Actualizada.', 'Fallo', 1250);
+        throw new Error(
+          `Error updating order: ${response.status} - ${errorResponse.message}`,
+        );
+      }
+      NotificationManager.success('Orden Actualizada.', 'Exito', 1250);
+    } catch (error) {
+      throw new Error(`Error updating order: ${error.message}`);
     }
   },
 );

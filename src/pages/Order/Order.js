@@ -135,7 +135,7 @@ function Order() {
           {showModal && (
             <OrderModal
               handleModalClose={handleModalClose}
-              vehicleData={elementSelected}
+              orderData={elementSelected}
             />
           )}
           {showConfirmation && (

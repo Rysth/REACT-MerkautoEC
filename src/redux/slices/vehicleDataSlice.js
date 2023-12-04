@@ -43,7 +43,7 @@ export const createVehicle = createAsyncThunk(
       NotificationManager.success('Vehículo Creado.', 'Exito', 1250);
       return response.data;
     } catch (error) {
-      throw new Error(`Error creating vehicles: ${error.message}`);
+      throw new Error(`Error creating vehicle: ${error.message}`);
     }
   },
 );
@@ -88,14 +88,14 @@ export const updateVehicle = createAsyncThunk(
 
       if (!response.status === 200) {
         const errorResponse = response.data;
-        NotificationManager.error('Vehículo no Actualizado.', 'Exito', 1250);
+        NotificationManager.error('Vehículo no Actualizado.', 'Fallo', 1250);
         throw new Error(
           `Error updating vehicle: ${response.status} - ${errorResponse.message}`,
         );
       }
       NotificationManager.success('Vehículo Actualizado.', 'Exito', 1250);
     } catch (error) {
-      throw new Error(`Error updating vehicles: ${error.message}`);
+      throw new Error(`Error updating vehicle: ${error.message}`);
     }
   },
 );
