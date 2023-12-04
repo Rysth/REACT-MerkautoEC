@@ -12,7 +12,9 @@ import {
 function OrderModal({ handleModalClose, orderData }) {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
-  const [customer, setCustomer] = useState(1);
+  const [customer, setCustomer] = useState(
+    orderData ? orderData.customer_id : 1,
+  );
   const { userCredentials } = useSelector((store) => store.credentials);
   const { matchedElements } = useSelector((store) => store.orders);
   const { customersArray } = useSelector((store) => store.customers);
@@ -196,14 +198,8 @@ OrderModal.propTypes = {
   handleModalClose: PropTypes.func.isRequired,
   orderData: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    customer: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      nombre: PropTypes.string.isRequired,
-    }),
-    vehicle: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      placa: PropTypes.string.isRequired,
-    }),
+    customer_id: PropTypes.number.isRequired,
+    vehicle_id: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     order_date: PropTypes.string.isRequired,
     fuel: PropTypes.string.isRequired,

@@ -7,9 +7,13 @@ function useSearchModalState(slice, dataActions, destroyAction, fetchAction) {
   const [elementSelected, setElementSelected] = useState(null);
   const { matchedElements } = useSelector((store) => store[slice]);
   const dispatch = useDispatch();
+  // Number of initial records to show
+  const [records, setRecords] = useState(20);
+  const loadMore = () => {
+    setRecords(records + 20);
+  };
 
-  const handleSearchData = (event) => {
-    const inputValue = event.target.value;
+  const handleSearchData = (inputValue) => {
     setSearchData(inputValue);
 
     if (inputValue !== '') {
@@ -48,6 +52,8 @@ function useSearchModalState(slice, dataActions, destroyAction, fetchAction) {
     handleDeleteElement,
     handleModalOpen,
     handleModalClose,
+    records,
+    loadMore,
   };
 }
 
