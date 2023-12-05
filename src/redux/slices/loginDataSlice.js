@@ -19,7 +19,7 @@ export const createSession = createAsyncThunk(
   async (customerData) => {
     try {
       const response = await axios.post(
-        'http://localhost:3001/login',
+        'https://rails-merkautoec.onrender.com/login',
         customerData,
         {
           headers: {
@@ -47,12 +47,15 @@ export const destroySession = createAsyncThunk(
   'credentials/destroySession',
   async (authorizationToken) => {
     try {
-      const response = await axios.delete('http://localhost:3001/logout', {
-        headers: {
-          Authorization: authorizationToken,
+      const response = await axios.delete(
+        'https://rails-merkautoec.onrender.com/logout',
+        {
+          headers: {
+            Authorization: authorizationToken,
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
 
       if (!response.status === 200) {
         NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
