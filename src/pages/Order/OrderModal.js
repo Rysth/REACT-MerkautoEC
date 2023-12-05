@@ -13,7 +13,7 @@ function OrderModal({ handleModalClose, orderData }) {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [customer, setCustomer] = useState(
-    orderData ? orderData.customer_id : 0,
+    orderData ? orderData.customer_id : 1,
   );
   const { userCredentials } = useSelector((store) => store.credentials);
   const { matchedElements } = useSelector((store) => store.orders);
@@ -93,6 +93,7 @@ function OrderModal({ handleModalClose, orderData }) {
                 className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
                 defaultValue={orderData ? orderData.vehicle.id : ''}
               >
+                <option value={null}>---Seleccionar---</option>
                 {customer &&
                   vehiclesArray
                     .filter((element) => element.customer_id === customer)
