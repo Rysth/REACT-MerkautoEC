@@ -10,15 +10,6 @@ const initialState = {
   error: null,
 };
 
-async function fetchCsrfToken() {
-  try {
-    const response = await axios.get(`${API_URL}/csrf_token`);
-    return response.data.token;
-  } catch (error) {
-    return null;
-  }
-}
-
 // GET vehicles#index
 export const fetchVehicles = createAsyncThunk(
   'vehicles/fetchVehicles',
@@ -37,11 +28,9 @@ export const createVehicle = createAsyncThunk(
   'vehicles/createVehicle',
   async (vehicleData) => {
     try {
-      const csrfToken = await fetchCsrfToken();
       const response = await axios.post(`${API_URL}/vehicles`, vehicleData, {
         headers: {
           'Content-Type': 'application/json',
-          'X-CSRF-Token': csrfToken,
         },
         withCredentials: true,
       });
@@ -54,7 +43,7 @@ export const createVehicle = createAsyncThunk(
       NotificationManager.success('Vehículo Creado.', 'Exito', 1250);
       return response.data;
     } catch (error) {
-      throw new Error(`Error creating vehicles: ${error.message}`);
+      throw new Error(`Error creating vehicle: ${error.message}`);
     }
   },
 );
@@ -64,12 +53,10 @@ export const destroyVehicle = createAsyncThunk(
   'vehicles/destroyVehicle',
   async (vehicleID) => {
     try {
-      const csrfToken = await fetchCsrfToken();
-      const response = await axios.delete(`${API_URL}/vehicles/${vehicleID}`, {
-        headers: {
-          'X-CSRF-Token': csrfToken,
-        },
-      });
+      const response = await axios.delete(
+        `${API_URL}/vehicles/${vehicleID}`,
+        {},
+      );
 
       if (response.status !== 204) {
         NotificationManager.error('Vehículo no Encontrado.', 'Fallo', 1250);
@@ -78,7 +65,8 @@ export const destroyVehicle = createAsyncThunk(
 
       NotificationManager.success('Vehículo Eliminado.', 'Exito', 1250);
     } catch (error) {
-      throw new Error(`Error deleting vehicles: ${error.message}`);
+      NotificationManager.error('Vehíclo tiene Ordenes.', 'Fallo', 1250);
+      throw new Error(`Error deleting order: ${error.message}`);
     }
   },
 );
@@ -88,14 +76,12 @@ export const updateVehicle = createAsyncThunk(
   'vehicles/updateVehicle',
   async ({ vehicleData, vehicleID }) => {
     try {
-      const csrfToken = await fetchCsrfToken();
       const response = await axios.put(
         `${API_URL}/vehicles/${vehicleID}`,
         vehicleData,
         {
           headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-Token': csrfToken,
           },
           withCredentials: true,
         },
@@ -103,14 +89,14 @@ export const updateVehicle = createAsyncThunk(
 
       if (!response.status === 200) {
         const errorResponse = response.data;
-        NotificationManager.error('Vehículo no Actualizado.', 'Exito', 1250);
+        NotificationManager.error('Vehículo no Actualizado.', 'Fallo', 1250);
         throw new Error(
           `Error updating vehicle: ${response.status} - ${errorResponse.message}`,
         );
       }
       NotificationManager.success('Vehículo Actualizado.', 'Exito', 1250);
     } catch (error) {
-      throw new Error(`Error updating vehicles: ${error.message}`);
+      throw new Error(`Error updating vehicle: ${error.message}`);
     }
   },
 );
@@ -129,6 +115,7 @@ const vehiclesSlice = createSlice({
         (element) =>
           element.placa.toUpperCase().includes(searchFilter) ||
           element.customer.nombre.toUpperCase().includes(searchFilter) ||
+          element.modelo.toUpperCase().includes(searchFilter) ||
           element.marca.toUpperCase().includes(searchFilter),
       );
     },

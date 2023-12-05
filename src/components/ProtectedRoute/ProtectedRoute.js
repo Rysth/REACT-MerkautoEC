@@ -10,8 +10,7 @@ function ProtectedRoute({ isAllowed, children, redirectTo }) {
 
 ProtectedRoute.propTypes = {
   isAllowed: PropTypes.bool.isRequired,
-  /* eslint-disable */
-  children: PropTypes.object.isRequired,
+  children: PropTypes.element.isRequired,
   redirectTo: PropTypes.string.isRequired,
 };
 
