@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
+import { LOGIN_API_URL } from '../../helpers/environment';
 
 const userCredentialsData = JSON.parse(
   sessionStorage.getItem('userCredentials'),
@@ -19,7 +20,7 @@ export const createSession = createAsyncThunk(
   async (customerData) => {
     try {
       const response = await axios.post(
-        'https://rails-merkautoec.onrender.com/login',
+        `${LOGIN_API_URL}/login`,
         customerData,
         {
           headers: {
@@ -47,15 +48,12 @@ export const destroySession = createAsyncThunk(
   'credentials/destroySession',
   async (authorizationToken) => {
     try {
-      const response = await axios.delete(
-        'https://rails-merkautoec.onrender.com/logout',
-        {
-          headers: {
-            Authorization: authorizationToken,
-          },
-          withCredentials: true,
+      const response = await axios.delete(`${LOGIN_API_URL}/logout`, {
+        headers: {
+          Authorization: authorizationToken,
         },
-      );
+        withCredentials: true,
+      });
 
       if (!response.status === 200) {
         NotificationManager.error('Cerrar Sesión Inválida', 'Fallo', 1250);
