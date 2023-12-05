@@ -64,12 +64,12 @@ function OrderModal({ handleModalClose, orderData }) {
           <fieldset className="grid gap-3 sm:grid-cols-2">
             <label
               htmlFor="customer_id"
-              className="relative grid gap-2 overflow-auto font-semibold"
+              className="relative grid gap-2 font-semibold"
             >
               Cliente:
               <select
                 {...register('customer_id')}
-                className="flex-1p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500 max-w-[210px]"
+                className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500 max-w-[210px]"
                 defaultValue={orderData ? orderData.customer.id : ''}
                 onChange={(e) => setCustomer(parseInt(e.target.value))}
               >
