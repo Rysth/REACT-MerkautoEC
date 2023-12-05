@@ -173,6 +173,20 @@ function VehicleModal({ handleModalClose, vehicleData }) {
               />
             </label>
           </fieldset>
+          <fieldset className="grid gap-3">
+            <label
+              htmlFor="kilometraje"
+              className="relative grid gap-2 font-semibold"
+            >
+              Kilometraje:
+              <input
+                type="text"
+                className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                {...register('kilometraje')}
+                defaultValue={vehicleData ? vehicleData.kilometraje : ''}
+              />
+            </label>
+          </fieldset>
           {/* eslint-enable */}
           <fieldset className="flex items-center justify-end gap-1 mt-auto">
             <button type="submit" className="float-right btn btn-success">
