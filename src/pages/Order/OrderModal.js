@@ -13,7 +13,7 @@ function OrderModal({ handleModalClose, orderData }) {
   const dispatch = useDispatch();
   const { register, handleSubmit } = useForm();
   const [customer, setCustomer] = useState(
-    orderData ? orderData.customer_id : 1,
+    orderData ? orderData.customer_id : 0,
   );
   const { userCredentials } = useSelector((store) => store.credentials);
   const { matchedElements } = useSelector((store) => store.orders);
