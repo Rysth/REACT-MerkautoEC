@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { NotificationManager } from 'react-notifications';
-import API_URL from '../../helpers/environment';
+import { API_URL } from '../../helpers/environment';
 
 const initialState = {
   vehiclesArray: [],

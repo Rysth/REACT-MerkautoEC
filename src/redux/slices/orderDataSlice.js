@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { NotificationManager } from 'react-notifications';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import API_URL from '../../helpers/environment';
+import { API_URL } from '../../helpers/environment';
 
 const initialState = {
   ordersArray: [],
