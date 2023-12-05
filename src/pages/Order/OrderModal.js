@@ -21,7 +21,6 @@ function OrderModal({ handleModalClose, orderData }) {
   const { vehiclesArray } = useSelector((store) => store.vehicles);
 
   const onSubmit = (newData) => {
-    console.log(newData);
     const orderID = newData.id;
     const orderExist = matchedElements.find((order) => order.id === orderID);
 
