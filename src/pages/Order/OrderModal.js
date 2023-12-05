@@ -49,7 +49,7 @@ function OrderModal({ handleModalClose, orderData }) {
   };
   return (
     <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black backdrop-grayscale bg-opacity-75 z-[100] p-4 ">
-      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[28rem] h-full sm:h-max overflow-auto">
+      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[30rem] h-full sm:h-max overflow-auto">
         <header>
           <h2 className="text-2xl font-bold sm:text-3xl">
             {orderData ? 'Actualizar Orden' : 'Nueva Orden'}
@@ -63,19 +63,23 @@ function OrderModal({ handleModalClose, orderData }) {
           {/* eslint-disable */}
           <fieldset className="grid gap-3 sm:grid-cols-2">
             <label
-              htmlFor="cliente"
-              className="relative grid gap-2 font-semibold"
+              htmlFor="customer_id"
+              className="relative grid gap-2 overflow-auto font-semibold"
             >
               Cliente:
               <select
                 {...register('customer_id')}
-                className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                className="flex-1p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500 max-w-[210px]"
                 defaultValue={orderData ? orderData.customer.id : ''}
                 onChange={(e) => setCustomer(parseInt(e.target.value))}
               >
                 {customersArray.map((customer) => (
-                  <option value={customer.id} key={customer.id}>
-                    {customer.nombre}
+                  <option
+                    value={customer.id}
+                    key={customer.id}
+                    className="truncate text-ellipsis max-w-[1em]"
+                  >
+                    {`${customer.cedula} - ${customer.nombre}`}
                   </option>
                 ))}
               </select>
@@ -158,18 +162,36 @@ function OrderModal({ handleModalClose, orderData }) {
           <fieldset className="grid">
             <label
               htmlFor="description"
-              className="relative grid gap-2 font-semibold"
+              className="relative grid gap-2 font-semibold "
             >
               Descripción:
               <textarea
                 type="text"
-                className="flex-1 p-2 font-normal border rounded-lg focus:outline-none focus:border-gray-500"
+                className="flex-1 p-2 font-normal border rounded-lg resize-none focus:outline-none focus:border-gray-500"
                 {...register('description')}
                 defaultValue={orderData ? orderData.description : ''}
                 required
               />
             </label>
           </fieldset>
+          {orderData && (
+            <fieldset>
+              <label
+                htmlFor="active"
+                className="relative grid gap-2 font-semibold"
+              >
+                Estado:
+                <select
+                  {...register('active')}
+                  className="flex-1 p-2 border rounded-lg font-norma focus:outline-none focus:border-gray-500"
+                  defaultValue={orderData ? orderData.active : ''}
+                >
+                  <option value={true}>Activo</option>
+                  <option value={false}>Completado</option>
+                </select>
+              </label>
+            </fieldset>
+          )}
           <fieldset className="flex items-center justify-end gap-1">
             <button type="submit" className="float-right btn btn-success">
               {orderData ? 'Actualizar' : 'Guardar'}

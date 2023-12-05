@@ -114,6 +114,7 @@ const vehiclesSlice = createSlice({
         (element) =>
           element.placa.toUpperCase().includes(searchFilter) ||
           element.customer.nombre.toUpperCase().includes(searchFilter) ||
+          element.modelo.toUpperCase().includes(searchFilter) ||
           element.marca.toUpperCase().includes(searchFilter),
       );
     },

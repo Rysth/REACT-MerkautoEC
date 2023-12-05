@@ -44,7 +44,7 @@ function CustomerModal({ handleModalClose, customerData }) {
 
   return (
     <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-black backdrop-grayscale bg-opacity-75 z-[100] p-4 ">
-      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[28rem] h-full sm:h-max overflow-auto">
+      <article className="p-4 sm:p-6 bg-white rounded-lg w-full sm:w-[30rem]  h-full sm:h-max overflow-auto">
         <header>
           <h2 className="text-2xl font-bold sm:text-3xl">
             {customerData ? 'Actualizar Cliente' : 'Nuevo Cliente'}

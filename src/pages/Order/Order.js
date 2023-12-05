@@ -108,11 +108,13 @@ function Order() {
                           </span>
                         </td>
                         <td className="flex items-center justify-center gap-1 py-2">
+                          {/* eslint-disable */}
                           <button
                             type="button"
                             aria-label="Edit button"
                             className={`text-white bg-blue-600 btn ${
-                              !data.active && 'grayscale pointer-events-none'
+                              !data.active &&
+                              'grayscale pointer-events-none opacity-50'
                             }`}
                             onClick={() => {
                               handleModalOpen(data.id);
