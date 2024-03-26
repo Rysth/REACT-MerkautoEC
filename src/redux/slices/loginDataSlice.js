@@ -1,6 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios'; // Import Axios for HTTP requests
 
 const activeStatusFromSession = localStorage.getItem('active');
+
+// Access environment variables
+const { VITE_API_ENDPOINT, VITE_TOKEN } = import.meta.env;
 
 const credentials = {
 	email: 'admin@merkautoec.com',
@@ -8,17 +12,43 @@ const credentials = {
 	active: activeStatusFromSession === 'true',
 };
 
-export const changeActiveStatus = createAsyncThunk('credentials/changeActiveStatus', async (payload) => {
-	await new Promise((resolve) => setTimeout(resolve, 1500));
+// Function to convert JSON data to XML format
+const convertJsonToXml = (jsonData) => {
+	// Implement your logic to convert JSON to XML
+	// For simplicity, I'm just returning a stringified version of the JSON data
+	return `<?xml version="1.0" encoding="utf-8"?>
+<soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
+    <soap12:Body>
+        <ProccesMessage xmlns="coficeptrx.asvesot.com">
+            <ReqTrxJMsg>${JSON.stringify(jsonData)}</ReqTrxJMsg>
+            <ReqToken>${VITE_TOKEN}</ReqToken>
+        </ProccesMessage>
+    </soap12:Body>
+</soap12:Envelope>`;
+};
 
-	const { email, password } = payload;
-	if (email !== credentials.email || password !== credentials.password) {
-		return { ...credentials, active: false };
+export const sendXmlRequest = createAsyncThunk('credentials/sendXmlRequest', async (jsonData, thunkAPI) => {
+	try {
+		const xmlData = convertJsonToXml(jsonData); // Convert JSON to XML
+		const headers = {
+			'Access-Control-Allow-Origin': '*',
+			'Content-Type': 'application/soap+xml; charset=utf-8',
+		};
+
+		// Send the POST request to the provided endpoint with the XML data
+		const response = await axios.post(VITE_API_ENDPOINT, xmlData, {
+			headers,
+			withCredentials: true,
+		});
+
+		return response.data;
+	} catch (error) {
+		console.log(error);
+		return thunkAPI.rejectWithValue(error.response.data);
 	}
-
-	localStorage.setItem('active', true);
-	return { ...credentials, active: true };
 });
+
+// Initial state and slice definition remain unchanged
 
 const initialState = {
 	userCredentials: credentials,
@@ -36,15 +66,16 @@ export const loginDataSlice = createSlice({
 	},
 	extraReducers: (builder) => {
 		builder
-			.addCase(changeActiveStatus.pending, (state) => {
+			.addCase(sendXmlRequest.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(changeActiveStatus.fulfilled, (state, action) => {
+			.addCase(sendXmlRequest.fulfilled, (state) => {
 				state.loading = false;
-				state.userCredentials = action.payload;
+				// Update state as needed with the response data
 			})
-			.addCase(changeActiveStatus.rejected, (state) => {
+			.addCase(sendXmlRequest.rejected, (state) => {
 				state.loading = false;
+				// Handle any rejected cases
 			});
 	},
 });

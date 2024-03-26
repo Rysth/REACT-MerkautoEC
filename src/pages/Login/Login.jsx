@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Input from '../../components/Forms/Input/Input';
 import LoginPicture from '../../assets/images/auto/login.jpg';
-import { changeActiveStatus } from '../../redux/slices/loginDataSlice';
+import { sendXmlRequest } from '../../redux/slices/loginDataSlice';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';
 
@@ -19,7 +19,7 @@ function Login() {
 
 	const onSubmit = (data) => {
 		data.servicio = 'LOGIN';
-		console.log(data);
+		dispatch(sendXmlRequest(data));
 	};
 
 	return (
