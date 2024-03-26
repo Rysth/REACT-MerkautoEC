@@ -9,19 +9,18 @@ import CoficImage from '../../assets/images/brand/logo_cofic.png';
 import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';
 
 function Login() {
-	const { register, handleSubmit } = useForm();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 	const dispatch = useDispatch();
 	const navigator = useNavigate();
 
 	const onSubmit = (data) => {
-		dispatch(changeActiveStatus(data)).then((response) => {
-			if (response.payload.active) {
-				navigator('/orden');
-			}
-		});
+		data.servicio = 'LOGIN';
+		console.log(data);
 	};
-
-	useEffect(() => {}, [dispatch]);
 
 	return (
 		<section className='fixed inset-0'>
@@ -40,7 +39,7 @@ function Login() {
 						onSubmit={handleSubmit(onSubmit)}
 					>
 						<fieldset className='mb-3 text-center'>
-							<h2 className='text-4xl font-bold lg:text-5xl'>Iniciar Sesión</h2>
+							<h2 className='text-4xl font-bold text-black'>Iniciar Sesión</h2>
 						</fieldset>
 						<ul className='grid gap-5 p-0 list-none'>
 							<Input
@@ -50,6 +49,7 @@ function Login() {
 								type='email'
 								complement='grid w-full'
 								method={register}
+								errors={errors}
 							/>
 							<Input
 								label='Contraseña'
@@ -57,12 +57,13 @@ function Login() {
 								id='password'
 								type='password'
 								complement='grid w-full'
+								errors={errors}
 								method={register}
 							/>
 							<li className='flex justify-center gap-2 print:hidden'>
 								<button
 									type='submit'
-									className='flex items-center gap-1.5 p-2 px-4 text-sm text-white transition bg-blue-700 border rounded-md md:hover:shadow-2xl md:hover:scale-105'
+									className='text-white btn btn-primary'
 									id='submit'
 								>
 									Iniciar Sesión

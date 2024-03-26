@@ -34,7 +34,7 @@ function App() {
 						path='/orden'
 						element={
 							<ProtectedRoute
-								isAllowed={active}
+								isAllowed={!active}
 								redirectTo='/'
 							>
 								<Order />

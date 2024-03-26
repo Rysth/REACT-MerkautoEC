@@ -17,7 +17,13 @@ function Order() {
 	const [actualID, setActualID] = useState('');
 	const [actualPlaca, setActualPlaca] = useState('');
 	/* eslint-disable */
-	const { register, handleSubmit, reset, setValue } = useForm();
+	const {
+		register,
+		handleSubmit,
+		reset,
+		setValue,
+		formState: { errors },
+	} = useForm();
 	/* eslint-enable */
 	const { equipmentFields } = useSelector((store) => store.equipment);
 
@@ -31,19 +37,6 @@ function Order() {
 	};
 	/* eslint-enable */
 	const dispatch = useDispatch();
-
-	const handlePrint = () => {
-		if (actualPlaca !== '') {
-			const prevTitle = documentTitle;
-			const uniqueName = `ORDEN_${actualID}_${actualPlaca}.pdf`;
-
-			document.title = uniqueName;
-			window.print();
-			setDocumentTitle(prevTitle);
-			document.title = documentTitle;
-		}
-	};
-
 	const onSubmit = async (data) => {
 		const actualDate = document.querySelector('#actualDate').innerText;
 		const clientData = getFieldsData(data, 'cl_');
@@ -149,151 +142,136 @@ function Order() {
 						loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
 					}`}
 				>
-					<ul className='grid gap-2 p-0 list-none print:hidden'>
-						<li className='flex flex-col w-full gap-2 sm:items-center sm:flex-row'>
-							<fieldset className='grow'>
-								<Input
-									label='Orden'
-									name='f_orden'
-									id='f_orden'
-									complement='w-full'
-									method={register}
-								/>
-							</fieldset>
-							<fieldset className='grid grid-cols-2 gap-1 print:hidden'>
-								<button
-									type='button'
-									onClick={checkOrderSubmit}
-									className='flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-blue-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105'
-									id='submit'
-								>
-									<i className='fas fa-search' />
-									Consultar
-								</button>
-								<button
-									type='button'
-									onClick={clearForm}
-									className='flex items-center justify-center gap-1 p-1 px-4 text-sm text-white transition bg-red-700 rounded-lg md:hover:shadow-2xl md:hover:scale-105'
-									id='submit'
-								>
-									<i className='fas fa-trash' />
-									Limpiar
-								</button>
-							</fieldset>
-						</li>
-					</ul>
 					<form
 						action='#'
 						id='form'
 						onSubmit={handleSubmit(onSubmit)}
-						className='mt-3 print:mt-1'
+						className=''
 					>
-						<fieldset className='grid gap-8 md:gap-12 sm:grid-cols-2'>
+						<fieldset className='grid gap-8 gap-12 sm:grid-cols-2'>
 							{/* Datos del Cliente */}
-							<ul className='grid gap-2 p-0 list-none'>
+							<ul className='flex flex-col gap-2'>
 								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-base font-bold md:text-lg'>Datos del Cliente</h2>
+									<h2 className='text-base text-lg font-bold'>Datos del Cliente</h2>
 								</li>
-								<Input
-									label='Cédula'
-									name='cl_cedula'
-									id='cl_cedula'
-									method={register}
-								/>
-								<Input
-									label='Nombre'
-									name='cl_nombre'
-									id='cl_nombre'
-									method={register}
-								/>
-								<Input
-									label='Responsable/Propietario'
-									name='cl_propietario'
-									id='cl_propietario'
-									method={register}
-									isRequired={false}
-								/>
-								<Input
-									label='Dirección'
-									name='cl_direccion'
-									id='cl_direccion'
-									method={register}
-								/>
-								<div className='grid gap-3 sm:grid-cols-2'>
+								<fieldset class='grid gap-4 grid-cols-2'>
+									<Input
+										label='Cédula/RUC'
+										name='cl_identificacion'
+										id='cl_identificacion'
+										method={register}
+										errors={errors}
+									/>
+									<Input
+										label='Nombre'
+										name='cl_nombre'
+										id='cl_nombre'
+										method={register}
+										errors={errors}
+									/>
+								</fieldset>
+								<fieldset class='grid gap-4 grid-cols-2'>
 									<Input
 										label='Celular'
 										name='cl_celular'
 										id='cl_celular'
 										type='tel'
 										method={register}
+										errors={errors}
 									/>
 									<Input
-										label='Teléfono'
-										name='cl_telefono'
-										id='cl_telefono'
-										type='tel'
+										label='Dirección'
+										name='cl_direccion'
+										id='cl_direccion'
 										method={register}
+										errors={errors}
 										isRequired={false}
 									/>
-								</div>
-								<Input
-									label='Recibido por'
-									name='cl_recepcion'
-									id='cl_recepcion'
-									complement='grid grid-cols-[5.3rem_1fr]'
-									method={register}
-								/>
-								<Input
-									label='Técnico Responsable'
-									name='cl_tecnico'
-									id='cl_tecnico'
-									complement='grid grid-cols-[9rem_1fr]'
-									method={register}
-								/>
+								</fieldset>
+								<fieldset className='grid grid-cols-2 gap-4'>
+									<Input
+										label='Recibido por'
+										name='cl_recepcion'
+										id='cl_recepcion'
+										complement=''
+										method={register}
+										errors={errors}
+										isRequired={false}
+									/>
+									<Input
+										label='Técnico Responsable'
+										name='cl_tecnico'
+										id='cl_tecnico'
+										complement=''
+										method={register}
+										errors={errors}
+										isRequired={false}
+									/>
+								</fieldset>
 							</ul>
 							{/* Datos del Vehículo */}
-							<ul className='grid gap-2 p-0 list-none'>
+							<ul className='flex flex-col gap-2'>
 								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-base font-bold md:text-lg'>Datos del Vehículo</h2>
+									<h2 className='text-base text-lg font-bold'>Datos del Vehículo</h2>
 								</li>
-								<div className='grid grid-cols-2 gap-3'>
+								<div className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Placa'
 										name='v_placa'
 										id='v_placa'
-										complement='uppercase'
 										method={register}
+										errors={errors}
 									/>
 									<Input
 										label='Clave'
 										name='v_clave'
 										id='v_clave'
 										method={register}
-										isRequired={false}
+										errors={errors}
 									/>
 								</div>
-								<div className='grid grid-cols-2 gap-3'>
+								<div className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Marca'
 										name='v_marca'
 										id='v_marca'
 										method={register}
+										errors={errors}
 									/>
 									<Input
 										label='Color'
 										name='v_color'
 										id='v_color'
-										type='color'
 										method={register}
-										isRequired={false}
+										errors={errors}
 									/>
 								</div>
-								<div className='grid gap-3 sm:grid-cols-3'>
+								<div className='grid grid-cols-2 gap-4'>
+									<Input
+										label='Kilometraje'
+										name='v_kilometraje'
+										id='v_kilometraje'
+										type='number'
+										method={register}
+										errors={errors}
+									/>
+									<Input
+										label='Fecha Entrega'
+										name='v_fecha_entrega'
+										id='v_fecha_entrega'
+										type='datetime-local'
+										method={register}
+										errors={errors}
+									/>
+								</div>
+								<div className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Modelo'
 										name='v_modelo'
 										id='v_modelo'
 										method={register}
+										errors={errors}
+										isRequired={false}
 									/>
 									<Input
 										label='Año'
@@ -301,61 +279,39 @@ function Order() {
 										id='v_anio'
 										type='number'
 										method={register}
-									/>
-									<Input
-										label='Chasis'
-										name='v_chasis'
-										id='v_chasis'
-										method={register}
+										errors={errors}
+										isRequired={false}
 									/>
 								</div>
-								<div className='grid grid-cols-2 gap-3'>
+								<fieldset class='grid gap-4 grid-cols-2'>
 									<Input
 										label='Motor'
 										name='v_motor'
 										id='v_motor'
 										method={register}
+										errors={errors}
+										isRequired={false}
 									/>
 									<Input
-										label='O/C'
-										name='v_oc'
-										id='v_oc'
+										label='Detalles'
+										name='v_detalle'
+										id='v_detalle'
 										method={register}
+										errors={errors}
+										isRequired={false}
 									/>
-								</div>
-								<Input
-									label='Fecha Entrega'
-									name='v_fecha_entrega'
-									id='v_fecha_entrega'
-									type='datetime-local'
-									method={register}
-									complement='grid grid-cols-[6rem_1fr]'
-								/>
-								<Input
-									label='Kilometraje'
-									name='v_kilometraje'
-									id='v_kilometraje'
-									type='number'
-									method={register}
-								/>
-								<Input
-									label='Detalles'
-									name='v_detalle'
-									id='v_detalle'
-									method={register}
-									isRequired={false}
-								/>
+								</fieldset>
 							</ul>
 						</fieldset>
 						<TextArea
 							name='t_mecanica'
-							label='Trabajos de Mecánica / Electricidad / Aire Acondicionado / Pintura'
+							label='Descripción del Trabajo a Realizar'
 							method={register}
 						/>
 						<fieldset className='grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]'>
 							<div>
 								<header className='mb-3 text-center'>
-									<h2 className='text-base font-bold md:text-lg'>Equipamento del Auto</h2>
+									<h2 className='text-base text-lg font-bold'>Equipamento del Auto</h2>
 								</header>
 								<div className='grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3'>
 									{equipmentFields.map((equipment) => (
@@ -368,7 +324,10 @@ function Order() {
 									))}
 								</div>
 							</div>
-							<Auto register={register} />
+							<Auto
+								register={register}
+								errors={errors}
+							/>
 						</fieldset>
 						<fieldset className='w-full mt-10 text-center'>
 							<header className='text-center'>
@@ -390,17 +349,8 @@ function Order() {
 						</fieldset>
 						<fieldset className='flex justify-center gap-2 print:hidden'>
 							<button
-								type='button'
-								className='flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-blue-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105'
-								id='printButton'
-								onClick={handlePrint}
-							>
-								<i className='fas fa-print' />
-								Imprimir
-							</button>
-							<button
 								type='submit'
-								className='flex items-center gap-2 p-2 px-4 text-sm text-white transition bg-green-600 border rounded-md md:hover:shadow-2xl md:hover:scale-105'
+								className='text-white bg-green-600 btn btn-success w-28'
 								id='submit'
 							>
 								<i className='fas fa-save' />

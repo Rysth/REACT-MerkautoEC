@@ -1,42 +1,36 @@
 import PropTypes from 'prop-types';
 
 /* eslint-disable */
-function Input({
-  label,
-  name,
-  id,
-  type = 'text',
-  complement = '',
-  method = () => {},
-  isRequired = true,
-}) {
-  return (
-    <li>
-      <label
-        className={`flex items-center gap-2 text-sm ${complement}`}
-        htmlFor={id}
-      >
-        <span className="font-semibold capitalize">{label}:</span>
-        <input
-          type={type}
-          {...method(name)}
-          id={id}
-          className={`w-full p-1 px-2 text-sm bg-gray-100 border rounded-lg outline-none focus:border-gray-400 focus:bg-white ${
-            label == 'Placa' || label == 'Orden' ? 'uppercase' : ''
-          }`}
-          required={isRequired}
-        />
-      </label>
-    </li>
-  );
+function Input({ label, name, id, type = 'text', complement = '', method = () => {}, errors, isRequired = true }) {
+	return (
+		<li>
+			<label
+				className={`gap-2 text-sm text-black min-w-72 ${complement}`}
+				htmlFor={id}
+			>
+				<div className='flex items-center justify-between'>
+					<span className='font-semibold capitalize'>{label}:</span>
+					{errors[name] && (
+						<span className='text-white badge badge-sm badge-error'>El campo es requerido</span> // Display error message if present
+					)}
+				</div>
+				<input
+					type={type}
+					{...method(name, { required: isRequired, message: `El campo es requerido.` })}
+					id={id}
+					className={`input input-bordered mt-2 input-sm w-full`}
+				/>
+			</label>
+		</li>
+	);
 }
 
 Input.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  type: PropTypes.string,
-  method: PropTypes.func.isRequired,
+	label: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	id: PropTypes.string.isRequired,
+	type: PropTypes.string,
+	method: PropTypes.func.isRequired,
 };
 
 export default Input;
