@@ -17,7 +17,7 @@ function App() {
 	const active = useSelector((state) => state.credentials.userCredentials.active);
 
 	return (
-		<BrowserRouter basename='/apptaller.asvesot.com'>
+		<BrowserRouter basename='/merkautoec'>
 			<Header />
 			<ToastContainer />
 			<main>
