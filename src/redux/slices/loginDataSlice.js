@@ -70,7 +70,10 @@ export const loginDataSlice = createSlice({
 			.addCase(sendXmlRequest.fulfilled, (state, action) => {
 				state.loading = false;
 				console.log(action.payload);
-				// Update state as needed with the response data
+				if (action.payload) {
+					state.userCredentials.active = true;
+					localStorage.setItem('active', true);
+				}
 			})
 			.addCase(sendXmlRequest.rejected, (state) => {
 				state.loading = false;

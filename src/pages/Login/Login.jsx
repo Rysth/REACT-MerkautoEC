@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import LoginPicture from '../../assets/images/auto/login.jpg';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';

@@ -7,7 +7,7 @@ import Input from '../../components/Forms/Input/Input';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
 import Heading from '../../components/Heading/Heading';
-import { orderDataActions } from '../../redux/slices/orderDataSlice';
+import { orderDataActions, sendXmlRequest } from '../../redux/slices/orderDataSlice';
 import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
@@ -59,26 +59,13 @@ function Order() {
 			equipamento: selectedEquipment,
 		};
 
+		JSONDATA.servicio = 'TRXINGORD';
+
 		setLoading(true);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		dispatch(orderDataActions.addNewOrder(JSONDATA));
-		await new Promise((resolve) => setTimeout(resolve, 500));
+		console.log(JSONDATA);
+		dispatch(sendXmlRequest(JSONDATA));
 		dispatch(vehicleDataActions.addNewVehicle(vehicleData));
 		setLoading(false);
-		reset();
-	};
-
-	const checkOrderSubmit = async () => {
-		const orderData = document.querySelector('#f_orden').value;
-		setLoading(true);
-		await new Promise((resolve) => setTimeout(resolve, 1000));
-		dispatch(orderDataActions.getOrderByID(orderData));
-		setLoading(false);
-	};
-
-	const clearForm = () => {
-		setActualID(uuidv4().slice(0, 8).toUpperCase());
-		dispatch(orderDataActions.setDefaultOrderSelected());
 		reset();
 	};
 
@@ -152,9 +139,9 @@ function Order() {
 							{/* Datos del Cliente */}
 							<ul className='flex flex-col gap-2'>
 								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-base text-lg font-bold'>Datos del Cliente</h2>
+									<h2 className='text-lg font-bold'>Datos del Cliente</h2>
 								</li>
-								<fieldset class='grid gap-4 grid-cols-2'>
+								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Cédula/RUC'
 										name='cl_identificacion'
@@ -170,7 +157,7 @@ function Order() {
 										errors={errors}
 									/>
 								</fieldset>
-								<fieldset class='grid gap-4 grid-cols-2'>
+								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Celular'
 										name='cl_celular'
@@ -208,11 +195,21 @@ function Order() {
 										isRequired={false}
 									/>
 								</fieldset>
+								<fieldset>
+									<Input
+										label='Fecha Recepción'
+										name='cl_fecha_recepcion'
+										id='cl_fecha_recepcion'
+										type='datetime-local'
+										method={register}
+										errors={errors}
+									/>
+								</fieldset>
 							</ul>
 							{/* Datos del Vehículo */}
 							<ul className='flex flex-col gap-2'>
 								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-base text-lg font-bold'>Datos del Vehículo</h2>
+									<h2 className='text-lg font-bold'>Datos del Vehículo</h2>
 								</li>
 								<div className='grid grid-cols-2 gap-4'>
 									<Input
@@ -223,9 +220,10 @@ function Order() {
 										errors={errors}
 									/>
 									<Input
-										label='Clave'
-										name='v_clave'
-										id='v_clave'
+										label='Kilometraje'
+										name='v_kilometraje'
+										id='v_kilometraje'
+										type='number'
 										method={register}
 										errors={errors}
 									/>
@@ -248,12 +246,12 @@ function Order() {
 								</div>
 								<div className='grid grid-cols-2 gap-4'>
 									<Input
-										label='Kilometraje'
-										name='v_kilometraje'
-										id='v_kilometraje'
-										type='number'
+										label='Clave'
+										name='v_clave'
+										id='v_clave'
 										method={register}
 										errors={errors}
+										isRequired={false}
 									/>
 									<Input
 										label='Fecha Entrega'
@@ -262,6 +260,7 @@ function Order() {
 										type='datetime-local'
 										method={register}
 										errors={errors}
+										isRequired={false}
 									/>
 								</div>
 								<div className='grid grid-cols-2 gap-4'>
@@ -283,7 +282,7 @@ function Order() {
 										isRequired={false}
 									/>
 								</div>
-								<fieldset class='grid gap-4 grid-cols-2'>
+								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Motor'
 										name='v_motor'
