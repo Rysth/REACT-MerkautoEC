@@ -37,7 +37,7 @@ function OrderList() {
 									<span>{` ${orderArray.length}`}</span>
 								</h3>
 							</header>
-							<div className='grid mt-5 overflow-auto'>
+							<div className='grid mt-5 overflow-auto max-h-[460px]'>
 								{orderArray.map((order, index) => (
 									<Accordion
 										key={order.id}

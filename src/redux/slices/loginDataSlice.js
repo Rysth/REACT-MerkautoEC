@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios'; // Import Axios for HTTP requests
+import { toast } from 'react-toastify';
 
 const activeStatusFromSession = localStorage.getItem('active');
 
@@ -34,6 +35,12 @@ export const sendXmlRequest = createAsyncThunk('credentials/sendXmlRequest', asy
 			'Content-Type': 'application/soap+xml; charset=utf-8',
 		};
 
+		const userData = jsonData;
+		if (userData.email !== 'admin@merkautoec.com' && userData.password !== '@MerkautoEC') {
+			toast.error('Credenciales incorrectas, por favor intente nuevamente.');
+			return;
+		}
+
 		// Send the POST request to the provided endpoint with the XML data
 		const response = await axios.post(VITE_API_ENDPOINT, xmlData, {
 			headers,
@@ -60,6 +67,7 @@ export const loginDataSlice = createSlice({
 		logoutFromApp: (state) => {
 			state.userCredentials.active = false;
 			localStorage.setItem('active', state.userCredentials.active);
+			toast.success('¡Gracias!');
 		},
 	},
 	extraReducers: (builder) => {
@@ -69,15 +77,15 @@ export const loginDataSlice = createSlice({
 			})
 			.addCase(sendXmlRequest.fulfilled, (state, action) => {
 				state.loading = false;
-				console.log(action.payload);
 				if (action.payload) {
 					state.userCredentials.active = true;
 					localStorage.setItem('active', true);
+					toast.success('¡Inicio de sesión exítoso!');
 				}
 			})
 			.addCase(sendXmlRequest.rejected, (state) => {
 				state.loading = false;
-				// Handle any rejected cases
+				toast.error('¡Problema al ingresar al sistema!');
 			});
 	},
 });

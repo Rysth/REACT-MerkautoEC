@@ -9,6 +9,8 @@ import OrderList from './pages/Order/OrderList';
 import Login from './pages/Login/Login';
 import RysthImage from './assets/images/brand/logo_rysthdesign.png';
 import CoficImage from './assets/images/brand/logo_cofic.png';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 /* eslint-disable */
 function App() {
@@ -17,6 +19,7 @@ function App() {
 	return (
 		<BrowserRouter basename='/apptaller.asvesot.com'>
 			<Header />
+			<ToastContainer />
 			<main>
 				<Routes>
 					<Route

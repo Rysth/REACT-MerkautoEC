@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const getOrderArrayFromLocalStorage = JSON.parse(localStorage.getItem('ordenes'));
 
@@ -76,10 +77,11 @@ export const orderDataSlice = createSlice({
 				if (action.payload) {
 					state.orderArray = [...state.orderArray, action.payload.order];
 					localStorage.setItem('ordenes', JSON.stringify(state.orderArray));
+					toast.success('¡Orden creada correctamente!');
 				}
 			})
 			.addCase(sendXmlRequest.rejected, (state, action) => {
-				// Handle rejection of the SOAP request if needed
+				toast.error('¡Problema al generar la orden!');
 			});
 	},
 });
