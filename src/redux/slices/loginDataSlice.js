@@ -31,19 +31,17 @@ export const sendXmlRequest = createAsyncThunk('credentials/sendXmlRequest', asy
 	try {
 		const xmlData = convertJsonToXml(jsonData); // Convert JSON to XML
 		const headers = {
-			'Access-Control-Allow-Origin': '*',
 			'Content-Type': 'application/soap+xml; charset=utf-8',
 		};
 
 		// Send the POST request to the provided endpoint with the XML data
 		const response = await axios.post(VITE_API_ENDPOINT, xmlData, {
 			headers,
-			withCredentials: true,
 		});
 
 		return response.data;
 	} catch (error) {
-		console.log(error);
+		console.log(error.response.data);
 		return thunkAPI.rejectWithValue(error.response.data);
 	}
 });
@@ -69,8 +67,9 @@ export const loginDataSlice = createSlice({
 			.addCase(sendXmlRequest.pending, (state) => {
 				state.loading = true;
 			})
-			.addCase(sendXmlRequest.fulfilled, (state) => {
+			.addCase(sendXmlRequest.fulfilled, (state, action) => {
 				state.loading = false;
+				console.log(action.payload);
 				// Update state as needed with the response data
 			})
 			.addCase(sendXmlRequest.rejected, (state) => {

@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Input from '../../components/Forms/Input/Input';
 import LoginPicture from '../../assets/images/auto/login.jpg';
-import { sendXmlRequest } from '../../redux/slices/loginDataSlice';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';
+import Input from '../../components/Forms/Input/Input';
+import { sendXmlRequest } from '../../redux/slices/loginDataSlice';
 
 function Login() {
 	const {
@@ -15,7 +14,6 @@ function Login() {
 		formState: { errors },
 	} = useForm();
 	const dispatch = useDispatch();
-	const navigator = useNavigate();
 
 	const onSubmit = (data) => {
 		data.servicio = 'LOGIN';
