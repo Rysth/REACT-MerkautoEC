@@ -1,21 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import TextArea from '../../components/Forms/TextArea/TextArea';
-import Input from '../../components/Forms/Input/Input';
-import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Auto from '../../components/Auto/Auto';
+import Checkbox from '../../components/Forms/Checkbox/Checkbox';
+import Input from '../../components/Forms/Input/Input';
+import TextArea from '../../components/Forms/TextArea/TextArea';
 import Heading from '../../components/Heading/Heading';
-import { orderDataActions, sendXmlRequest } from '../../redux/slices/orderDataSlice';
+import { checkCedulaExists, sendXmlRequest } from '../../redux/slices/orderDataSlice';
 import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
 
 function Order() {
-	const [documentTitle, setDocumentTitle] = useState(document.title);
 	const [loading, setLoading] = useState(false);
 	const { selectedOrder, orderArray } = useSelector((store) => store.orders);
 	const [actualID, setActualID] = useState('');
-	const [actualPlaca, setActualPlaca] = useState('');
 	/* eslint-disable */
 	const {
 		register,
@@ -37,6 +34,7 @@ function Order() {
 	};
 	/* eslint-enable */
 	const dispatch = useDispatch();
+
 	const onSubmit = async (data) => {
 		const actualDate = document.querySelector('#actualDate').innerText;
 		const clientData = getFieldsData(data, 'cl_');
@@ -48,7 +46,6 @@ function Order() {
 			.map((equipment) => equipment.id);
 
 		vehicleData.placa = vehicleData.placa.toUpperCase();
-		setActualPlaca(vehicleData.placa);
 
 		const JSONDATA = {
 			id: actualID,
@@ -135,13 +132,13 @@ function Order() {
 						onSubmit={handleSubmit(onSubmit)}
 						className=''
 					>
-						<fieldset className='grid gap-8 gap-12 sm:grid-cols-2'>
+						<fieldset className='grid gap-8 sm:grid-cols-2'>
 							{/* Datos del Cliente */}
 							<ul className='flex flex-col gap-2'>
 								<li className='h-8 text-center sm:text-left'>
 									<h2 className='text-lg font-bold'>Datos del Cliente</h2>
 								</li>
-								<fieldset className='grid grid-cols-2 gap-4'>
+								<fieldset className='flex flex-col gap-4'>
 									<Input
 										label='Cédula/RUC'
 										name='cl_identificacion'
@@ -149,6 +146,8 @@ function Order() {
 										method={register}
 										errors={errors}
 									/>
+								</fieldset>
+								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Nombre'
 										name='cl_nombre'
@@ -156,8 +155,7 @@ function Order() {
 										method={register}
 										errors={errors}
 									/>
-								</fieldset>
-								<fieldset className='grid grid-cols-2 gap-4'>
+
 									<Input
 										label='Celular'
 										name='cl_celular'
@@ -166,16 +164,16 @@ function Order() {
 										method={register}
 										errors={errors}
 									/>
-									<Input
-										label='Dirección'
-										name='cl_direccion'
-										id='cl_direccion'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
 								</fieldset>
 								<fieldset className='grid grid-cols-2 gap-4'>
+									<Input
+										label='Fecha'
+										name='cl_fecha_recepcion'
+										id='cl_fecha_recepcion'
+										type='datetime-local'
+										method={register}
+										errors={errors}
+									/>
 									<Input
 										label='Recibido por'
 										name='cl_recepcion'
@@ -185,6 +183,8 @@ function Order() {
 										errors={errors}
 										isRequired={false}
 									/>
+								</fieldset>
+								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
 										label='Técnico Responsable'
 										name='cl_tecnico'
@@ -194,15 +194,13 @@ function Order() {
 										errors={errors}
 										isRequired={false}
 									/>
-								</fieldset>
-								<fieldset>
 									<Input
-										label='Fecha Recepción'
-										name='cl_fecha_recepcion'
-										id='cl_fecha_recepcion'
-										type='datetime-local'
+										label='Dirección'
+										name='cl_direccion'
+										id='cl_direccion'
 										method={register}
 										errors={errors}
+										isRequired={false}
 									/>
 								</fieldset>
 							</ul>
@@ -284,14 +282,6 @@ function Order() {
 								</div>
 								<fieldset className='grid grid-cols-2 gap-4'>
 									<Input
-										label='Motor'
-										name='v_motor'
-										id='v_motor'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-									<Input
 										label='Detalles'
 										name='v_detalle'
 										id='v_detalle'
@@ -299,7 +289,41 @@ function Order() {
 										errors={errors}
 										isRequired={false}
 									/>
+									<li>
+										<label
+											className={`gap-2 text-sm text-black min-w-72`}
+											htmlFor='v_combustible'
+										>
+											<div className='flex items-center justify-between'>
+												<span className='font-semibold capitalize'>Combustible:</span>
+												{errors['v_combustible'] && (
+													<span className='text-white badge badge-sm badge-error'>
+														El campo es requerido
+													</span> // Display error message if present
+												)}
+											</div>
+											<input
+												type='range'
+												min={1}
+												max={3}
+												step={1}
+												defaultValue={1}
+												{...register('v_combustible', {
+													required: false,
+													message: `El campo es requerido.`,
+												})}
+												id='v_combustible'
+												className={`range range-primary mt-2 input-sm w-full`}
+											/>
+											<div className='flex justify-between w-full px-2 text-xs'>
+												<span>Vacío</span>
+												<span>Normal</span>
+												<span>Lleno</span>
+											</div>
+										</label>
+									</li>
 								</fieldset>
+								<fieldset className='grid'></fieldset>
 							</ul>
 						</fieldset>
 						<TextArea
@@ -310,7 +334,7 @@ function Order() {
 						<fieldset className='grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]'>
 							<div>
 								<header className='mb-3 text-center'>
-									<h2 className='text-base text-lg font-bold'>Equipamento del Auto</h2>
+									<h2 className='text-lg font-bold'>Equipamento del Auto</h2>
 								</header>
 								<div className='grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3'>
 									{equipmentFields.map((equipment) => (

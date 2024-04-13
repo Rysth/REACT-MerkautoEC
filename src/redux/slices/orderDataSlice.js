@@ -4,6 +4,12 @@ import { toast } from 'react-toastify';
 
 const getOrderArrayFromLocalStorage = JSON.parse(localStorage.getItem('ordenes'));
 
+const initialState = {
+	orderArray: getOrderArrayFromLocalStorage || [],
+	selectedOrder: {},
+	cedulaExists: false,
+};
+
 // Access environment variables
 const { VITE_API_ENDPOINT, VITE_TOKEN } = import.meta.env;
 
@@ -42,10 +48,26 @@ export const sendXmlRequest = createAsyncThunk('orderData/sendXmlRequest', async
 	}
 });
 
-const initialState = {
-	orderArray: getOrderArrayFromLocalStorage || [],
-	selectedOrder: {},
-};
+export const checkCedulaExists = createAsyncThunk('orderData/checkCedulaExists', async (jsonData, thunkAPI) => {
+	try {
+		const xmlData = convertJsonToXml(jsonData); // Convert JSON to XML
+
+		const headers = {
+			'Content-Type': 'application/soap+xml; charset=utf-8',
+		};
+
+		// Send the POST request to the provided endpoint with the XML data
+		const response = await axios.post(VITE_API_ENDPOINT, xmlData, {
+			headers,
+		});
+
+		console.log(response);
+
+		return response.data; // Assuming the response contains existence information
+	} catch (error) {
+		return thunkAPI.rejectWithValue(error.response.data);
+	}
+});
 
 export const orderDataSlice = createSlice({
 	name: 'orderData',
@@ -82,6 +104,19 @@ export const orderDataSlice = createSlice({
 			})
 			.addCase(sendXmlRequest.rejected, (state, action) => {
 				toast.error('¡Problema al generar la orden!');
+			})
+			// Add extra reducer to handle checkCedulaExists.fulfilled
+			.addCase(checkCedulaExists.fulfilled, (state, action) => {
+				state.cedulaExists = action.payload;
+
+				if (action.payload) {
+					state.cedulaExists = true;
+					toast.success('¡Consulta Realizada!');
+				}
+			})
+			// Handle checkCedulaExists.rejected if needed
+			.addCase(checkCedulaExists.rejected, (state, action) => {
+				// Handle error if necessary
 			});
 	},
 });
