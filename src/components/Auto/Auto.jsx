@@ -232,14 +232,10 @@ function Auto({ register, errors }) {
 	useEffect(() => {
 		// Add event listeners to make the circles draggable on both desktop and mobile
 		document.querySelectorAll('.status-circle[data-status]').forEach((circle) => {
-			circle.addEventListener('mousedown', startDrag);
 			circle.addEventListener('touchstart', startDragTouch, {
 				passive: true,
 			});
-
-			if (isMobileDevice) {
-				circle.addEventListener('click', createNewCircleInside);
-			}
+			circle.addEventListener('click', createNewCircleInside);
 		});
 	}, []);
 	/* eslint-enable */
