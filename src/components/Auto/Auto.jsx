@@ -198,43 +198,41 @@ function Auto({ register, errors }) {
 		}
 	};
 
-	const isMobileDevice = window.innerWidth < 768;
+	/* const isMobileDevice = window.innerWidth < 768; */
 
 	const createNewCircleInside = (event) => {
-		if (isMobileDevice) {
-			const originalCircle = event.target;
-			const auto = document.querySelector('.auto');
+		const originalCircle = event.target;
+		const auto = document.querySelector('.auto');
 
-			// Create a new circle element
-			const newCircle = originalCircle.cloneNode(true);
+		// Create a new circle element
+		const newCircle = originalCircle.cloneNode(true);
 
-			// Set a default size and position inside the original circle
-			newCircle.classList.add('placed');
-			newCircle.style.left = '20px'; // Adjust the initial position as needed
-			newCircle.style.top = '20px';
+		// Set a default size and position inside the original circle
+		newCircle.classList.add('placed');
+		newCircle.style.left = '20px'; // Adjust the initial position as needed
+		newCircle.style.top = '20px';
 
-			// Make the new circle draggable
-			newCircle.addEventListener('mousedown', startDrag);
-			newCircle.addEventListener('touchstart', startDragTouch, {
-				passive: true,
-			});
+		// Make the new circle draggable
+		newCircle.addEventListener('mousedown', startDrag);
+		newCircle.addEventListener('touchstart', startDragTouch, {
+			passive: true,
+		});
 
-			// Append the new circle inside the original circle
-			newCircle.ondragstart = moveActualCircle;
-			auto.appendChild(newCircle);
+		// Append the new circle inside the original circle
+		newCircle.ondragstart = moveActualCircle;
+		auto.appendChild(newCircle);
 
-			// Add the newly created circle to the array
-			setCreatedCircles((createdCircles) => [...createdCircles, newCircle]);
-		}
+		// Add the newly created circle to the array
+		setCreatedCircles((createdCircles) => [...createdCircles, newCircle]);
 	};
 
 	/* eslint-disable */
 	useEffect(() => {
 		// Add event listeners to make the circles draggable on both desktop and mobile
 		document.querySelectorAll('.status-circle[data-status]').forEach((circle) => {
-			circle.addEventListener('touchstart', startDragTouch, {
+			/* circle.addEventListener('touchstart', startDragTouch, {
 				passive: true,
-			});
+			}); */
 			circle.addEventListener('click', createNewCircleInside);
 		});
 	}, []);
@@ -247,22 +245,19 @@ function Auto({ register, errors }) {
 			</header>
 			<div className='flex mt-2 md:justify-end'>
 				<div
-					className='inline-block w-6 h-6 mr-2 transition bg-red-600 border border-gray-700 rounded-full cursor-move sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125 status-circle'
+					className='inline-block w-6 h-6 mr-2 transition bg-red-600 border border-gray-700 rounded-full sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125 status-circle'
 					draggable='true'
 					data-status='Red'
-					onDragStart={dragStart}
 				/>
 				<div
-					className='inline-block w-6 h-6 mr-2 transition bg-orange-500 border border-gray-700 rounded-full cursor-move status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125'
+					className='inline-block w-6 h-6 mr-2 transition bg-orange-500 border border-gray-700 rounded-full status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125'
 					draggable='true'
 					data-status='Orange'
-					onDragStart={dragStart}
 				/>
 				<div
-					className='inline-block w-6 h-6 mr-2 transition bg-green-600 border border-gray-700 rounded-full cursor-move status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125'
+					className='inline-block w-6 h-6 mr-2 transition bg-green-600 border border-gray-700 rounded-full status-circle sm:w-6 sm:h-6 md:hover:scale-110 md:active:scale-125'
 					draggable='true'
 					data-status='Green'
-					onDragStart={dragStart}
 				/>
 			</div>
 			<div
