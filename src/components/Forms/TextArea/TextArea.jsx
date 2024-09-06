@@ -10,7 +10,7 @@ function TextArea({ name, label, method }) {
 			<textarea
 				{...method(name)}
 				className='w-full resize-none textarea textarea-bordered'
-				rows={5}
+				rows={8}
 			/>
 		</fieldset>
 	);

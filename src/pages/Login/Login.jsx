@@ -26,7 +26,7 @@ function Login() {
 					<img
 						src={LoginPicture}
 						alt='Repairing cars'
-						className='object-cover w-full h-full pointer-events-none grayscale'
+						className='object-cover w-full h-full pointer-events-none grayscale brightness-25 md:brightness-100'
 					/>
 				</picture>
 				<div className='relative flex flex-col justify-center p-6 bg-white sm:p-4 rounded-xl sm:rounded-none max-w-[500px] min-w-[340px] sm:min-w-min sm:max-w-none mx-auto'>

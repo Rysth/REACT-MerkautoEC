@@ -1,16 +1,54 @@
+@import url('https://fonts.cdnfonts.com/css/inter');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+body {
+	font-family: 'Inter', sans-serif;
+}
+
 .active {
-  @apply text-white bg-black;
+	@apply text-white bg-black;
 }
 
 .status-circle.placed {
-  position: absolute;
-  z-index: 1000;
+	position: absolute;
+	z-index: 1000;
 }
 
 .prevent-scroll {
-  touch-action: none;
+	touch-action: none;
+}
+
+@media all {
+	.page-break {
+		display: none;
+	}
+}
+
+@media print {
+	html,
+	body {
+		height: initial !important;
+		overflow: initial !important;
+		-webkit-print-color-adjust: exact;
+		display: flex;
+		align-items: center; /* Center vertically */
+		justify-content: center;
+		zoom: 0.85;
+	}
+}
+
+@media print {
+	.page-break {
+		margin-top: 1rem;
+		display: block;
+		page-break-before: auto;
+	}
+}
+
+@page {
+	size: auto;
+	margin: 5mm auto;
 }

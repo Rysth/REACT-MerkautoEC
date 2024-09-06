@@ -44,7 +44,7 @@ function Heading({ text, element = null }) {
 					<span id='actualDate'>{actualDate}</span>
 				</p>
 			</header>
-			<main className='mt-4'>
+			<main className='mt-4 print:hidden'>
 				<form
 					onSubmit={handleSubmit(handleCedulaCheck)}
 					className='list-none'
@@ -67,12 +67,12 @@ function Heading({ text, element = null }) {
 									message: `El campo es requerido.`,
 								})}
 								id='consulta_identificacion'
-								className={`input input-bordered mt-2 input-sm w-full`}
+								className={`input input-bordered mt-2 w-full`}
 							/>
 						</label>
 						<button
 							type='submit'
-							className='h-full btn btn-primary btn-sm'
+							className='h-full btn btn-secondary'
 						>
 							Consultar
 						</button>

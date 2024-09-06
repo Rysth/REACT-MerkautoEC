@@ -18,7 +18,7 @@ function Input({ label, name, id, type = 'text', complement = '', method = () =>
 					type={type}
 					{...method(name, { required: isRequired, message: `El campo es requerido.` })}
 					id={id}
-					className={`input input-bordered mt-2 input-sm w-full`}
+					className={`input input-bordered mt-2 w-full`}
 				/>
 			</label>
 		</li>

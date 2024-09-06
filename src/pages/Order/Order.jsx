@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import Auto from '../../components/Auto/Auto';
@@ -8,8 +8,10 @@ import TextArea from '../../components/Forms/TextArea/TextArea';
 import Heading from '../../components/Heading/Heading';
 import { checkCedulaExists, sendXmlRequest } from '../../redux/slices/orderDataSlice';
 import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
+import ReactToPrint from 'react-to-print';
 
 function Order() {
+	const componentRef = useRef();
 	const [loading, setLoading] = useState(false);
 	const { selectedOrder, orderArray } = useSelector((store) => store.orders);
 	const [actualID, setActualID] = useState('');
@@ -116,272 +118,287 @@ function Order() {
 
 	return (
 		<>
-			<Heading
-				text='Orden de Recepción'
-				element={actualID}
-			/>
-			<div>
-				<section
-					className={`container max-w-screen-lg p-4 mx-auto border min-h-[550px]   ${
-						loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
-					}`}
-				>
-					<form
-						action='#'
-						id='form'
-						onSubmit={handleSubmit(onSubmit)}
-						className=''
+			<div ref={(el) => (componentRef.current = el)}>
+				<Heading
+					text='Orden de Recepción'
+					element={actualID}
+				/>
+				<div>
+					<section
+						className={`container max-w-screen-lg p-4 mx-auto border rounded-b-lg min-h-[550px]   ${
+							loading ? 'bg-gray-300 grayscale pointer-events-none' : ''
+						}`}
 					>
-						<fieldset className='grid gap-8 sm:grid-cols-2'>
-							{/* Datos del Cliente */}
-							<ul className='flex flex-col gap-2'>
-								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-lg font-bold'>Datos del Cliente</h2>
-								</li>
-								<fieldset className='flex flex-col gap-4'>
-									<Input
-										label='Cédula/RUC'
-										name='cl_identificacion'
-										id='cl_identificacion'
-										method={register}
-										errors={errors}
-									/>
-								</fieldset>
-								<fieldset className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Nombre'
-										name='cl_nombre'
-										id='cl_nombre'
-										method={register}
-										errors={errors}
-									/>
-
-									<Input
-										label='Celular'
-										name='cl_celular'
-										id='cl_celular'
-										type='tel'
-										method={register}
-										errors={errors}
-									/>
-								</fieldset>
-								<fieldset className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Fecha'
-										name='cl_fecha_recepcion'
-										id='cl_fecha_recepcion'
-										type='datetime-local'
-										method={register}
-										errors={errors}
-									/>
-									<Input
-										label='Recibido por'
-										name='cl_recepcion'
-										id='cl_recepcion'
-										complement=''
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-								</fieldset>
-								<fieldset className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Técnico Responsable'
-										name='cl_tecnico'
-										id='cl_tecnico'
-										complement=''
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-									<Input
-										label='Dirección'
-										name='cl_direccion'
-										id='cl_direccion'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-								</fieldset>
-							</ul>
-							{/* Datos del Vehículo */}
-							<ul className='flex flex-col gap-2'>
-								<li className='h-8 text-center sm:text-left'>
-									<h2 className='text-lg font-bold'>Datos del Vehículo</h2>
-								</li>
-								<div className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Placa'
-										name='v_placa'
-										id='v_placa'
-										method={register}
-										errors={errors}
-									/>
-									<Input
-										label='Kilometraje'
-										name='v_kilometraje'
-										id='v_kilometraje'
-										type='number'
-										method={register}
-										errors={errors}
-									/>
-								</div>
-								<div className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Marca'
-										name='v_marca'
-										id='v_marca'
-										method={register}
-										errors={errors}
-									/>
-									<Input
-										label='Color'
-										name='v_color'
-										id='v_color'
-										method={register}
-										errors={errors}
-									/>
-								</div>
-								<div className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Clave'
-										name='v_clave'
-										id='v_clave'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-									<Input
-										label='Fecha Entrega'
-										name='v_fecha_entrega'
-										id='v_fecha_entrega'
-										type='datetime-local'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-								</div>
-								<div className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Modelo'
-										name='v_modelo'
-										id='v_modelo'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-									<Input
-										label='Año'
-										name='v_anio'
-										id='v_anio'
-										type='number'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-								</div>
-								<fieldset className='grid grid-cols-2 gap-4'>
-									<Input
-										label='Detalles'
-										name='v_detalle'
-										id='v_detalle'
-										method={register}
-										errors={errors}
-										isRequired={false}
-									/>
-									<li>
-										<label
-											className={`gap-2 text-sm text-black min-w-72`}
-											htmlFor='v_combustible'
-										>
-											<div className='flex items-center justify-between'>
-												<span className='font-semibold capitalize'>Combustible:</span>
-												{errors['v_combustible'] && (
-													<span className='text-white badge badge-sm badge-error'>
-														El campo es requerido
-													</span> // Display error message if present
-												)}
-											</div>
-											<input
-												type='range'
-												min={1}
-												max={3}
-												step={1}
-												defaultValue={1}
-												{...register('v_combustible', {
-													required: false,
-													message: `El campo es requerido.`,
-												})}
-												id='v_combustible'
-												className={`range range-primary mt-2 input-sm w-full`}
-											/>
-											<div className='flex justify-between w-full px-2 text-xs'>
-												<span>Vacío</span>
-												<span>Normal</span>
-												<span>Lleno</span>
-											</div>
-										</label>
+						<form
+							action='#'
+							id='form'
+							onSubmit={handleSubmit(onSubmit)}
+							className=''
+						>
+							<fieldset className='grid gap-8 sm:grid-cols-2'>
+								{/* Datos del Cliente */}
+								<ul className='flex flex-col gap-2'>
+									<li className='h-8 text-center sm:text-left'>
+										<h2 className='text-lg font-bold'>Datos del Cliente</h2>
 									</li>
-								</fieldset>
-								<fieldset className='grid'></fieldset>
-							</ul>
-						</fieldset>
-						<TextArea
-							name='t_mecanica'
-							label='Descripción del Trabajo a Realizar'
-							method={register}
-						/>
-						<fieldset className='grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]'>
-							<div>
-								<header className='mb-3 text-center'>
-									<h2 className='text-lg font-bold'>Equipamento del Auto</h2>
-								</header>
-								<div className='grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3'>
-									{equipmentFields.map((equipment) => (
-										<Checkbox
-											key={equipment.id}
-											id={equipment.id}
-											name={equipment.name}
+									<fieldset className='flex flex-col gap-4'>
+										<Input
+											label='Cédula/RUC'
+											name='cl_identificacion'
+											id='cl_identificacion'
 											method={register}
+											errors={errors}
 										/>
-									))}
-								</div>
-							</div>
-							<Auto
-								register={register}
-								errors={errors}
+									</fieldset>
+									<fieldset className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Nombre'
+											name='cl_nombre'
+											id='cl_nombre'
+											method={register}
+											errors={errors}
+										/>
+
+										<Input
+											label='Celular'
+											name='cl_celular'
+											id='cl_celular'
+											type='tel'
+											method={register}
+											errors={errors}
+										/>
+									</fieldset>
+									<fieldset className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Fecha'
+											name='cl_fecha_recepcion'
+											id='cl_fecha_recepcion'
+											type='datetime-local'
+											method={register}
+											errors={errors}
+										/>
+										<Input
+											label='Recibido por'
+											name='cl_recepcion'
+											id='cl_recepcion'
+											complement=''
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+									</fieldset>
+									<fieldset className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Técnico Responsable'
+											name='cl_tecnico'
+											id='cl_tecnico'
+											complement=''
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+										<Input
+											label='Dirección'
+											name='cl_direccion'
+											id='cl_direccion'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+									</fieldset>
+								</ul>
+								{/* Datos del Vehículo */}
+								<ul className='flex flex-col gap-2'>
+									<li className='h-8 text-center sm:text-left'>
+										<h2 className='text-lg font-bold'>Datos del Vehículo</h2>
+									</li>
+									<div className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Placa'
+											name='v_placa'
+											id='v_placa'
+											method={register}
+											errors={errors}
+										/>
+										<Input
+											label='Kilometraje'
+											name='v_kilometraje'
+											id='v_kilometraje'
+											type='number'
+											method={register}
+											errors={errors}
+										/>
+									</div>
+									<div className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Marca'
+											name='v_marca'
+											id='v_marca'
+											method={register}
+											errors={errors}
+										/>
+										<Input
+											label='Color'
+											name='v_color'
+											id='v_color'
+											method={register}
+											errors={errors}
+										/>
+									</div>
+									<div className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Clave'
+											name='v_clave'
+											id='v_clave'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+										<Input
+											label='Fecha Entrega'
+											name='v_fecha_entrega'
+											id='v_fecha_entrega'
+											type='datetime-local'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+									</div>
+									<div className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Modelo'
+											name='v_modelo'
+											id='v_modelo'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+										<Input
+											label='Año'
+											name='v_anio'
+											id='v_anio'
+											type='number'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+									</div>
+									<fieldset className='grid grid-cols-2 gap-4'>
+										<Input
+											label='Detalles'
+											name='v_detalle'
+											id='v_detalle'
+											method={register}
+											errors={errors}
+											isRequired={false}
+										/>
+										<li>
+											<label
+												className={`gap-2 text-sm text-black min-w-72`}
+												htmlFor='v_combustible'
+											>
+												<div className='flex items-center justify-between'>
+													<span className='font-semibold capitalize'>Combustible:</span>
+													{errors['v_combustible'] && (
+														<span className='text-white badge badge-sm badge-error'>
+															El campo es requerido
+														</span> // Display error message if present
+													)}
+												</div>
+												<input
+													type='range'
+													min={1}
+													max={3}
+													step={1}
+													defaultValue={1}
+													{...register('v_combustible', {
+														required: false,
+														message: `El campo es requerido.`,
+													})}
+													id='v_combustible'
+													className={`range range-primary mt-2 input-sm w-full`}
+												/>
+												<div className='flex justify-between w-full px-2 text-xs'>
+													<span>Vacío</span>
+													<span>Normal</span>
+													<span>Lleno</span>
+												</div>
+											</label>
+										</li>
+									</fieldset>
+									<fieldset className='grid'></fieldset>
+								</ul>
+							</fieldset>
+							<TextArea
+								name='t_mecanica'
+								label='Descripción del Trabajo a Realizar'
+								method={register}
 							/>
-						</fieldset>
-						<fieldset className='w-full mt-10 text-center'>
-							<header className='text-center'>
-								<h2 className='text-sm font-bold'>
-									Autorizo a la empresa MerkautoEC a realizar pruebas de mi vehículo en la vía
-									pública.
-								</h2>
-							</header>
-							<div className='grid gap-10 pt-20 pb-12 sm:grid-cols-2'>
-								<div className='grid justify-center gap-2'>
-									<hr className='inline-block border border-gray-300 min-w-[13rem] sm:w-80' />
-									<p className='text-sm'>Firma del Cliente</p>
+							<fieldset className='grid gap-10 mt-5 outline-none sm:grid-cols-[65%_1fr]'>
+								<div>
+									<header className='mb-3 text-center'>
+										<h2 className='text-lg font-bold'>Equipamento del Auto</h2>
+									</header>
+									<div className='grid grid-cols-2 mt-5 gap-x-3 sm:grid-cols-3'>
+										{equipmentFields.map((equipment) => (
+											<Checkbox
+												key={equipment.id}
+												id={equipment.id}
+												name={equipment.name}
+												method={register}
+											/>
+										))}
+									</div>
 								</div>
-								<div className='grid justify-center gap-2'>
-									<hr className='inline-block border border-gray-300 min-w-[13rem] sm:w-80' />
-									<p className='text-sm'>Firma del Responsable</p>
+								<Auto
+									register={register}
+									errors={errors}
+								/>
+							</fieldset>
+							<fieldset className='w-full mt-10 text-center'>
+								<header className='text-center'>
+									<h2 className='text-sm font-bold'>
+										Autorizo a la empresa MerkautoEC a realizar pruebas de mi vehículo en la vía
+										pública.
+									</h2>
+								</header>
+								<div className='grid gap-10 pt-20 pb-12 sm:grid-cols-2'>
+									<div className='grid justify-center gap-2'>
+										<hr className='inline-block border border-gray-300 min-w-[13rem] sm:w-80' />
+										<p className='text-sm'>Firma del Cliente</p>
+									</div>
+									<div className='grid justify-center gap-2'>
+										<hr className='inline-block border border-gray-300 min-w-[13rem] sm:w-80' />
+										<p className='text-sm'>Firma del Responsable</p>
+									</div>
 								</div>
-							</div>
-						</fieldset>
-						<fieldset className='flex justify-center gap-2 print:hidden'>
-							<button
-								type='submit'
-								className='text-white bg-green-600 btn btn-success w-28'
-								id='submit'
-							>
-								<i className='fas fa-save' />
-								Guardar
-							</button>
-						</fieldset>
-					</form>
-				</section>
+							</fieldset>
+							<fieldset className='flex justify-center gap-2 print:hidden'>
+								<button
+									type='submit'
+									className='text-white bg-green-600 btn btn-success w-28'
+									id='submit'
+								>
+									<i className='fas fa-save' />
+									Guardar
+								</button>
+								<ReactToPrint
+									trigger={() => (
+										<button
+											type='button'
+											className='w-32 btn btn-secondary'
+										>
+											<i className='fas fa-print' />
+											Imprimir
+										</button>
+									)}
+									content={() => componentRef.current}
+									pageStyle={{ width: '21cm', height: '29.7cm' }}
+								/>
+							</fieldset>
+						</form>
+					</section>
+				</div>
 			</div>
 		</>
 	);
