@@ -36,7 +36,7 @@ body {
 		display: flex;
 		align-items: center; /* Center vertically */
 		justify-content: center;
-		zoom: 0.85;
+		zoom: 0.8;
 	}
 }
 
@@ -50,5 +50,5 @@ body {
 
 @page {
 	size: auto;
-	margin: 5mm auto;
+	margin: 7mm 0 2mm 0;
 }

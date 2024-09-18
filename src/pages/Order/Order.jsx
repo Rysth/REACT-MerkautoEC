@@ -14,7 +14,7 @@ function Order() {
 	const componentRef = useRef();
 	const [loading, setLoading] = useState(false);
 	const { selectedOrder, orderArray } = useSelector((store) => store.orders);
-	const [actualID, setActualID] = useState('');
+	//const [actualID, setActualID] = useState('');
 	/* eslint-disable */
 	const {
 		register,
@@ -43,6 +43,8 @@ function Order() {
 		const vehicleData = getFieldsData(data, 'v_');
 		const workData = getFieldsData(data, 't_');
 
+		const actualID = data.or_numero;
+
 		const selectedEquipment = equipmentFields
 			.filter((equipment) => data[`e_${equipment.id}`])
 			.map((equipment) => equipment.id);
@@ -50,7 +52,7 @@ function Order() {
 		vehicleData.placa = vehicleData.placa.toUpperCase();
 
 		const JSONDATA = {
-			id: actualID,
+			orden: actualID,
 			fecha: actualDate,
 			cliente: clientData,
 			vehiculo: vehicleData,
@@ -62,67 +64,23 @@ function Order() {
 
 		setLoading(true);
 		console.log(JSONDATA);
-		dispatch(sendXmlRequest(JSONDATA));
-		dispatch(vehicleDataActions.addNewVehicle(vehicleData));
-		setLoading(false);
-		reset();
-	};
-
-	useEffect(() => {
-		if (selectedOrder) {
-			if (!selectedOrder.id) {
-				reset();
-				return;
-			}
-
-			const fieldPrefixes = {
-				cliente: 'cl_',
-				vehiculo: 'v_',
-				trabajos: 't_',
-				equipamento: 'e_',
-			};
-			Object.entries(selectedOrder).forEach(([key, value]) => {
-				if (key in fieldPrefixes) {
-					const prefix = fieldPrefixes[key];
-					if (typeof value === 'object') {
-						Object.entries(value).forEach(([nestedKey, nestedValue]) => {
-							if (prefix === fieldPrefixes.equipamento) {
-								setValue(`${prefix}${nestedValue}`, true);
-								return;
-							}
-							setValue(`${prefix}${nestedKey}`, nestedValue);
-						});
-					} else {
-						setValue(prefix, value);
-					}
+		dispatch(sendXmlRequest(JSONDATA))
+			.then((response) => {
+				if (response.meta.requestStatus !== 'rejected') {
+					reset();
 				}
+			})
+			.catch((error) => {
+				console.log(error);
 			});
-		}
-	}, [selectedOrder, setValue, reset]);
-
-	useEffect(() => {
-		if (orderArray.length > 0) {
-			// Calculate the next incremental order number
-			const nextOrderNumber = orderArray.length + 1;
-
-			// Format the order number with leading zeros
-			const formattedNumber = nextOrderNumber.toString().padStart(7, '0');
-
-			// Set the actualID
-			setActualID(formattedNumber);
-		} else {
-			// If there are no existing orders, set a default order number
-			setActualID('0000001');
-		}
-	}, [orderArray]);
+		//dispatch(vehicleDataActions.addNewVehicle(vehicleData));
+		setLoading(false);
+	};
 
 	return (
 		<>
 			<div ref={(el) => (componentRef.current = el)}>
-				<Heading
-					text='Orden de Recepción'
-					element={actualID}
-				/>
+				<Heading text='Orden de Recepción' />
 				<div>
 					<section
 						className={`container max-w-screen-lg p-4 mx-auto border rounded-b-lg min-h-[550px]   ${
@@ -135,8 +93,19 @@ function Order() {
 							onSubmit={handleSubmit(onSubmit)}
 							className=''
 						>
+							<fieldset className='flex flex-col col-span-2 gap-4 mb-4'>
+								<Input
+									label='Número de Orden'
+									name='or_numero'
+									id='or_numero'
+									method={register}
+									errors={errors}
+									isRequired
+								/>
+							</fieldset>
 							<fieldset className='grid gap-8 sm:grid-cols-2'>
 								{/* Datos del Cliente */}
+
 								<ul className='flex flex-col gap-2'>
 									<li className='h-8 text-center sm:text-left'>
 										<h2 className='text-lg font-bold'>Datos del Cliente</h2>
@@ -362,7 +331,7 @@ function Order() {
 										pública.
 									</h2>
 								</header>
-								<div className='grid gap-10 pt-20 pb-12 sm:grid-cols-2'>
+								<div className='grid gap-10 pb-16 pt-28 sm:grid-cols-2'>
 									<div className='grid justify-center gap-2'>
 										<hr className='inline-block border border-gray-300 min-w-[13rem] sm:w-80' />
 										<p className='text-sm'>Firma del Cliente</p>
@@ -374,19 +343,11 @@ function Order() {
 								</div>
 							</fieldset>
 							<fieldset className='flex justify-center gap-2 print:hidden'>
-								<button
-									type='submit'
-									className='text-white bg-green-600 btn btn-success w-28'
-									id='submit'
-								>
-									<i className='fas fa-save' />
-									Guardar
-								</button>
 								<ReactToPrint
 									trigger={() => (
 										<button
 											type='button'
-											className='w-32 btn btn-secondary'
+											className='w-max btn btn-secondary'
 										>
 											<i className='fas fa-print' />
 											Imprimir
@@ -395,6 +356,14 @@ function Order() {
 									content={() => componentRef.current}
 									pageStyle={{ width: '21cm', height: '29.7cm' }}
 								/>
+								<button
+									type='submit'
+									className='text-white bg-green-600 btn btn-success w-28'
+									id='submit'
+								>
+									<i className='fas fa-save' />
+									Guardar
+								</button>
 							</fieldset>
 						</form>
 					</section>

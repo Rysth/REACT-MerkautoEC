@@ -48,7 +48,7 @@ export const sendXmlRequest = createAsyncThunk('credentials/sendXmlRequest', asy
 
 		return response.data;
 	} catch (error) {
-		console.log(error.response.data);
+		console.log(error);
 		return thunkAPI.rejectWithValue(error.response.data);
 	}
 });
@@ -85,6 +85,7 @@ export const loginDataSlice = createSlice({
 			})
 			.addCase(sendXmlRequest.rejected, (state) => {
 				state.loading = false;
+				console.log('error');
 				toast.error('¡Problema al ingresar al sistema!');
 			});
 	},

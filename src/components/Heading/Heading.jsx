@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { checkCedulaExists } from '../../redux/slices/orderDataSlice';
 
-function Heading({ text, element = null }) {
+function Heading({ text }) {
 	const [actualDate, setActualDate] = useState();
 	const dispatch = useDispatch();
 	const {
@@ -37,14 +37,13 @@ function Heading({ text, element = null }) {
 			<header className='flex flex-col items-center justify-between sm:flex-row'>
 				<h1 className='flex flex-col items-center text-2xl font-bold sm:gap-3 sm:flex-row sm:text-3xl'>
 					{text}
-					{element && <span className='text-2xl font-bold text-blue-700 uppercase'>{`#${element}`}</span>}
 				</h1>
 				<p className='flex items-center gap-1 mt-3 text-sm font-bold sm:mt-0'>
 					Fecha:
 					<span id='actualDate'>{actualDate}</span>
 				</p>
 			</header>
-			<main className='mt-4 print:hidden'>
+			<main className='hidden mt-4'>
 				<form
 					onSubmit={handleSubmit(handleCedulaCheck)}
 					className='list-none'

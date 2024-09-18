@@ -20,14 +20,14 @@ function NavBar({ variant, linksVariant, method }) {
 				<i className='w-4 text-center fa-solid fa-clipboard' />
 				Nueva Orden
 			</NavLink>
-			<NavLink
+			{/* <NavLink
 				to='/listado'
 				className={linksVariant}
 				onClick={method}
 			>
 				<i className='w-4 text-center fa-solid fa-list' />
 				Listado de Ordenes
-			</NavLink>
+			</NavLink> */}
 			<button
 				type='button'
 				className={`${linksVariant} !bg-red-400`}

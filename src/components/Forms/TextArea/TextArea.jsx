@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function TextArea({ name, label, method }) {
 	return (
 		<fieldset className='w-full mt-5 text-center'>
-			<header className='mb-3 text-center'>
+			<header className='mb-3'>
 				<h2 className='text-base font-bold md:text-lg'>{label}</h2>
 			</header>
 			<textarea

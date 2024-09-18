@@ -3,25 +3,25 @@ import PropTypes from 'prop-types';
 /* eslint-disable */
 function Input({ label, name, id, type = 'text', complement = '', method = () => {}, errors, isRequired = true }) {
 	return (
-		<li>
+		<div>
 			<label
-				className={`gap-2 text-sm text-black min-w-72 ${complement}`}
+				className={`gap-2 text-sm text-black w-full ${complement}`}
 				htmlFor={id}
 			>
 				<div className='flex items-center justify-between'>
 					<span className='font-semibold capitalize'>{label}:</span>
 					{errors[name] && (
-						<span className='text-white badge badge-sm badge-error'>El campo es requerido</span> // Display error message if present
+						<span className='text-white badge badge-sm badge-error'>Campo Requerido</span> // Display error message if present
 					)}
 				</div>
 				<input
 					type={type}
 					{...method(name, { required: isRequired, message: `El campo es requerido.` })}
 					id={id}
-					className={`input input-bordered mt-2 w-full`}
+					className={`input input-bordered mt-2 w-full font-regular`}
 				/>
 			</label>
-		</li>
+		</div>
 	);
 }
 
