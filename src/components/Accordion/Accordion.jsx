@@ -17,7 +17,7 @@ function Accordion({ codigo, index, expandedIndex, toggle, date, order }) {
 				<h4 className='text-sm'>{`Fecha ${date}`}</h4>
 			</header>
 			<Collapse isOpened={isExpanded}>
-				<article class='bg-white p-3 py-2 mt-3 rounded-md border-t '>
+				<article className='bg-white p-3 py-2 mt-3 rounded-md border-t '>
 					<header className='flex items-center justify-between mb-3 text-center sm:text-left'>
 						<h5 className='text-base font-bold '>Información</h5>
 						<h5 className='text-xl font-black '>{order.vehiculo.placa}</h5>

@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
-import { checkCedulaExists } from '../../redux/slices/orderDataSlice';
+import { useOrderStore } from '../../stores/useOrderStore';
 
 function Heading({ text }) {
 	const [actualDate, setActualDate] = useState();
-	const dispatch = useDispatch();
+	const checkCedula = useOrderStore((store) => store.checkCedula);
 	const {
 		register,
 		handleSubmit,
@@ -28,8 +27,7 @@ function Heading({ text }) {
 
 	// Function to handle Cédula/RUC checking
 	const handleCedulaCheck = async (data) => {
-		data.servicio = 'TRXCONCLI';
-		dispatch(checkCedulaExists(data));
+		checkCedula(data);
 	};
 
 	return (

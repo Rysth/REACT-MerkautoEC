@@ -1,19 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
 import Auto from '../../components/Auto/Auto';
 import Checkbox from '../../components/Forms/Checkbox/Checkbox';
 import Input from '../../components/Forms/Input/Input';
 import TextArea from '../../components/Forms/TextArea/TextArea';
 import Heading from '../../components/Heading/Heading';
-import { checkCedulaExists, sendXmlRequest } from '../../redux/slices/orderDataSlice';
-import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
+import { useOrderStore } from '../../stores/useOrderStore';
+import { equipmentFields } from '../../stores/equipmentFields';
 import ReactToPrint from 'react-to-print';
 
 function Order() {
 	const componentRef = useRef();
 	const [loading, setLoading] = useState(false);
-	const { selectedOrder, orderArray } = useSelector((store) => store.orders);
+	const selectedOrder = useOrderStore((store) => store.selectedOrder);
+	const orderArray = useOrderStore((store) => store.orderArray);
+	const saveOrder = useOrderStore((store) => store.saveOrder);
 	//const [actualID, setActualID] = useState('');
 	/* eslint-disable */
 	const {
@@ -24,7 +25,6 @@ function Order() {
 		formState: { errors },
 	} = useForm();
 	/* eslint-enable */
-	const { equipmentFields } = useSelector((store) => store.equipment);
 
 	/* eslint-disable */
 	const getFieldsData = (data, prefix) => {
@@ -35,7 +35,6 @@ function Order() {
 		);
 	};
 	/* eslint-enable */
-	const dispatch = useDispatch();
 
 	const onSubmit = async (data) => {
 		const actualDate = document.querySelector('#actualDate').innerText;
@@ -60,20 +59,11 @@ function Order() {
 			equipamento: selectedEquipment,
 		};
 
-		JSONDATA.servicio = 'TRXINGORD';
-
 		setLoading(true);
-		console.log(JSONDATA);
-		dispatch(sendXmlRequest(JSONDATA))
-			.then((response) => {
-				if (response.meta.requestStatus !== 'rejected') {
-					reset();
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		//dispatch(vehicleDataActions.addNewVehicle(vehicleData));
+		const result = await saveOrder(JSONDATA);
+		if (result?.ok) {
+			reset();
+		}
 		setLoading(false);
 	};
 

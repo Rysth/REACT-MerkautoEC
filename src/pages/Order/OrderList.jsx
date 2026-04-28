@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import Heading from '../../components/Heading/Heading';
 import Accordion from '../../components/Accordion/Accordion';
+import { useOrderStore } from '../../stores/useOrderStore';
 
 function OrderList() {
-	const { orderArray } = useSelector((store) => store.orders);
+	const orderArray = useOrderStore((store) => store.orderArray);
 	const [expandedIndex, setExpandedIndex] = useState(null);
 	const [orderQuantity, setOrderQuantity] = useState(orderArray.length);
 

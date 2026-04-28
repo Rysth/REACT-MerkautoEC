@@ -1,12 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { loginDataActions } from '../../redux/slices/loginDataSlice';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 function NavBar({ variant, linksVariant, method }) {
-	const dispatch = useDispatch();
+	const logout = useAuthStore((store) => store.logout);
 	const logOut = () => {
-		dispatch(loginDataActions.logoutFromApp());
+		logout();
 		method();
 	};
 

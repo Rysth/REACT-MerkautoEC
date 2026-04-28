@@ -1,54 +1,60 @@
-@import url('https://fonts.cdnfonts.com/css/inter');
+@import url("https://fonts.cdnfonts.com/css/inter");
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark,
+    winter,
+    emerald;
+}
 
 body {
-	font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .active {
-	@apply text-white bg-black;
+  @apply text-white bg-black;
 }
 
 .status-circle.placed {
-	position: absolute;
-	z-index: 1000;
+  position: absolute;
+  z-index: 1000;
 }
 
 .prevent-scroll {
-	touch-action: none;
+  touch-action: none;
 }
 
 @media all {
-	.page-break {
-		display: none;
-	}
+  .page-break {
+    display: none;
+  }
 }
 
 @media print {
-	html,
-	body {
-		height: initial !important;
-		overflow: initial !important;
-		-webkit-print-color-adjust: exact;
-		display: flex;
-		align-items: center; /* Center vertically */
-		justify-content: center;
-		zoom: 0.8;
-	}
+  html,
+  body {
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center;
+    zoom: 0.8;
+  }
 }
 
 @media print {
-	.page-break {
-		margin-top: 1rem;
-		display: block;
-		page-break-before: auto;
-	}
+  .page-break {
+    margin-top: 1rem;
+    display: block;
+    page-break-before: auto;
+  }
 }
 
 @page {
-	size: auto;
-	margin: 7mm 0 2mm 0;
+  size: auto;
+  margin: 7mm 0 2mm 0;
 }

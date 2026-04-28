@@ -1,10 +1,9 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import LoginPicture from '../../assets/images/auto/login.jpg';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
 import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';
 import Input from '../../components/Forms/Input/Input';
-import { sendXmlRequest } from '../../redux/slices/loginDataSlice';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 function Login() {
 	const {
@@ -12,11 +11,10 @@ function Login() {
 		handleSubmit,
 		formState: { errors },
 	} = useForm();
-	const dispatch = useDispatch();
+	const login = useAuthStore((store) => store.login);
 
 	const onSubmit = (data) => {
-		data.servicio = 'LOGIN';
-		dispatch(sendXmlRequest(data));
+		login(data);
 	};
 
 	return (

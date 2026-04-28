@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAuthStore } from './stores/useAuthStore';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import './index.css';
 import Header from './components/Header/Header';
@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 /* eslint-disable */
 function App() {
-	const active = useSelector((state) => state.credentials.userCredentials.active);
+	const active = useAuthStore((state) => state.userCredentials.active);
 
 	return (
 		<BrowserRouter basename='/merkautoec'>

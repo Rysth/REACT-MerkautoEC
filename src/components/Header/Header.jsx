@@ -1,11 +1,11 @@
-import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import NavBar from '../NavBar/NavBar';
 import BrandImage from '../../assets/images/brand/brand.png';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 function Header() {
 	const [isOpen, setIsOpen] = useState();
-	const { userCredentials } = useSelector((store) => store.credentials);
+	const userCredentials = useAuthStore((store) => store.userCredentials);
 
 	const toggleNavigationBar = () => setIsOpen(!isOpen);
 	const closeNavigationBar = () => setIsOpen(false);

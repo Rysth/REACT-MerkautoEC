@@ -1,25 +1,26 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import Heading from '../../components/Heading/Heading';
 import Input from '../../components/Forms/Input/Input';
 import Accordion from '../../components/Accordion/Accordion';
-import { vehicleDataActions } from '../../redux/slices/vehicleDataSlice';
+import { useVehicleStore } from '../../stores/useVehicleStore';
+import { useOrderStore } from '../../stores/useOrderStore';
 
 function Vehicle() {
 	const { register } = useForm();
 	const [loading, setLoading] = useState(false);
 	const [expandedIndex, setExpandedIndex] = useState(null);
-	const { selectedVehicle } = useSelector((store) => store.vehicles);
-	const { orderArray } = useSelector((store) => store.orders);
+	const selectedVehicle = useVehicleStore((store) => store.selectedVehicle);
+	const getVehicleByID = useVehicleStore((store) => store.getVehicleByID);
+	const setDefaultValue = useVehicleStore((store) => store.setDefaultValue);
+	const orderArray = useOrderStore((store) => store.orderArray);
 	const [vehicleOrders, setVehicleOrders] = useState([]);
-	const dispatch = useDispatch();
 
 	const checkVehicleSubmit = async () => {
 		const vehicleData = document.querySelector('#f_placa').value;
 		setLoading(true);
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		dispatch(vehicleDataActions.getVehicleByID(vehicleData));
+		getVehicleByID(vehicleData);
 		setLoading(false);
 	};
 
@@ -43,8 +44,8 @@ function Vehicle() {
 
 	useEffect(() => {
 		setVehicleOrders([]);
-		dispatch(vehicleDataActions.setDefaultValue());
-	}, [dispatch]);
+		setDefaultValue();
+	}, [setDefaultValue]);
 
 	return (
 		<div>
