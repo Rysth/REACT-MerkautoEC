@@ -16,6 +16,7 @@ function Login() {
     formState: { errors },
   } = useForm();
   const login = useAuthStore((store) => store.login);
+  const loading = useAuthStore((store) => store.loading);
 
   useEffect(() => {
     const saved = localStorage.getItem(SAVED_CREDENTIALS_KEY);
@@ -31,6 +32,10 @@ function Login() {
   }, [setValue]);
 
   const onSubmit = ({ rememberMe, ...data }) => {
+    if (loading) {
+      return;
+    }
+
     if (rememberMe) {
       localStorage.setItem(
         SAVED_CREDENTIALS_KEY,
@@ -55,7 +60,20 @@ function Login() {
           <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent" />
         </picture>
         <div className="relative flex h-full w-full flex-col justify-center px-5 py-8 sm:px-10 lg:px-14">
-          <div className="mx-auto flex w-full max-w-140 flex-col justify-center rounded-3xl bg-white/95 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+          <div className="relative mx-auto flex w-full max-w-140 flex-col justify-center overflow-hidden rounded-3xl bg-white/95 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+            {loading && (
+              <div className="absolute inset-x-0 top-0 h-1 overflow-hidden bg-slate-200">
+                <div className="h-full w-1/2 animate-pulse bg-emerald-500" />
+              </div>
+            )}
+            {loading && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+                <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-lg ring-1 ring-slate-200">
+                  <span className="loading loading-spinner loading-md text-emerald-500" />
+                  <p className="text-sm font-medium text-slate-700">Validando credenciales...</p>
+                </div>
+              </div>
+            )}
             <div className="mb-8 space-y-3">
               <p className="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
                 Acceso seguro
@@ -73,7 +91,7 @@ function Login() {
             className="flex flex-col justify-center gap-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <fieldset className="grid gap-5">
+            <fieldset className="grid gap-5" disabled={loading}>
               <Input
                 label="Correo Electrónico"
                 name="email"
@@ -106,14 +124,27 @@ function Login() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="btn btn-primary w-full rounded-xl border-0 bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-500/30 transition-transform hover:-translate-y-0.5 hover:bg-emerald-600"
+                  disabled={loading}
+                  className="btn btn-primary w-full rounded-xl border-0 bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-500/30 transition-transform hover:-translate-y-0.5 hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
                   id="submit"
                 >
-                  Iniciar Sesión
-                  <i className="fas fa-key" />
+                  {loading ? (
+                    <span className="flex items-center gap-2">
+                      <span className="loading loading-spinner loading-sm" />
+                      Validando...
+                    </span>
+                  ) : (
+                    <>
+                      Iniciar Sesión
+                      <i className="fas fa-key" />
+                    </>
+                  )}
                 </button>
               </div>
             </fieldset>
+            {loading && (
+              <p className="text-center text-sm text-slate-500">Esto puede tardar unos segundos.</p>
+            )}
           </form>
 
           <footer className="mt-8 flex items-center justify-between gap-6 border-t border-slate-200 pt-6">
