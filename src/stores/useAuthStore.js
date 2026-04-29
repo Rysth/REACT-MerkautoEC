@@ -14,19 +14,24 @@ const useAuthStore = create((set) => ({
     set({ loading: true });
     try {
       const payload = await sendSoapRequest({ ...data, servicio: 'LOGIN' });
-      if (payload) {
+      const responseCode = String(payload?.code ?? '1');
+      const responseMessage = payload?.msgcode || 'No se pudo procesar la respuesta del servidor.';
+      const successMessage = '¡Bienvenido! Has iniciado sesión correctamente.';
+
+      if (responseCode === '0') {
         localStorage.setItem('active', 'true');
         set((state) => ({
           loading: false,
           userCredentials: { ...state.userCredentials, active: true },
         }));
-        toast.success('¡Inicio de sesión exítoso!');
+        toast.success(successMessage);
       } else {
         set({ loading: false });
+        toast.error(responseMessage);
       }
-    } catch {
+    } catch (error) {
       set({ loading: false });
-      toast.error('¡Problema al ingresar al sistema!');
+      toast.error(error?.message || '¡Problema al ingresar al sistema!');
     }
   },
 
