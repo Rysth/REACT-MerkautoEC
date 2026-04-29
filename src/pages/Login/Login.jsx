@@ -44,25 +44,36 @@ function Login() {
   };
 
   return (
-    <section className="fixed inset-0">
-      <div className="grid sm:grid-cols-[1fr_1fr] lg:grid-cols-[65%_1fr] p-4 sm:p-0 h-full sm:relative sm:bg-white">
-        <picture className="absolute inset-0 bg-black sm:relative -z-10 sm:z-0">
+    <section className="fixed inset-0 overflow-hidden bg-slate-950">
+      <div className="relative grid h-full sm:grid-cols-[minmax(0,1.15fr)_minmax(420px,540px)]">
+        <picture className="absolute inset-0 sm:relative sm:inset-auto -z-10 sm:z-0 bg-slate-950">
           <img
             src={LoginPicture}
             alt="Repairing cars"
-            className="object-cover w-full h-full pointer-events-none grayscale brightness-25 md:brightness-100"
+            className="object-cover w-full h-full pointer-events-none grayscale brightness-[0.35] sm:brightness-50 md:brightness-75"
           />
+          <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent" />
         </picture>
-        <div className="relative flex flex-col justify-center p-6 bg-white sm:p-4 rounded-xl sm:rounded-none max-w-125 min-w-85 sm:min-w-min sm:max-w-none mx-auto">
+        <div className="relative flex h-full w-full flex-col justify-center px-5 py-8 sm:px-10 lg:px-14">
+          <div className="mx-auto flex w-full max-w-140 flex-col justify-center rounded-3xl bg-white/95 p-6 shadow-2xl backdrop-blur sm:p-8 lg:p-10">
+            <div className="mb-8 space-y-3">
+              <p className="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                Acceso seguro
+              </p>
+              <h2 className="text-3xl font-black tracking-tight text-slate-950 sm:text-4xl lg:text-5xl">
+                Iniciar Sesión
+              </h2>
+              <p className="max-w-md text-sm leading-6 text-slate-600 sm:text-base">
+                Ingresa con tu cuenta autorizada para consultar órdenes, vehículos y servicios.
+              </p>
+            </div>
+
           <form
             action="#"
-            className="flex flex-col justify-center gap-10 p-4"
+            className="flex flex-col justify-center gap-6"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <fieldset className="mb-3 text-center">
-              <h2 className="text-4xl font-bold text-black">Iniciar Sesión</h2>
-            </fieldset>
-            <ul className="grid gap-5 p-0 list-none">
+            <fieldset className="grid gap-5">
               <Input
                 label="Correo Electrónico"
                 name="email"
@@ -81,45 +92,51 @@ function Login() {
                 errors={errors}
                 method={register}
               />
-              <li className="flex items-center gap-2 px-2">
+              <div className="flex items-center gap-3 rounded-2xl bg-slate-50 px-4 py-3 ring-1 ring-slate-200">
                 <input
                   type="checkbox"
                   id="rememberMe"
                   {...register('rememberMe')}
-                  className="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                 />
-                <label htmlFor="rememberMe" className="text-sm cursor-pointer select-none">
+                <label htmlFor="rememberMe" className="cursor-pointer select-none text-sm text-slate-700">
                   Recordar credenciales
                 </label>
-              </li>
-              <li className="flex justify-center gap-2 print:hidden">
-                <button type="submit" className="text-white btn btn-primary" id="submit">
+              </div>
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full rounded-xl border-0 bg-emerald-500 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-emerald-500/30 transition-transform hover:-translate-y-0.5 hover:bg-emerald-600"
+                  id="submit"
+                >
                   Iniciar Sesión
                   <i className="fas fa-key" />
                 </button>
-              </li>
-            </ul>
+              </div>
+            </fieldset>
           </form>
-          <footer className="absolute bottom-0 right-0 flex justify-between w-full p-5 mt-auto">
-            <div className="flex items-center justify-between w-full">
-              <a
-                href="https://www.asvesot.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Asvesot Website"
-              >
-                <img src={CoficImage} alt="Cofic logo" className="w-24" />
-              </a>
-              <a
-                href="https://rysthdesign.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Rysthcraft Portfolio Website"
-              >
-                <img src={RysthImage} alt="Rysthcraft logo" className="w-16" />
-              </a>
-            </div>
+
+          <footer className="mt-8 flex items-center justify-between gap-6 border-t border-slate-200 pt-6">
+            <a
+              href="https://www.asvesot.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Asvesot Website"
+              className="transition-transform hover:scale-105"
+            >
+              <img src={CoficImage} alt="Cofic logo" className="h-10 w-auto sm:h-12" />
+            </a>
+            <a
+              href="https://rysthdesign.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Rysthcraft Portfolio Website"
+              className="transition-transform hover:scale-105"
+            >
+              <img src={RysthImage} alt="Rysthcraft logo" className="h-10 w-auto sm:h-12" />
+            </a>
           </footer>
+        </div>
         </div>
       </div>
     </section>
