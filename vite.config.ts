@@ -8,5 +8,14 @@ export default defineConfig(() => {
 			outDir: 'build',
 		},
 		plugins: [react()],
+		server: {
+			proxy: {
+				'/api': {
+					target: 'https://coficeptrx.asvesot.com:8014',
+					changeOrigin: true,
+					rewrite: (path) => path.replace(/^\/api/, ''),
+				},
+			},
+		},
 	};
 });

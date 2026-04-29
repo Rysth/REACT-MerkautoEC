@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import LoginPicture from '../../assets/images/auto/login.jpg';
 import CoficImage from '../../assets/images/brand/logo_cofic.png';
@@ -5,15 +6,33 @@ import RysthImage from '../../assets/images/brand/logo_rysthdesign.png';
 import Input from '../../components/Forms/Input/Input';
 import { useAuthStore } from '../../stores/useAuthStore';
 
+const SAVED_CREDENTIALS_KEY = 'saved_credentials';
+
 function Login() {
 	const {
 		register,
 		handleSubmit,
+		setValue,
 		formState: { errors },
 	} = useForm();
 	const login = useAuthStore((store) => store.login);
 
-	const onSubmit = (data) => {
+	useEffect(() => {
+		const saved = localStorage.getItem(SAVED_CREDENTIALS_KEY);
+		if (saved) {
+			const { email, password } = JSON.parse(saved);
+			setValue('email', email);
+			setValue('password', password);
+			setValue('rememberMe', true);
+		}
+	}, [setValue]);
+
+	const onSubmit = ({ rememberMe, ...data }) => {
+		if (rememberMe) {
+			localStorage.setItem(SAVED_CREDENTIALS_KEY, JSON.stringify({ email: data.email, password: data.password }));
+		} else {
+			localStorage.removeItem(SAVED_CREDENTIALS_KEY);
+		}
 		login(data);
 	};
 
@@ -55,6 +74,17 @@ function Login() {
 								errors={errors}
 								method={register}
 							/>
+							<li className='flex items-center gap-2 px-2'>
+								<input
+									type='checkbox'
+									id='rememberMe'
+									{...register('rememberMe')}
+									className='w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500'
+								/>
+								<label htmlFor='rememberMe' className='text-sm cursor-pointer select-none'>
+									Recordar credenciales
+								</label>
+							</li>
 							<li className='flex justify-center gap-2 print:hidden'>
 								<button
 									type='submit'
