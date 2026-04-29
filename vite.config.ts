@@ -11,7 +11,7 @@ export default defineConfig(() => {
 		server: {
 			proxy: {
 				'/api': {
-					target: 'https://coficeptrx.asvesot.com:8014',
+					target: 'http://coficeptrx.asvesot.com:8013',
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/api/, ''),
 				},
